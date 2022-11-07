@@ -1,0 +1,38 @@
+Sistematika Pelaporan Tugas Besar
+Manajemen Sistem Basis Data
+
+SAMPUL DEPAN
+[Ada identitas Kelas, Nama Lengkap, dan NIM]
+KATA PENGANTAR
+DAFTAR ISI
+BAB I PENDAHULUAN
+I.1 Latar Belakang
+I.2 Rumusan Masalah
+I.3 Batasan Masalah
+I.4 Tujuan
+I.5 Manfaat
+
+BAB II ANALISA DAN PERANCANGAN
+II.1 User Requirement
+II.2 Dokumen Dasar
+II.3 Daftar Tabel dan View
+[Daftar Tabel terdiri dari No, Nama Field, Jenis Field, Ukuran, Keterangan]
+II.4 Relasi Antar Tabel
+II.5 Daftar Trigger
+II.6 Daftar Fungsi dan Prosedur Tersimpan
+II.7 Daftar User dan Privileges
+II.8 Elemen Database Lainnya
+
+BAB III IMPLEMENTASI SISTEM
+III.1 Kebutuhan Perangkat Keras dan Lunak
+III.2 Implementasi Sistem
+III.3 Pengujian Sistem
+
+BAB IV PENUTUP
+IV.1 Kesimpulan
+IV.2 Saran
+
+DAFTAR PUSTAKA
+LAMPIRAN
+
+Catatan: Jika diperlukan anda masih boleh menambahkan isi sub babnya.
