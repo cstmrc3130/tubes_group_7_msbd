@@ -4,11 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- Favicon icon -->
+    {{-- ========== FAVICON ========== --}}
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
     <title>Nice admin Template - The Ultimate Multipurpose admin template</title>
     <!-- Custom CSS -->
@@ -16,12 +15,6 @@
     <link href="assets/libs/owl.carousel/dist/assets/owl.theme.default.min.css" rel="stylesheet" type="text/css" />
     <!-- Custom CSS -->
     <link href="assets/css/style.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 
 <body>
@@ -37,24 +30,17 @@
                 <!-- Start Header -->
                 <div class="header p-t-20">
                     <nav class="navbar navbar-expand-md navbar-light">
-                        <a class="navbar-brand" href="#">
-                            <img src="assets/images/logo-icon.png" alt="logo">
-                            <span>
-                                <img src="assets/images/logo-text.png" align="logo">
-                            </span>
+                        <a class="navbar-brand align-center flex" href="#">
+                            <img src="{{ asset("assets/images/landing-icon.png") }}" alt="logo" width="60" length="60">
+                            <span class="font-bold ">SIA - MTSn 1 Labuhan Batu Utara</span>
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#demos">Live Demos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="documentation.html" >Documentation</a>
-                                </li>
-                                <li class="nav-item p-l-15">
+                                <li class="nav-item btn btn-block bg-custom">
+                                    <a class="nav-link" href="{{ url("login") }}">Login</a>
                                 </li>
                             </ul>
                         </div>
