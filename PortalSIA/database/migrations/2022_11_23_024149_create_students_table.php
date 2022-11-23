@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string("guardian_name")->nullable();
             $table->integer("grade");
             $table->integer("entry_year");
-            $table->char("homeroom_teacher_id");
+            $table->char("homeroom_teacher");
             $table->char("class_id");
             $table->enum("special_needs", ['E', "NA"]);
             $table->enum("status", ["A", "I"]);

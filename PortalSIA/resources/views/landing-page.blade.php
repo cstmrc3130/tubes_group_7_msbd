@@ -51,7 +51,7 @@
                                     </div>
                                 </div>
                                 <li class="nav-item">
-                                    <a class="nav-link btn btn-info text-light" href="{{ url("login") }}">Login</a>
+                                    <a class="nav-link btn btn-info text-light" href="{{ url("login") }}">Log in</a>
                                 </li>
                             </ul>
                         </div>
