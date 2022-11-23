@@ -14,12 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->uuid('id')->primary();
+            $table->char('NIP_NISN', 10);
+
+            // onDelete restrict PREVENT TO DELETE users RECORD DIRECTLY IF PROFILE IS ALREADY FILLED
+            $table->foreign('NIP_NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('NIP_NISN')->references('NISN')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
+
             $table->string('password');
-            $table->rememberToken();
+            $table->enum("role", ["admin", "teacher", "student"]);
             $table->timestamps();
         });
     }
