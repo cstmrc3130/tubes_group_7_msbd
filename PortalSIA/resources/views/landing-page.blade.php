@@ -2,41 +2,42 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    {{-- ========== FAVICON ========== --}}
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
-    <title>Nice admin Template - The Ultimate Multipurpose admin template</title>
-    <!-- Custom CSS -->
-    <link href="assets/libs/owl.carousel/dist/assets/owl.carousel.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/libs/owl.carousel/dist/assets/owl.theme.default.min.css" rel="stylesheet" type="text/css" />
-    <!-- Custom CSS -->
-    <link href="assets/css/style.min.css" rel="stylesheet">
+
+    {{-- ========== ASSETS AND META COMPONENT ========== --}}
+    <x-landing-page.assets-and-meta/>
+
 </head>
 
 <body>
-<!-- ============================================================== -->
-<!-- Main wrapper -->
-<!-- ============================================================== -->
+
     <div id="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Header part -->
-        <!-- ============================================================== -->
+
+        {{-- ========== HEADER START ========== --}}
         <header class="topbar">
             <div class="container">
-                <!-- Start Header -->
                 <div class="header p-t-20">
+
+                    {{-- ========== NAVBAR START ========== --}}
                     <nav class="navbar navbar-expand-md navbar-light">
+
+                        {{-- ========== APPS NAME AND ICON START ========== --}}
                         <a class="navbar-brand align-center flex" href="#">
                             <img src="{{ asset("assets/images/landing-icon.png") }}" alt="logo" width="60" length="60">
-                            <span class="font-bold ">SIA - MTSn 1 Labuhan Batu Utara</span>
+                            <span class="font-bold ">SIA - MTsN 1 Rantauprapat</span>
                         </a>
+                        {{-- ========== APPS NAME AND ICON END ========== --}}
+
+
+
+                        {{-- ========== TOGGLER BUTTON FOR SMALL DEVICE START ========== --}}
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
+                        {{-- ========== TOGGLER BUTTON FOR SMALL DEVICE END ========== --}}
+
+
+
+                        {{-- ========== LOGIN BUTTON START ========== --}}
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item btn btn-block bg-custom">
@@ -44,7 +45,14 @@
                                 </li>
                             </ul>
                         </div>
+                        {{-- ========== LOGIN BUTTON END ========== --}}
+
                     </nav>
+                    {{-- ========== NAVBAR END ========== --}}
+
+
+
+                    {{-- ========== SCHOOL NAME & IMAGE START ========== --}}
                     <div class="row header-banner align-items-center">
                         <div class="col-lg-5">
                             <h2>Create Stunning User Inteface  for your<span class="font-bold"> Applications</span> & <span class="font-bold">Products</span> with <span class="text-info border-bottom border-info"> Nice Admin Pro! </span></h2>
@@ -55,21 +63,16 @@
                             <img class="img-shadow img-fluid" src="assets/images/db.jpg" alt="db">
                         </div>
                     </div>
+                    {{-- ========== SCHOOL NAME & IMAGE END ========== --}}
+
                 </div>
-                <!-- End Header -->
             </div>
         </header>
-        <!-- ============================================================== -->
-        <!-- Header part -->
-        <!-- ============================================================== -->
-        
-        <!-- ============================================================== -->
-        <!-- Page wrapper part -->
-        <!-- ============================================================== -->
+        {{-- ========== HEADER END ========== --}}
+
+
+        {{-- ========== UNTUK SEKILAS BERITA ATAU DIREKTORI HAPUS AJA DARI SINI YANG GAK PERLU ========== --}}
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Demos part -->
-            <!-- ============================================================== -->
             <section id="demos" class="demos spacer">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -156,9 +159,7 @@
                     </div>
                 </div>
             </section>
-            <!-- ============================================================== -->
-            <!-- Apps part -->
-            <!-- ============================================================== -->
+
             <section id="apps" class="spacer bg-light">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -242,9 +243,7 @@
                     </div>
                 </div>    
             </section>
-            <!-- ============================================================== -->
-            <!-- Feature part 2 -->
-            <!-- ============================================================== -->
+
             <section id="feature2" class="feature2 spacer">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -376,9 +375,7 @@
                     </div>
                 </div>
             </section>
-            <!-- ============================================================== -->
-            <!-- Testimonial part -->
-            <!-- ============================================================== -->
+
             <section id="testimonial" class="testimonial spacer">
                 <span class="aboveline"></span>
                 <div class="container">
@@ -397,9 +394,7 @@
                 </div>
                 <span class="underline"></span>
             </section>
-            <!-- ============================================================== -->
-            <!-- Footer part -->
-            <!-- ============================================================== -->
+
             <section id="footer" class="footer">
                 <div class="container">
                     <div class="row align-items-center">
@@ -414,18 +409,17 @@
                 </div>
             </section>
         </div>
-        <!-- ============================================================== -->
-        <!-- End page wrapperHeader part -->
-        <!-- ============================================================== -->
+        {{-- ========== UNTUK SEKILAS BERITA ATAU DIREKTORI HAPUS AJA DARI SINI YANG GAK PERLU ========== --}}
+
     </div>
+
+
+
+    {{-- ========== JAVASCRIPTS ========== --}}
+    <x-landing-page.javascript/>
+
 </body>
-<!-- ============================================================== -->
-<!-- All Jquery -->
-<!-- ============================================================== -->
-<script src="assets/libs/jquery/dist/jquery.min.js"></script>
-<script src="assets/libs/popper.js/dist/umd/popper.min.js"></script>
-<script src="assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="assets/libs/owl.carousel/dist/owl.carousel.min.js"></script>
-<script src="assets/js/custom.js"></script>
+
+
 
 </html>
