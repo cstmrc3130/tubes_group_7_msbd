@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('teachers', function (Blueprint $table) {
-            $table->uuid()->primary();
-            $table->char("NIP")->nullable();
+            $table->char("NIP", 10)->primary();
             $table->char("KARPEG")->nullable();
             $table->string("name");
             $table->char("place_of_birth");

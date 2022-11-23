@@ -29,7 +29,7 @@ return new class extends Migration
             $table->char("homeroom_teacher_id");
             $table->char("class_id");
             $table->enum("special_needs", ['E', "NA"]);
-            $table->status("status", ["A", "I"]);
+            $table->enum("status", ["A", "I"]);
             $table->timestamps();
         });
     }

@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->char('NIP_NISN', 10);
+            $table->char('NIP', 10)->nullable();
+            $table->char('NISN', 10)->nullable();
 
             // onDelete restrict PREVENT TO DELETE users RECORD DIRECTLY IF PROFILE IS ALREADY FILLED
-            $table->foreign('NIP_NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('NIP_NISN')->references('NISN')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
-
+            $table->foreign('NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('NIP')->references('NIP')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
             $table->string('password');
             $table->enum("role", ["admin", "teacher", "student"]);
             $table->timestamps();
