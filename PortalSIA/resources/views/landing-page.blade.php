@@ -18,12 +18,12 @@
                 <div class="header p-t-20">
 
                     {{-- ========== NAVBAR START ========== --}}
-                    <nav class="navbar navbar-expand-md navbar-light">
+                    <nav class="navbar navbar-expand-md navbar-dark">
 
                         {{-- ========== APPS NAME AND ICON START ========== --}}
-                        <a class="navbar-brand align-center flex" href="#">
-                            <img src="{{ asset("assets/images/landing-icon.png") }}" alt="logo" width="60" length="60">
-                            <span class="font-bold ">SIA - MTsN 1 Rantauprapat</span>
+                        <a class="navbar-brand d-flex align-items-center" href="#">
+                            <img src="{{ asset("assets/images/landing-icon.png") }}" alt="logo" class="img-fluid w-2" width="60" length="60">
+                            <span class="font-weight-bold ml-3">SIA - MTsN 1 Rantauprapat</span>
                         </a>
                         {{-- ========== APPS NAME AND ICON END ========== --}}
 
