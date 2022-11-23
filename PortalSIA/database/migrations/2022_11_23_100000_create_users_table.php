@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->char('NIP', 10)->nullable();
+            $table->char('NIP', 18)->nullable();
             $table->char('NISN', 10)->nullable();
 
             // onDelete restrict PREVENT TO DELETE users RECORD DIRECTLY IF PROFILE IS ALREADY FILLED

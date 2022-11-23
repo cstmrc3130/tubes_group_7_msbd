@@ -8,7 +8,7 @@
 
 
 {{-- ========== PAGE TITLE ========== --}}
-<title>Nice admin Template - The Ultimate Multipurpose admin template</title>
+<title>SIA - MTsN 1 Labuhanbatu</title>
 
 
 

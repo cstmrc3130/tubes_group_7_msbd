@@ -17,3 +17,8 @@ Route::get('/', function () {
     return view('landing-page');
 });
 
+Route::group(['controller' => 'App\Http\Controllers\Auth\LoginController'], function ()
+{
+    Route::get('/login', 'DisplayForm')->name("login")->middleware('guest');
+    Route::post('/post-login', 'Login')->name('post-login');
+});
