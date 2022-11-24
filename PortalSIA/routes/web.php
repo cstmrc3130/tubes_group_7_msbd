@@ -24,6 +24,10 @@ Route::get('/events', function () {
     return view('school-events');
 });
 
+Route::get('/visimisi', function () {
+    return view('visimisi');
+});
+
 
 
 // ========== LOGIN PAGE FOR NON AUTHENTICATED USERS ========== //
