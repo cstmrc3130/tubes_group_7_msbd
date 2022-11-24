@@ -18,9 +18,14 @@ Route::get('/', function () {
 })->name('landing-page');
 
 
+// ========== School Events List Page ========== //
+Route::get('/events', function () {
+    return view('school-events');
+});
 
 
 // ========== LOGIN PAGE FOR NON AUTHENTICATED USERS ========== //
+
 Route::group(['controller' => 'App\Http\Controllers\Auth\LoginController'], function ()
 {
     Route::get('/login', 'DisplayForm')->name("login")->middleware('guest');
