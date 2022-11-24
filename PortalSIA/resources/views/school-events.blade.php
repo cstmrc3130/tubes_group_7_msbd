@@ -48,7 +48,6 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" href="#">E-Rapor</a>
                                         <a class="dropdown-item" href="#">Direktori</a>
-                                        <a class="dropdown-item" href="{{ url("events") }}">Events</a>
                                     </div>
                                 </div>
                                 <li class="nav-item">
@@ -66,18 +65,16 @@
         {{-- ========== HEADER END ========== --}}
 
 
-        {{-- ========== NEWS START ========== --}}
+        {{-- ========== EVENTS START ========== --}}
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Sekilas Konten Berita  -->
-            <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- Row -->
                 <div class="row justify-content-center">
                     <div class="col-lg-10 align-self-start m-t-20 m-b-20">
                         <h3><span class="font-bold">School Events</span></h3>
                     </div>
-                    <!-- Column -->
+
+
+
                     <div class="col-lg-3">
                         <div class="card">
                             <img class="card-img-top img-responsive" src="{{ asset("assets/images/trophies2.jpg")}}" alt="Card image cap">
@@ -91,8 +88,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Column -->
-                    <!-- Column -->
+
+
+
                     <div class="col-lg-3">
                         <div class="card">
                             <img class="card-img-top img-responsive" src="{{ asset("assets/images/trophies2.jpg")}}" alt="Card image cap">
@@ -106,8 +104,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Column -->
-                    <!-- Column -->
+
+
+
                     <div class="col-lg-3">
                         <div class="card">
                             <img class="card-img-top img-responsive" src="{{ asset("assets/images/trophies2.jpg")}}" alt="Card image cap">
@@ -121,25 +120,10 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Column -->
                 </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- End Sekilas Konten Berita  -->
-            <!-- ============================================================== -->
-
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer text-center">
-                All Rights Reserved by Nice admin. Designed and Developed by
-                <a href="https://wrappixel.com">WrapPixel</a>.
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
         </div>
-        {{-- ========== NEWS END ========== --}}
+        {{-- ========== EVENTS END ========== --}}
 
 
 

@@ -99,13 +99,16 @@
                             <h2><span class=" ml-3 font-bold">Visi</span></h2>
                             <span class="text-dark">Terwujudnya Madrasah Unggul dalam Prestasi, Terampil, Beriman, Bertaqwa, Berakhlakul Karimah dan Berwawasan Lingkungan.<br/></span>
                             <h2><br><span class=" ml-3 font-bold">Misi</span></h2>
-                            <p><span class="text-dark">1. Menyelenggarakan Pendidikan Agama dan Umum secara efektif, sehingga siswa berkembang secara maksimal.<br>
-                               2. Melaksanakan pembelajaran kontekstual yang islami.<br>
-                               3. Menyelenggarakan kegiatan pengembangan diri terhadap minat dan bakat siswa.<br>
-                               4. Melaksanakan pembinaan dan diklat pendidik serta tenaga kependidikan.<br>
-                               5. Membudayakan perilaku terpuji dan kepekaan sosial dalam kehidupan sehari-hari.<br>
-                               6. Menciptakan peserta didik menjadi hafidz dan hafidzah.<br>
-                               7. Menumbuhkembangkan budaya dan tanggung jawab terhadap lingkungan yang terintegrasi dalam proses pembelajaran.</span>
+                            <p>
+                            <span class="text-dark">
+                                1. Menyelenggarakan Pendidikan Agama dan Umum secara efektif, sehingga siswa berkembang secara maksimal.<br>
+                                2. Melaksanakan pembelajaran kontekstual yang islami.<br>
+                                3. Menyelenggarakan kegiatan pengembangan diri terhadap minat dan bakat siswa.<br>
+                                4. Melaksanakan pembinaan dan diklat pendidik serta tenaga kependidikan.<br>
+                                5. Membudayakan perilaku terpuji dan kepekaan sosial dalam kehidupan sehari-hari.<br>
+                                6. Menciptakan peserta didik menjadi hafidz dan hafidzah.<br>
+                                7. Menumbuhkembangkan budaya dan tanggung jawab terhadap lingkungan yang terintegrasi dalam proses pembelajaran.
+                            </span>
                             </p>
                             
                             <a href="#demos" class="btn btn-custom-md btn-outline-info m-t-40 m-b-40 dm-btn">Lihat Profil</a>

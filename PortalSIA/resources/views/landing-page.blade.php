@@ -98,9 +98,22 @@
                             <p class="m-t-40">
                                 <span class="font-bold text-dark">Visi & Misi</span> 
                                 <br>
-                                900+ Page Templates, Unlimited Color Schemes, 
+                                <ul>
+                                    <li>
+                                        Terwujudnya Madrasah Unggul dalam Prestasi, Terampil, Beriman, Bertaqwa, Berakhlakul Karimah dan Berwawasan Lingkungan.
+                                    </li>
+                                    <li>
+                                        Menciptakan peserta didik menjadi hafidz dan hafidzah.
+                                    </li>
+                                    <li>
+                                        Melaksanakan pembelajaran kontekstual yang islami.
+                                    </li>
+                                    <li>
+                                        Menyelenggarakan kegiatan pengembangan diri terhadap minat dan bakat siswa.
+                                    </li>
+                                </ul>
                             </p>
-                            <a href="#demos" class="btn btn-custom-md btn-outline-info m-t-40 m-b-40 dm-btn">Lihat Profil</a>
+                            <a href="#demos" class="btn btn-custom-md btn-outline-info m-t-10">Lihat Profil</a>
                         </div>
                         {{-- ========== HERO TEXT END ========== --}}
 

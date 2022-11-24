@@ -14278,12 +14278,6 @@ html body .waves-notransition
     box-shadow: 16px 20px 30px rgba(103, 119, 157, 0.3)
 }
 
-.topbar
-{
-    background-image: url(../images/curve.jpg);
-    background-repeat: repeat-x
-}
-
 .topbar .header-banner
 {
     padding-top: 60px;
