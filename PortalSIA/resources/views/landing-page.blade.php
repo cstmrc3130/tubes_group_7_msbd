@@ -48,7 +48,6 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" href="#">E-Rapor</a>
                                         <a class="dropdown-item" href="#">Direktori</a>
-                                        <a class="dropdown-item" href="{{ url("events") }}">Events</a>
                                     </div>
                                 </div>
                                 <li class="nav-item">
@@ -74,7 +73,6 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" href="#">E-Rapor</a>
                                         <a class="dropdown-item" href="#">Direktori</a>
-                                        <a class="dropdown-item" href="{{ url("events") }}">Events</a>
                                     </div>
                                 </div>
                                 <li class="nav-item">
@@ -141,21 +139,20 @@
         {{-- ========== HEADER END ========== --}}
 
 
-        {{-- ========== NEWS START ========== --}}
+        {{-- ========== EVENTS START ========== --}}
         <div class="page-wrapper">
-            <section id="news" class="demos spacer">
+            <section id="events" class="demos spacer">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-7 text-center">
                             <h1>Berita Terbaru</h1>
-                            <p class="m-t-20">Apa yang perlu disini?
-                            </p>
+                            <a href="{{ url("events") }}" class="m-t-20 text-danger border-bottom border-danger shadow">Lihat semua event</a>
                         </div>
-                        <div class="col-md-6 m-t-40">
+                        <div class="col-md-6 m-t-20">
                             <div class="live-box bg-light text-center p-t-30 p-b-0">
-                                <img class="shadow img-fluid" src="{{ asset("assets/images/trophies.jpeg") }}" alt="Sesuaikan dengan database">
+                                <img class="shadow img-thumbnail rounded" src="{{ asset("assets/images/trophies2.jpg") }}" alt="Sesuaikan dengan database">
                                 <div class="overlay">
-                                    <a class="btn btn-danger live-btn" href="html/ltr/index.html">Baca selengkapnya</a>
+                                    <a class="btn btn-cyan live-btn" href="..">Baca selengkapnya</a>
                                 </div>
                             </div>
                             <div class="m-l-30 m-t-30">
@@ -167,7 +164,7 @@
                 </div>
             </section>
         </div>
-        {{-- ========== NEWS END ========== --}}
+        {{-- ========== EVENTS END ========== --}}
 
 
 
