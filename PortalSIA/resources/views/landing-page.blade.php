@@ -21,7 +21,7 @@
                     <nav class="navbar navbar-expand-md navbar-light rounded border-bottom">
 
                         {{-- ========== APPS NAME AND ICON START ========== --}}
-                        <a class="navbar-brand d-flex align-items-center" href="#">
+                        <a class="navbar-brand d-flex align-items-center" href="/">
                             <img src="{{ asset("assets/images/landing-icon.png") }}" alt="logo" class="img-fluid w-2" width="60" length="60">
                             <span class="font-weight-bold ml-3">SIA - MTsN 1 Labuhanbatu</span>
                         </a>
@@ -48,6 +48,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" href="#">E-Rapor</a>
                                         <a class="dropdown-item" href="#">Direktori</a>
+                                        <a class="dropdown-item" href="{{ url("events") }}">Events</a>
                                     </div>
                                 </div>
                                 <li class="nav-item">
@@ -73,6 +74,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" href="#">E-Rapor</a>
                                         <a class="dropdown-item" href="#">Direktori</a>
+                                        <a class="dropdown-item" href="{{ url("events") }}">Events</a>
                                     </div>
                                 </div>
                                 <li class="nav-item">
@@ -95,7 +97,12 @@
                         {{-- ========== HERO TEXT START ========== --}}
                         <div class="col-lg-5 align-self-start">
                             <h2>Sistem Informasi Akademik<span class="font-bold"> Madrasah Tsanawiyah Negeri 1 Labuhanbatu</span></h2>
-                            <a href="#demos" class="btn btn-custom-md btn-info m-t-40 m-b-40 dm-btn">Lihat Profil</a>
+                            <p class="m-t-40">
+                                <span class="font-bold text-dark">Visi & Misi</span> 
+                                <br>
+                                900+ Page Templates, Unlimited Color Schemes, 
+                            </p>
+                            <a href="#demos" class="btn btn-custom-md btn-outline-info m-t-40 m-b-40 dm-btn">Lihat Profil</a>
                         </div>
                         {{-- ========== HERO TEXT END ========== --}}
 

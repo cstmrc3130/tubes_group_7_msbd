@@ -23,7 +23,7 @@
 
         {{-- ========== WRAPPER START ========== --}}
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url({{"assets/images/auth-bg.jpg"}}) no-repeat center center;">
-            <div class="auth-box">
+            <div class="auth-box m-0">
 
                 {{-- ========== LOGIN FORM START ========== --}}
                 <div id="loginform">

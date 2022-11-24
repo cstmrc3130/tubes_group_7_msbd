@@ -21,7 +21,7 @@
                     <nav class="navbar navbar-expand-md navbar-light rounded border-bottom">
 
                         {{-- ========== APPS NAME AND ICON START ========== --}}
-                        <a class="navbar-brand d-flex align-items-center" href="#">
+                        <a class="navbar-brand d-flex align-items-center" href="/">
                             <img src="{{ asset("assets/images/landing-icon.png") }}" alt="logo" class="img-fluid w-2" width="60" length="60">
                             <span class="font-weight-bold ml-3">SIA - MTsN 1 Labuhanbatu</span>
                         </a>
@@ -48,6 +48,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" href="#">E-Rapor</a>
                                         <a class="dropdown-item" href="#">Direktori</a>
+                                        <a class="dropdown-item" href="{{ url("events") }}">Events</a>
                                     </div>
                                 </div>
                                 <li class="nav-item">
