@@ -19,7 +19,7 @@ return new class extends Migration
 
             // Foreign Key
             $table->foreign('username')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('NIP')->references('NIP')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('username')->references('NIP')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
             
             $table->string('password');
             $table->enum("role", ["admin", "teacher", "student"]);
