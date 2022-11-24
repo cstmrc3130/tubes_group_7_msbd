@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->char('NIP/NISN', 18)->nullable();
+            $table->char('username', 18)->unique();
 
             // Foreign Key
-            // $table->foreign('NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
-            // $table->foreign('NIP')->references('NIP')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('username')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('NIP')->references('NIP')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
             
             $table->string('password');
             $table->enum("role", ["admin", "teacher", "student"]);
