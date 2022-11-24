@@ -35,9 +35,34 @@
                         </button>
                         {{-- ========== TOGGLER BUTTON FOR SMALL DEVICE END ========== --}}
 
+                        @auth()
 
+                        {{-- ========== AUTHER USER BUTTONS START ========== --}}
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto">
+                                <div class="dropleft show">
+                                    <a class="nav-link btn dropdown-toggle m-r-15" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Opsi
+                                    </a>
 
-                        {{-- ========== LOGIN BUTTON AND DROPDOWN START ========== --}}
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" href="#">E-Rapor</a>
+                                        <a class="dropdown-item" href="#">Direktori</a>
+                                    </div>
+                                </div>
+                                <li class="nav-item">
+                                    <form action="{{ url('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="nav-link btn btn-danger text-light">Log out</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                        {{-- ========== AUTHER USER BUTTONS END ========== --}}
+
+                        @else
+
+                        {{-- ========== GUEST BUTTONS START ========== --}}
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto">
                                 <div class="dropleft show">
@@ -55,7 +80,9 @@
                                 </li>
                             </ul>
                         </div>
-                        {{-- ========== LOGIN BUTTON AND DROPDOWN END ========== --}}
+                        {{-- ========== GUEST BUTTONS END ========== --}}
+
+                        @endauth
 
                     </nav>
                     {{-- ========== NAVBAR END ========== --}}

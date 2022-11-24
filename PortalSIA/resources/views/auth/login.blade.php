@@ -39,28 +39,37 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <form class="form-horizontal m-t-20" id="loginform" action="index.html">
 
+                            {{ Form::open(["route" => ['post-login'], "method" => "POST", "class" => ['form-horizontal m-t-20']]) }}
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
                                     </div>
-                                    <input type="text" name="NIP/NISN" class="form-control form-control-lg" placeholder="NIP/NISN" aria-label="NIP/NISN" aria-describedby="basic-addon1">
+                                    <input type="text" name="NIP/NISN" class="form-control form-control-lg  @error("NIP/NISN") is-invalid @enderror" placeholder="NIP/NISN" aria-label="NIP/NISN" aria-describedby="basic-addon1" required>
+
+                                    @error('NIP/NISN')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon2"><i class="ti-pencil"></i></span>
                                     </div>
-                                    <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+                                    <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror " placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
+
+                                    @error("password")
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group row">
                                     <div class="col-md-12">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                            <a href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot password?</a>
-                                        </div>
+                                        <a href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot password?</a>
                                     </div>
                                 </div>
 
@@ -69,8 +78,8 @@
                                         <button class="btn btn-block btn-lg btn-info" type="submit">Log In</button>
                                     </div>
                                 </div>
+                            {{ Form::close() }}
 
-                            </form>
                         </div>
                     </div>
                 </div>

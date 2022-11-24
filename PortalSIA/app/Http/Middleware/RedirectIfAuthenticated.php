@@ -21,9 +21,19 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
 
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+        foreach ($guards as $guard)
+        {
+            if (Auth::guard($guard)->check())
+            {
+                // REDIRECT AUTHENTICATED GUESTS TO THEIR DASHBOARD
+                if (auth()->user()->role == "admin")
+                {
+                    return redirect()->intended(route('landing-page'));
+                }
+                else
+                {
+                    return redirect()->intended(route('dashboard-user'));
+                }
             }
         }
 

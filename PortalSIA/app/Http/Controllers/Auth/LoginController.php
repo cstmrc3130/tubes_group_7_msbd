@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -18,9 +21,12 @@ class LoginController extends Controller
     {
         $credentials = $request->validate(
             [
-                'NIP/NISN' => ['required', 'regex:(gmail)'],
+                'NIP/NISN' => ['required', "max:18"],
                 'password' => ['required'],
             ],
+            [
+                'NIP/NISN.max' => "NIP/NISN must not be greater than 18 characters!",
+            ]
         );
 
         // TRY TO AUTHENTICATE USER WITH CREDENTIALS INPUTED
@@ -28,9 +34,9 @@ class LoginController extends Controller
         {
             $request->session()->regenerate();
 
-            if (auth()->user()->is_admin == true)
+            if (auth()->user()->role == "admin")
             {
-                return redirect()->intended(route('dashboard-admin'));
+                return redirect()->intended(route("landing-page"));
             }
             else
             {
@@ -39,8 +45,8 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'NIP/NISN' => "Wrong email or password. Make sure your capslock is turned off.",
-            'password' => "Wrong email or password. Try again or click `Forgot password` to reset it."
+            'NIP/NISN' => "Invalid NIP/NISN or Password!",
+            'password' => "Invalid NIP/NISN or Password!. Try again or click `Forgot password` to reset it."
         ])->onlyInput('NIP/NISN');
     }
 }
