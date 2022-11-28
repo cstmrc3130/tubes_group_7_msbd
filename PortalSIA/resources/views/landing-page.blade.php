@@ -113,7 +113,7 @@
                                     </li>
                                 </ul>
                             </p>
-                            <a href="#demos" class="btn btn-custom-md btn-outline-info m-t-10">Lihat Profil</a>
+                            <a href="{{url("tes")}}" class="btn btn-custom-md btn-outline-info m-t-10">Lihat Profil</a>
                         </div>
                         {{-- ========== HERO TEXT END ========== --}}
 

@@ -32,6 +32,9 @@ Route::get('/visimisi', function () {
     return view('visimisi');
 });
 
+Route::get('/tes', function () {
+    return view('school-profil');
+});
 
 
 // ========== LOGIN PAGE FOR NON AUTHENTICATED USERS ========== //
