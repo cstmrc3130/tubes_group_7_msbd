@@ -24,6 +24,10 @@ Route::get('/events', function () {
     return view('school-events');
 });
 
+Route::get('/full-events', function () {
+    return view('full-school-events');
+});
+
 Route::get('/visimisi', function () {
     return view('visimisi');
 });
