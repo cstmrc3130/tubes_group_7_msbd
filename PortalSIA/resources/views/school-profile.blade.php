@@ -72,7 +72,7 @@
             <img src="{{ asset("assets/images/front-gate1.jpg")}}" style="width: 40%; text-align:center" class="m-b-30">
         <dl class="row" style="text-align:justify">
             <dt class="col-sm-3">Nama Sekolah  </dt>
-            <dd class="col-sm-9">: MTsn 1 LabuhanBatu</dd>
+            <dd class="col-sm-9">: MTsn 1 Labuhanbatu</dd>
             <dt class="col-sm-3">Status </dt>
             <dd class="col-sm-9">: Negeri </dd>
             <dt class="col-sm-3">Nomor Stastistik  </dt>

@@ -32,8 +32,8 @@ Route::get('/visimisi', function () {
     return view('visimisi');
 });
 
-Route::get('/tes', function () {
-    return view('school-profil');
+Route::get('/full-profile', function () {
+    return view('school-profile');
 });
 
 

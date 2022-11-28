@@ -58,7 +58,7 @@
                             <!-- Logo text -->
                             <span class="logo-text">
                                 <img src="../../assets/images/landing-icon.png" class="mt-2" alt="homepage" width="50px" height="50px" style="float:left"/>
-                                <span class="ml-5" style="color: white">A d m i n</span>
+                                <span class="ml-5">A d m i n</span>
                             </span>
                         </a>
                         <a class="sidebartoggler d-none d-md-block" href="javascript:void(0)" data-sidebartype="mini-sidebar">
