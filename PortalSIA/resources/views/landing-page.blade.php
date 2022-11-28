@@ -42,7 +42,7 @@
                             <ul class="navbar-nav ml-auto">
                                 <div class="dropleft show">
                                     <a class="nav-link btn dropdown-toggle m-r-15" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Opsi
+                                        Menu
                                     </a>
 
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -67,7 +67,7 @@
                             <ul class="navbar-nav ml-auto">
                                 <div class="dropleft show">
                                     <a class="nav-link btn dropdown-toggle m-r-15" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Opsi
+                                        Menu
                                     </a>
 
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">

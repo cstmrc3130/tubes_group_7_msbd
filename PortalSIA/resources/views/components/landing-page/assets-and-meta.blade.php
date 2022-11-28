@@ -8,7 +8,7 @@
 
 
 {{-- ========== PAGE TITLE ========== --}}
-<title>SIA - MTsN 1 Labuhanbat</title>
+<title>SIA - MTsN 1 Labuhanbatu</title>
 
 
 
