@@ -13,26 +13,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('landing-page');
-})->name('landing-page');
+// ========== LANDING PAGE ========== //
+Route::group(['controller' => 'App\Http\Livewire\LandingPage'], function ()
+{
+    Route::get('/', 'App\Http\Livewire\LandingPage'::class)->name('landing-page');
 
-
-
-// ========== SCHOOL EVENTS ========== //
-Route::get('/events', function () {
-    return view('school-events');
+    // ========== LOGOUT FOR AUTHENTICATED USERS ========== //
+    Route::post('/logout', 'Logout');
 });
 
-// ========== LOGIN PAGE FOR NON AUTHENTICATED USERS ========== //
 
-Route::group(['controller' => 'App\Http\Controllers\Auth\LoginController'], function ()
+
+// ========== LOGIN PAGE FOR GUESTS ========== //
+Route::group(['controller' => 'App\Http\Livewire\Auth\Login'], function ()
 {
-    Route::get('/login', 'DisplayForm')->name("login")->middleware('guest');
+    Route::get('/login', App\Http\Livewire\Auth\Login::class)->name("login")->middleware('guest');
     Route::post('/post-login', 'Login')->name('post-login');
 });
 
 
 
-// ========== LOGOUT FUNCTION FOR AUTHENTICATED USERS ========== //
-Route::post('/logout', 'App\Http\Controllers\Auth\LogoutController@Logout');
+// ========== SCHOOL EVENTS ========== //
+Route::get('/news', function () {
+    return view('news');
+});

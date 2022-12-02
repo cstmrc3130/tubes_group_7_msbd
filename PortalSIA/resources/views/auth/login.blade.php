@@ -6,6 +6,7 @@
     {{-- ========== ASSETS AND META COMPONENT ========== --}}
     <x-login-page.assets-and-meta />
 
+    @livewireStyles
 </head>
 
 <body>
@@ -37,51 +38,7 @@
 
 
 
-                    <div class="row">
-                        <div class="col-12">
-
-                            {{ Form::open(["route" => ['post-login'], "method" => "POST", "class" => ['form-horizontal m-t-20']]) }}
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
-                                    </div>
-                                    <input type="text" name="NIP/NISN" class="form-control form-control-lg  @error("NIP/NISN") is-invalid @enderror" placeholder="NIP/NISN" aria-label="NIP/NISN" aria-describedby="basic-addon1" required>
-
-                                    @error('NIP/NISN')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon2"><i class="ti-pencil"></i></span>
-                                    </div>
-                                    <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror " placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
-
-                                    @error("password")
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-md-12">
-                                        <a href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot password?</a>
-                                    </div>
-                                </div>
-
-                                <div class="form-group text-center">
-                                    <div class="col-xs-12">
-                                        <button class="btn btn-block btn-lg btn-info" type="submit">Log In</button>
-                                    </div>
-                                </div>
-                            {{ Form::close() }}
-
-                        </div>
-                    </div>
+                    {{ $slot }}
                 </div>
                 {{-- ========== LOGIN FORM END ========== --}}
 
@@ -126,6 +83,7 @@
     {{-- ========== JAVASCRIPTS ========== --}}
     <x-login-page.javascript />
 
+    @livewireScripts
 </body>
 
 </html>
