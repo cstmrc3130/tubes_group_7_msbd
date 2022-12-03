@@ -26,13 +26,17 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check())
             {
                 // REDIRECT AUTHENTICATED GUESTS TO THEIR DASHBOARD
-                if (auth()->user()->role == "admin")
+                if (auth()->user()->role == 0)
                 {
-                    return redirect()->intended(route('landing-page'));
+                    return redirect()->intended(route('dashboard-admin'));
+                }
+                else if (auth()->user()->role == 1)
+                {
+                    return redirect()->intended(route('dashboard-teacher'));
                 }
                 else
                 {
-                    return redirect()->intended(route('dashboard-user'));
+                    return redirect()->intended(route('dashboard-student'));
                 }
             }
         }

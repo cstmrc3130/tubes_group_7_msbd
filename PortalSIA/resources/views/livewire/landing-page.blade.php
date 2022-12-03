@@ -28,6 +28,8 @@
                     {{-- ========== AUTHED USER BUTTONS START ========== --}}
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
+
+                            {{-- ========== MENU START ========== --}}
                             <div class="dropleft show">
                                 <a class="nav-link btn dropdown-toggle m-r-15" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Menu
@@ -38,20 +40,32 @@
                                     <a class="dropdown-item" href="#">Direktori</a>
                                 </div>
                             </div>
+                            {{-- ========== MENU END ========== --}}
+
+
+                            {{-- ========== DASHBOARD AND LOGOUT BUTTON START ========== --}}
                             <li class="nav-item">
-                                <form action="{{ url('logout') }}" wire:submit.prevent="Logout">
+                                <form wire:submit.prevent="Logout">
                                     @csrf
                                     <div class="btn-group">
                                         <button class="btn btn-danger dropdown-toggle text-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{ Auth::user()->name }}
+                                            @if (Auth::user()->role == 0)
+                                            Admin
+                                            @elseif (Auth::user()->role == 1)
+                                            {{ Auth::user()->teacher->name }}
+                                            @else 
+                                            {{ Auth::user()->student->name }}
+                                            @endif
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="javascript:void(0)">Dashboard</a>
+                                            <a class="dropdown-item" href="{{ route("dashboard-student") }}">Dashboard</a>
                                             <button type="submit" class="btn dropdown-item">Logout</button>
                                         </div>
                                     </div>
                                 </form>
                             </li>
+                            {{-- ========== DASHBOARD AND LOGOUT BUTTON END ========== --}}
+
                         </ul>
                     </div>
                     {{-- ========== AUTHED USER BUTTONS END ========== --}}

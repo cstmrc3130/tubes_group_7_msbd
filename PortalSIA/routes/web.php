@@ -2,24 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
+
+
 
 // ========== LANDING PAGE ========== //
 Route::group(['controller' => 'App\Http\Livewire\LandingPage'], function ()
 {
     Route::get('/', 'App\Http\Livewire\LandingPage'::class)->name('landing-page');
-
-    // ========== LOGOUT FOR AUTHENTICATED USERS ========== //
-    Route::post('/logout', 'Logout');
 });
 
 
@@ -33,7 +23,43 @@ Route::group(['controller' => 'App\Http\Livewire\Auth\Login'], function ()
 
 
 
+
+// ========== LOGOUT FUNCTION FOR AUTHENTICATED USERS ========== //
+Route::post('/logout', 'App\Http\Livewire\Auth\Logout@Logout');
+
+
+
 // ========== SCHOOL EVENTS ========== //
 Route::get('/news', function () {
     return view('news');
+});
+
+
+
+// ========== ADMIN DASHBOARD FOR AUTHENTICATED USERS WITH ROLE AS ADMIN ========== //
+Route::middleware(['auth', 'auth.role:0'])->group(function ()
+{
+    // ========== DASHBOARD LIVEWIRE ========== //
+    Route::controller(\App\Http\Livewire\Admin\Dashboard::class)->group(function()
+    {
+        Route::get('/dashboard-admin', \App\Http\Livewire\Admin\Dashboard::class)->name('dashboard-admin');
+    });
+});
+
+
+
+// ========== STUDENT DASHBOARD FOR AUTHENTICATED USERS WITH ROLE AS STUDENT ========== //
+Route::middleware(['auth', 'auth.role:2'])->group(function ()
+{
+    // ========== DASHBOARD LIVEWIRE ========== //
+    Route::controller(\App\Http\Livewire\Student\Dashboard::class)->group(function()
+    {
+        Route::get('/dashboard-student', \App\Http\Livewire\Student\Dashboard::class)->name('dashboard-student');
+    });
+
+    // ========== PROFILE LIVEWIRE ========== //
+    Route::controller(\App\Http\Livewire\Student\Profile::class)->group(function()
+    {
+        Route::get('/profile', \App\Http\Livewire\Student\Profile::class)->name('student-profile');
+    });
 });

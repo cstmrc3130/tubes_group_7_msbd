@@ -13,7 +13,7 @@
     {{ $slot }}
 
 
-    
+
     {{-- ========== JAVASCRIPTS ========== --}}
     <x-landing-page.javascript />
 

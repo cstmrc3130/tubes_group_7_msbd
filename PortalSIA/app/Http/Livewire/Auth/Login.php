@@ -13,7 +13,7 @@ class Login extends Component
     public $username, $password, $remember = false;
 
     protected $rules = ([
-        'username' => ['required', "max:18"],
+        'username' => ['required', "max:30"],
         'password' => ['required'],
     ]);
 
@@ -35,19 +35,23 @@ class Login extends Component
         }
 
         // TRY TO AUTHENTICATE USER WITH CREDENTIALS INPUTED
-        if (Auth::attempt(['username' => $this->username, 'password' => $this->password]))
+        if (Auth::attempt(['NISN' => $this->username, 'password' => $this->password]) || Auth::attempt(['NIP' => $this->username, 'password' => $this->password]) || Auth::attempt(['email' => $this->username, 'password' => $this->password]))
         {
             if (auth()->user()->role == 0)
             {
-                return redirect()->intended(route("landing-page"));
+                return redirect()->intended(route("dashboard-admin"));
+            }
+            else if (auth()->user()->role == 1)
+            {
+                return redirect()->intended(route('dashboard-teacher'));
             }
             else
             {
-                return redirect()->intended(route('dashboard-user'));
+                return redirect()->intended(route('dashboard-student'));
             }
         } 
 
-        // INCREASE THROTTLE KEY VALUE
+        // INCREMENTING RATE LIMITER BY 1
         RateLimiter::hit($throttleKey);
 
         // IF username OR password IS WRONG, THROW AN ERROR TO THE FORM

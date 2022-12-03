@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LandingPage extends Component
 {
-
-    // ========== LOGGING OUT AUTHED USERS ========== //
+    // ========== LOGGING OUT WITHOUT RELOAD ========== //
     public function Logout()
     {
         Auth::logout();
