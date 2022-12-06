@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
+        
         Schema::create('log_students', function (Blueprint $table) {
             $table->uuid("id");
             $table->tinyText("old_name");
@@ -25,7 +26,10 @@ return new class extends Migration
             $table->text("new_address");
             $table->string("old_phone_numbers")->nullable();
             $table->string("new_phone_numbers")->nullable();
+            $table->enum('type', ['u', 'i' ,'d']);
             $table->timestamps();
+            
+
         });
     }
 
