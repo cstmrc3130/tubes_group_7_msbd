@@ -29,18 +29,18 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
 
-                            {{-- ========== MENU START ========== --}}
+                            {{-- ========== DIREKTORI START ========== --}}
                             <div class="dropleft show">
                                 <a class="nav-link btn dropdown-toggle m-r-15" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Menu
+                                    Direktori
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">E-Rapor</a>
-                                    <a class="dropdown-item" href="#">Direktori</a>
+                                    <a class="dropdown-item" href="#">Guru</a>
+                                    <a class="dropdown-item" href="#">Siswa</a>
                                 </div>
                             </div>
-                            {{-- ========== MENU END ========== --}}
+                            {{-- ========== DIREKTORI END ========== --}}
 
 
                             {{-- ========== DASHBOARD AND LOGOUT BUTTON START ========== --}}
@@ -58,7 +58,7 @@
                                             @endif
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{ route("dashboard-student") }}">Dashboard</a>
+                                            <a class="dropdown-item" href="{{ route("student.dashboard") }}">Dashboard</a>
                                             <button type="submit" class="btn dropdown-item">Logout</button>
                                         </div>
                                     </div>
@@ -75,19 +75,26 @@
                     {{-- ========== GUEST BUTTONS START ========== --}}
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
+
+                            {{-- ========== DIREKTORI START ========== --}}
                             <div class="dropleft show">
                                 <a class="nav-link btn dropdown-toggle m-r-15" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Menu
+                                    Direktori
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">E-Rapor</a>
-                                    <a class="dropdown-item" href="#">Direktori</a>
+                                    <a class="dropdown-item" href="#">Guru</a>
+                                    <a class="dropdown-item" href="#">Siswa</a>
                                 </div>
                             </div>
+                            {{-- ========== DIREKTORI END ========== --}}
+
+
+                            {{-- ========== LOGIN BUTTON START ========== --}}
                             <li class="nav-item">
                                 <a class="nav-link btn btn-info text-light" href="{{ url('login') }}">Log in</a>
                             </li>
+                            {{-- ========== LOGIN BUTTON END ========== --}}
                         </ul>
                     </div>
                     {{-- ========== GUEST BUTTONS END ========== --}}

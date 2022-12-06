@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("email")->nullable();
             $table->string('password');
             $table->enum("role", [0, 1, 2]);
+            $table->tinyText("profile_picture");
             $table->timestamps();
 
             // onDelete restrict PREVENT TO DELETE users RECORD DIRECTLY IF POST IS ALREADY FILLED

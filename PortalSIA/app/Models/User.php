@@ -30,6 +30,7 @@ class User extends Authenticatable
         'NIP',
         'email',
         'role',
+        'profile_picture',
         'password',
     ];
 

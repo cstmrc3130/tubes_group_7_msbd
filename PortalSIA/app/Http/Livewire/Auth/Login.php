@@ -12,10 +12,17 @@ class Login extends Component
 {
     public $username, $password, $remember = false;
 
+    // ========== RULES ========== //
     protected $rules = ([
         'username' => ['required', "max:30"],
         'password' => ['required'],
     ]);
+
+    // ========== RENDER ========== //
+    public function render()
+    {
+        return view('livewire.auth.login')->layout('auth.login');
+    }
 
     // ========== AUTHENTICATION PROCESS ========== //
     public function Login()
@@ -39,15 +46,15 @@ class Login extends Component
         {
             if (auth()->user()->role == 0)
             {
-                return redirect()->intended(route("dashboard-admin"));
+                return redirect()->intended(route('admin.dashboard'));
             }
             else if (auth()->user()->role == 1)
             {
-                return redirect()->intended(route('dashboard-teacher'));
+                return redirect()->intended(route('teacher.dashboard'));
             }
             else
             {
-                return redirect()->intended(route('dashboard-student'));
+                return redirect()->intended(route('student.dashboard'));
             }
         } 
 
@@ -57,11 +64,5 @@ class Login extends Component
         // IF username OR password IS WRONG, THROW AN ERROR TO THE FORM
         $this->addError('username', __('auth.failed'));
         $this->addError('password', __('auth.password'));
-    }
-
-    // ========== RENDER LOGIN FORM ========== //
-    public function render()
-    {
-        return view('livewire.auth.login')->layout('auth.login');
     }
 }

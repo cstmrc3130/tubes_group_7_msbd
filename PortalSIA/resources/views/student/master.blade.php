@@ -34,7 +34,7 @@
     
                     {{-- ========== LOGO AND TOGGLE BUTTON START ========== --}}
                     <div class="navbar-brand">
-                        <a href="{{ route("dashboard-student") }}" class="logo">
+                        <a href="{{ route("student.dashboard") }}" class="logo">
                             <span class="logo-text">
                                 <img src="{{ asset("/assets/images/landing-icon.png") }}" alt="homepage" width="40px" height="40px"/>
                             </span>
@@ -63,7 +63,7 @@
     
                             {{-- ========== NAME AND PROFILE PICTURE START ========== --}}
                             <a class="nav-link dropdown-toggle waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset("/assets/images/landing-icon.png") }}" alt="user" class="rounded-circle" width="40">
+                                <img src="{{ Auth::user()->profile_picture != 'DEFAULT' ? asset('users-profile-pictures/'.Auth::user()->profile_picture) : asset('users-profile-pictures/'.'default-user.svg')  }}" alt="profile-picture" class="rounded-circle" width="40">
                                 <span class="m-l-5 font-medium d-none d-sm-inline-block">{{ Auth::user()->student->name }}<i class="mdi mdi-chevron-down"></i></span>
                             </a>
                             {{-- ========== NAME AND PROFILE PICTURE END ========== --}}
@@ -83,7 +83,7 @@
                                 {{-- ========== NAME AND EMAIL START ========== --}}
                                 <div class="d-flex no-block align-items-center p-15 bg-primary text-white m-b-10">
                                     <div class="">
-                                        <img src="{{ asset("/assets/images/landing-icon.png") }}" alt="user" class="rounded-circle" width="60">
+                                        <img src="{{ Auth::user()->profile_picture != 'DEFAULT' ? asset('users-profile-pictures/'.Auth::user()->profile_picture) : asset('users-profile-pictures/'.'default-user.svg')  }}" alt="profile_picture" class="rounded-circle" width="60">
                                     </div>
                                     <div class="m-l-10">
                                         <h4 class="m-b-0">Welcome, {{ Auth::user()->student->name }}</h4>
@@ -98,7 +98,7 @@
                                 <div class="profile-dis scrollable">
     
                                     {{-- ========== PROFILE BUTTON START ========== --}}
-                                    <button type="button" class="btn dropdown-item" onclick="return window.location.href = '{{ route('student-profile') }}'">
+                                    <button type="button" class="btn dropdown-item" onclick="return window.location.href = '{{ route('student.profile') }}'">
                                         <i class="ti-user m-r-5 m-l-5"></i> 
                                         Profil
                                     </button>
@@ -142,27 +142,7 @@
                         {{-- ========== TITLE START ========== --}} 
                         <li class="nav-small-cap">
                             <i class="mdi mdi-dots-horizontal"></i>
-                            <span class="hide-menu">DATA DAN PROFIL</span>
-                        </li>
-                        {{-- ========== TITLE END ========== --}} 
-    
-    
-    
-                        {{-- ========== PROFILE START ========== --}} 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false" href="{{ url('profile') }}">
-                                <i class="mdi mdi-account-multiple"></i>
-                                <span class="hide-menu">Profil Saya</span>
-                            </a>
-                        </li>
-                        {{-- ========== PROFILE END ========== --}} 
-    
-    
-    
-                        {{-- ========== TITLE START ========== --}} 
-                        <li class="nav-small-cap">
-                            <i class="mdi mdi-dots-horizontal"></i>
-                            <span class="hide-menu">E-RAPOR</span>
+                            <span class="hide-menu">Informasi Rapor</span>
                         </li>
                         {{-- ========== TITLE END ========== --}} 
     
@@ -171,8 +151,14 @@
                         {{-- ========== E-RAPOR START ========== --}} 
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                <i class="mdi mdi-account-multiple"></i>
-                                <span class="hide-menu">Rapor Saya</span>
+                                <i class="ti-agenda"></i>
+                                <span class="hide-menu">Rapor Bulanan</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                <i class="ti-bookmark-alt"></i>
+                                <span class="hide-menu">Rapor Semester</span>
                             </a>
                         </li>
                         {{-- ========== E-RAPOR END ========== --}} 
@@ -183,8 +169,9 @@
         </aside>
 
 
-
-        {{ $slot }}
+        <div class="page-wrapper" >
+            {{ $slot }}
+        </div>
     </div>
 
 

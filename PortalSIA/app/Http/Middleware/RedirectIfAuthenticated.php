@@ -28,15 +28,15 @@ class RedirectIfAuthenticated
                 // REDIRECT AUTHENTICATED GUESTS TO THEIR DASHBOARD
                 if (auth()->user()->role == 0)
                 {
-                    return redirect()->intended(route('dashboard-admin'));
+                    return redirect()->intended(route('admin.dashboard'));
                 }
                 else if (auth()->user()->role == 1)
                 {
-                    return redirect()->intended(route('dashboard-teacher'));
+                    return redirect()->intended(route('teacher.dashboard'));
                 }
                 else
                 {
-                    return redirect()->intended(route('dashboard-student'));
+                    return redirect()->intended(route('student.dashboard'));
                 }
             }
         }

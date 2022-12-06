@@ -1,7 +1,7 @@
-<div class="page-wrapper">
+<div class="livewire-component">
 
     {{-- ========== BREADCRUMB START ========== --}} 
-    <div class="page-breadcrumb">
+    <div class="page-breadcrumb mb-3">
         <div class="row">
             <div class="col-5 align-self-center">
                 <h4 class="page-title">Profile</h4>
@@ -33,20 +33,30 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="m-t-30 text-center"> 
-                            <img src="{{ asset("assets/images/landing-icon.png") }}" class="rounded-circle" width="150" />
-                            <h4 class="card-title m-t-10">{{ Auth::user()->student->name }}</h4>
-                            <h6 class="card-subtitle">Kelas {{ Auth::user()->student->name }}</h6>
+                            <img src="{{ Auth::user()->profile_picture != 'DEFAULT' ? asset('users-profile-pictures/'.Auth::user()->profile_picture) : asset('users-profile-pictures/'.'default-user.svg')  }}" class="rounded-circle" width="150" alt="profile-picture"/>
+                            <h4 class="card-title m-t-10">Foto Profil</h4>
+
+                            {{-- ========== UPDATE PROFILE PICTURE BUTTON START ========== --}}
                             <div class="row text-center justify-content-md-center">
-                                
+                                <input type="file" name="select_image" id="select_image" class="d-none">
+                                <button type="button" class="btn btn-outline-cyan mb-2 waves-effect " id="button_select_image" >
+                                    <i class="mdi mdi-account-box-outline me-1"></i>
+                                    Update Foto Profil
+                                </button>  
                             </div>
+                            {{-- ========== UPDATE PROFILE PICTURE BUTTON START ========== --}}
+
                         </div>
                     </div>
                     <div>
                         <hr> </div>
-                    <div class="card-body"> <small class="text-muted">Email address </small>
-                        <h6>hannagover@gmail.com</h6> <small class="text-muted p-t-30 db">Phone</small>
-                        <h6>+91 654 784 547</h6> <small class="text-muted p-t-30 db">Address</small>
-                        <h6>71 Pilgrim Avenue Chevy Chase, MD 20815</h6>
+                    <div class="card-body"> 
+                        <small class="text-muted">Kelas</small>
+                        <h6>{{ Auth::user()->student->grade }}</h6> 
+                        <small class="text-muted p-t-30 db">Tahun Masuk</small>
+                        <h6>{{ Auth::user()->student->entry_year }}</h6> 
+                        <small class="text-muted p-t-30 db">Status</small>
+                        <h6>{{ Auth::user()->student->status == 'I' ? "Tidak Aktif" : "Aktif" }}</h6>
                     </div>
                 </div>
             </div>
@@ -57,128 +67,224 @@
             {{-- ========== PROFILE RIGHT SECTION START ========== --}}
             <div class="col-lg-8 col-xlg-9 col-md-7">
                 <div class="card">
-                    <!-- Tabs -->
-                    <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true">Timeline</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#previous-month" role="tab" aria-controls="pills-setting" aria-selected="false">Setting</a>
-                        </li>
-                    </ul>
-                    <!-- Tabs -->
-                    <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
-                            <div class="card-body">
-                                <div class="profiletimeline m-t-0">
-                                    <div class="sl-item">
-                                        <div class="sl-left"> <img src="../../assets/images/users/1.jpg" alt="user" class="rounded-circle" /> </div>
-                                        <div class="sl-right">
-                                            <div><a href="javascript:void(0)" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
-                                                <p>assign a new task <a href="javascript:void(0)"> Design weblayout</a></p>
-                                                <div class="row">
-                                                    <div class="col-lg-3 col-md-6 m-b-20"><img src="../../assets/images/big/img1.jpg" class="img-fluid rounded" /></div>
-                                                    <div class="col-lg-3 col-md-6 m-b-20"><img src="../../assets/images/big/img2.jpg" class="img-fluid rounded" /></div>
-                                                    <div class="col-lg-3 col-md-6 m-b-20"><img src="../../assets/images/big/img3.jpg" class="img-fluid rounded" /></div>
-                                                    <div class="col-lg-3 col-md-6 m-b-20"><img src="../../assets/images/big/img4.jpg" class="img-fluid rounded" /></div>
+                    <div class="card-body">
+                        <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true">Student Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#previous-month" role="tab" aria-controls="pills-setting" aria-selected="false">Login Info</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="pills-tabContent">
+
+                            {{-- ========== STUDENT PROFILE INFO START ========== --}}
+                            <div class="tab-pane fade show active" id="student-profile-info" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                                <div class="card-body">
+                                    {!! Form::model($profile, ['route' => ['student.update-student-info'], "method" => "PUT", "class" => "form-horizontal", "autocomplete" => "off", "id" => 'student-profile-form']) !!}
+
+                                        {{-- ========== NISN START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('NISN', 'NISN', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-9">
+                                                {{ Form::text('NISN', null, ['class' => 'form-control form-control-line'.($errors->has('NISN') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'NISN', 'readonly', 'disabled', 'wire:model' => 'NISN']) }}
+                                            </div>
+                                        </div>
+                                        {{-- ========== NISN START ========== --}}
+
+
+
+                                        {{-- ========== NAME START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('name', 'Nama Lengkap', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-9">
+                                                {{ Form::text('name', null, ['class' => 'form-control form-control-line'.($errors->has('name') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'name', 'wire:model' => 'name']) }}
+                                                @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+                                        </div>
+                                        {{-- ========== NAME START ========== --}}
+
+
+
+                                        {{-- ========== PLACE OF BIRTH START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('place_of_birth', 'Tempat Lahir', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-9">
+                                                {{ Form::text('place_of_birth', null, ['class' => 'form-control form-control-line'.($errors->has('placeOfBirth') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'place_of_birth', 'wire:model' => 'placeOfBirth']) }}
+                                                @error('placeOfBirth')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+                                        </div>
+                                        {{-- ========== PLACE OF BIRTH START ========== --}}
+
+
+
+                                        {{-- ========== DATE OF BIRTH START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('date_of_birth', 'Tanggal Lahir', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-9">
+                                                {{ Form::date('date_of_birth', null, ['class' => 'form-control form-control-line'.($errors->has('dateOfBirth') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'date_of_birth', 'wire:model' => 'dateOfBirth']) }}
+                                                @error('dateOfBirth')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+                                        </div>
+                                        {{-- ========== DATE OF BIRTH START ========== --}}
+
+
+
+                                        {{-- ========== GENDER START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('Gender', 'Jenis Kelamin', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-3 col-form-label">
+                                                {{ Form::radio('gender', 'M', false, ['class' => ($errors->has('gender') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'male', 'wire:model' => 'gender']) }}
+                                                <label for="male">Laki-laki</label>
+                                            </div>
+                                            
+                                            <div class="col-md-3 col-form-label">
+                                                {{ Form::radio('gender', 'F', false, ['class' => ($errors->has('gender') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'female', 'wire:model' => 'gender']) }}
+                                                <label for="female">Perempuan</label>
+                                                @error('gender')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+
+                                        </div>
+                                        {{-- ========== GENDER END ========== --}}
+
+
+
+                                        {{-- ========== FATHER NAME START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('father_name', 'Nama Ayah', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-9">
+                                                {{ Form::text('father_name', null, ['class' => 'form-control form-control-line'.($errors->has('fatherName') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'father_name', 'wire:model' => 'fatherName']) }}
+                                                @error('fatherName')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+                                        </div>
+                                        {{-- ========== FATHER NAME END ========== --}}
+
+
+
+                                        {{-- ========== MOTHER NAME START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('mother_name', 'Nama Ibu', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-9">
+                                                {{ Form::text('mother_name', null, ['class' => 'form-control form-control-line'.($errors->has('motherName') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'mother_name', 'wire:model' => 'motherName']) }}
+                                                @error('motherName')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+                                        </div>
+                                        {{-- ========== MOTHER NAME END ========== --}}
+
+
+
+                                        {{-- ========== ADDRESS START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('address', 'Alamat', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-9">
+                                                {{ Form::textarea('address', null, ['class' => 'form-control form-control-line'.($errors->has('address') ? ' is-invalid' : ''), 'style' => 'max-height: 12ch; min-height: 5ch', 'autocomplete' => 'off', 'id' => 'address', 'rows' => '3', 'wire:model' => 'address']) }}
+                                                @error('address')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
+                                        </div>
+                                        {{-- ========== ADDRESS END ========== --}}
+
+
+                                        {{-- ========== PHONE NUMBER START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('phone_numbers', 'Nomor Handphone', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="input-group col-md-9">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend">+62</span>
                                                 </div>
-                                                <div class="like-comm"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
+                                                {{ Form::tel('phone_numbers', null, ['class' => 'form-control form-control-line'.($errors->has('phoneNumber') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'phone_numbers', 'wire:model' => 'phoneNumber']) }}
+                                                @error('phoneNumber')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
                                         </div>
-                                    </div>
-                                    <hr>
-                                    <div class="sl-item">
-                                        <div class="sl-left"> <img src="../../assets/images/users/2.jpg" alt="user" class="rounded-circle" /> </div>
-                                        <div class="sl-right">
-                                            <div> <a href="javascript:void(0)" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
-                                                <div class="m-t-20 row">
-                                                    <div class="col-md-3 col-xs-12"><img src="../../assets/images/big/img1.jpg" alt="user" class="img-fluid rounded" /></div>
-                                                    <div class="col-md-9 col-xs-12">
-                                                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. </p> <a href="javascript:void(0)" class="btn btn-success"> Design weblayout</a></div>
-                                                </div>
-                                                <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
+                                        {{-- ========== PHONE NUMBER END ========== --}}
+
+
+                                        {{-- ========== TERMS AND SUBMIT BUTTON START ========== --}}
+                                        <div class="form-group row">
+                                            <div class="col-md-12 col-form-label">
+                                                {{ Form::checkbox('terms', null, false, ['required']) }}
+                                                <label class="text-danger">Saya sudah memastikan data yang saya masukkan adalah yang sebenar-benarnya.</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <button type="submit" class="btn btn-success" id="update-student-info-button"                                                
+                                                @if ($errors->has('NISN') ||
+                                                    $errors->has('name') ||  
+                                                    $errors->has('placeOfBirth') ||
+                                                    $errors->has('dateOfBirth') ||
+                                                    $errors->has('motherName') ||
+                                                    $errors->has('fatherName') ||
+                                                    $errors->has('gender') ||
+                                                    $errors->has('address') ||
+                                                    $errors->has('phoneNumber'))
+                                                    disabled 
+                                                    @endif>
+                                                    Update Student Info
+                                                </button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <hr>
-                                    <div class="sl-item">
-                                        <div class="sl-left"> <img src="../../assets/images/users/3.jpg" alt="user" class="rounded-circle" /> </div>
-                                        <div class="sl-right">
-                                            <div><a href="javascript:void(0)" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
-                                                <p class="m-t-10"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper </p>
-                                            </div>
-                                            <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="sl-item">
-                                        <div class="sl-left"> <img src="../../assets/images/users/4.jpg" alt="user" class="rounded-circle" /> </div>
-                                        <div class="sl-right">
-                                            <div><a href="javascript:void(0)" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
-                                                <blockquote class="m-t-10">
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                                                </blockquote>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        {{-- ========== TERMS AND SUBMIT BUTTON END ========== --}}
+
+                                    {!! Form::close() !!}
                                 </div>
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="previous-month" role="tabpanel" aria-labelledby="pills-setting-tab">
-                            <div class="card-body">
-                                <form class="form-horizontal form-material">
-                                    <div class="form-group">
-                                        <label class="col-md-12">Full Name</label>
-                                        <div class="col-md-12">
-                                            <input type="text" placeholder="Johnathan Doe" class="form-control form-control-line">
+                            {{-- ========== STUDENT PROFILE INFO END ========== --}}
+                            
+
+
+                            {{-- ========== STUDENT LOGIN INFO START ========== --}}
+                            <div class="tab-pane fade" id="student-login-info" role="tabpanel" aria-labelledby="pills-setting-tab">
+                                <div class="card-body">
+                                    {!! Form::model($user, ['route' => ['student.update-login-info'], "method" => "PUT", "class" => "form-horizontal", "autocomplete" => "off", "id" => 'student-login-form', 'wire:submit.prevent' => "UpdateLoginInfo()"]) !!}
+
+                                        {{-- ========== EMAIL START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('email', 'Email', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-9">
+                                                {{ Form::email('email', null, ['class' => 'form-control form-control-line'.($errors->has('email') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'email', 'wire:model.defer' => 'email', 'required']) }}
+                                                @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="example-email" class="col-md-12">Email</label>
-                                        <div class="col-md-12">
-                                            <input type="email" placeholder="johnathan@admin.com" class="form-control form-control-line" name="example-email" id="example-email">
+                                        {{-- ========== EMAIL START ========== --}}
+
+
+
+                                        {{-- ========== OLD PASSWORD START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('old_password', 'Kata Sandi Lama', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-9">
+                                                {{ Form::password('old_password', ['class' => 'form-control form-control-line'.($errors->has('oldPassword') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'old_password', 'wire:model.defer' => 'oldPassword', 'required']) }}
+                                                @error('oldPassword')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12">Password</label>
-                                        <div class="col-md-12">
-                                            <input type="password" value="password" class="form-control form-control-line">
+                                        {{-- ========== OLD PASSWORD START ========== --}}
+
+
+
+                                        {{-- ========== NEW PASSWORD START ========== --}}
+                                        <div class="form-group row">
+                                            {{ Form::label('new_password', 'Kata Sandi Baru', ["class" => "col-md-3 col-form-label"]) }}
+                                            <div class="col-md-9">
+                                                {{ Form::password('new_password', ['class' => 'form-control form-control-line'.($errors->has('oldPassword') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'new_password', 'wire:model.defer' => 'newPassword', 'required']) }}
+                                                @error('newPassword')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12">Phone No</label>
-                                        <div class="col-md-12">
-                                            <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
+                                        {{-- ========== NEW PASSWORD START ========== --}}
+
+
+
+                                        {{-- ========== SUBMIT BUTTON START ========== --}}
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <button type="submit" class="btn btn-success" id="update-login-info-button">Update Login Info</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12">Message</label>
-                                        <div class="col-md-12">
-                                            <textarea rows="5" class="form-control form-control-line"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-12">Select Country</label>
-                                        <div class="col-sm-12">
-                                            <select class="form-control form-control-line">
-                                                <option>London</option>
-                                                <option>India</option>
-                                                <option>Usa</option>
-                                                <option>Canada</option>
-                                                <option>Thailand</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-success">Update Profile</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                        {{-- ========== SUBMIT BUTTON END ========== --}}
+
+                                    {{ Form::close() }}
+                                </div>
                             </div>
+                            {{-- ========== STUDENT LOGIN INFO END ========== --}}
+
                         </div>
                     </div>
                 </div>
@@ -195,5 +301,5 @@
     {{-- ========== FOOTER START ========== --}} 
     <footer class="footer text-center">All Rights Reserved by Kelompok 7 KOM C © 2022. </footer>
     {{-- ========== FOOTER START ========== --}} 
-
 </div>
+
