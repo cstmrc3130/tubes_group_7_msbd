@@ -28,7 +28,7 @@ Route::post('/logout', 'App\Http\Livewire\Auth\Logout@Logout');
 
 
 
-// ========== SCHOOL EVENTS ========== //
+// ========== NEWS ========== //
 Route::get('/news', function () {
     return view('news');
 });
