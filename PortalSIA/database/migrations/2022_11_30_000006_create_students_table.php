@@ -26,7 +26,6 @@ return new class extends Migration
             $table->tinyText("father_name")->nullable();
             $table->tinyText("mother_name")->nullable();
             $table->tinyText("guardian_name")->nullable();
-            $table->integer("grade");
             $table->integer("entry_year");
             $table->enum("special_needs", ['E', "NE"])->nullable;
             $table->enum("status", ["A", "I"]);
