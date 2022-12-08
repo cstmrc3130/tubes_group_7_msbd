@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('scoring_sessions', function (Blueprint $table) {
             $table->uuid("id")->primary();
+            $table->enum("type", ["HW1", "EX1", "MID", "HW2", "EX2", "FIN"]);
             $table->date("start_date");
             $table->date("end_date");
             $table->timestamps();

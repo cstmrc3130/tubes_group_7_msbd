@@ -15,11 +15,10 @@ return new class extends Migration
     {
         Schema::create('subject_scores', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->char("NISN", 10);
             $table->uuid("subject_id");
+            $table->char("NISN", 10);
             $table->uuid("scoring_session_id");
             $table->uuid("completeness_id");
-            $table->enum("type", ["HW1", "EX1", "MID", "HW2", "EX2", "FIN"]);
             $table->double("score");
             $table->timestamps();
 
@@ -27,7 +26,6 @@ return new class extends Migration
             $table->foreign('NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('scoring_session_id')->references('id')->on('scoring_sessions')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('completeness_id')->references('id')->on('completeness')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

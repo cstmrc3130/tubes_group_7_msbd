@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Validation\Rules\Password;
 
 class Profile extends Component
@@ -33,18 +34,21 @@ class Profile extends Component
     public $oldPassword;
     public $newPassword;
 
+    // ========== EVENT LISTENERS ========== //
+    protected $listeners = [
+        'StudentIntendedToUpdate' => 'UpdateProfileInfo',
+    ];
+
     // ========== RULES ========== //
     protected $rules = ([
         "name" => ['required', "min:5"],
         "placeOfBirth" => ['required', 'string', 'max:20'],
         "dateOfBirth" => ['required', 'date_format:Y-m-d', 'before:12 years ago', 'after:17 years ago'],
-        "fatherName" => ['required', 'string', 'max:50'],
-        "motherName" => ['required', 'string', 'max:50'],
+        "fatherName" => ['required', 'string', 'min:3', 'max:50'],
+        "motherName" => ['required', 'string', 'min:3', 'max:50'],
         'gender' => ['required', 'in:M, F'],
         'address' => ['required', 'string', "max:255"],
         "phoneNumber" => 'required|numeric|min:10',
-
-        'email' => ['required', 'regex:(gmail)', 'email'],
     ]);
 
     // ========== CUSTOM VALIDATION MESSAGES ========== //
@@ -71,7 +75,7 @@ class Profile extends Component
         $this->fatherName = $this->profile->father_name;
         $this->motherName = $this->profile->mother_name;
         $this->address = $this->profile->address;
-        $this->phoneNumber = Str::substr($this->profile->phone_numbers, 1, Str::length($this->profile->phone_numbers));;
+        $this->phoneNumber = Str::substr($this->profile->phone_numbers, 2, Str::length($this->profile->phone_numbers));;
         $this->email = Auth::user()->email;
 
         $this->validate();
@@ -81,6 +85,8 @@ class Profile extends Component
     public function updated($property_name)
     {
         $this->validateOnly($property_name);
+
+        $this->dispatchBrowserEvent("toggle-submit-button");
     }
 
     // ========== RENDER ========== //
@@ -114,14 +120,7 @@ class Profile extends Component
                 }
             }
 
-            // UPDATE USER'S PROFILE PICTURE USING QUERY BUILDER ("updated_at" COLUMN WON'T UPDATED)
-            // DB::table("profiles")->where('user_id', Auth::user()->id)->update(['profile_picture' => $newImageName]);
             \App\Models\User::query()->find(Auth::user()->id)->update(['profile_picture' => $newImageName]);
-
-
-            // UPDATE THE "updated_at" COLUMN IN users TABLE (touch() CANNOT BE USED WITH QUERY BUILDER)
-            // DB::table('users')->where('id', auth()->user()->id)->touch(); ----> TOUCH CANNOT BE USED
-            // User::query()->find(Auth::user()->id)->touch();
 
             return response()->json(['status' => 1, 'msg' => "Profile picture successfully updated"]);
         }
@@ -131,26 +130,33 @@ class Profile extends Component
         }
     }
 
-    public function UpdateStudentInfo()
+    // ========== UPDATE STUDENT PROFILE INFO ========== //
+    public function UpdateProfileInfo()
     {
-
+        $this->dispatchBrowserEvent('send-notification-to-admin', ['response' => 'success']);
     }
 
+    // ========== UPDATE STUDENT LOGIN INFO ========== // 
     public function UpdateLoginInfo()
     {
-        if($this->validate([
-            'oldPassword' => ['required', new MatchOldPassword], 
-            'newPassword' => ['required', Password::min(8), Password::min(8)->letters(), Password::min(8)->mixedCase(), Password::min(8)->numbers(), Password::min(8)->symbols()]
-        ]))
+        $this->dispatchBrowserEvent('persisting-last-tab', ['tab-ID' => 'student-login-info']);
+
+        // MAKE INTERVAL FOR EACH UPDATE TO 5 MINUTES
+        if (!Cookie::has('cooldown') || now()->diffInMinutes(Cookie::get('cooldown')) > 5)
         {
-            return dd("Success");
+            if($this->validate(['email' => ['required', 'regex:(gmail)', 'email'], 'oldPassword' => ['required', new MatchOldPassword], 'newPassword' => ['required', Password::min(8), Password::min(8)->letters(), Password::min(8)->mixedCase(), Password::min(8)->numbers(), Password::min(8)->symbols()]]))
+            {
+                \App\Models\User::query()->find(Auth::id())->update(['email' => $this->email, 'password' => bcrypt($this->newPassword)]);
+
+                $this->dispatchBrowserEvent('login-info-update-result', ['response' => 'success']);
+
+                Cookie::queue('cooldown', now());
+            }
         }
-
-        $this->addError('oldPassword', __('auth.failed'));
-        $this->addError('newPassword', __('auth.password'));
-
-        return null;
+        else
+        {
+            $this->dispatchBrowserEvent('login-info-update-result', ['response' => 'failed']);
+        }
     }
 
-    
 }

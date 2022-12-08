@@ -47,6 +47,39 @@ Route::middleware(['auth', 'auth.role:0'])->group(function ()
 
 
 
+// ========== TEACHER SECTION ========== //
+Route::group(['prefix' => 'teacher'], function ()
+{
+    Route::name('teacher.')->group(function ()
+    {
+        Route::middleware(['auth', 'auth.role:1'])->group(function ()
+        {
+            // ========== DASHBOARD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Teacher\Dashboard::class)->group(function()
+            {
+                Route::get('/dashboard', \App\Http\Livewire\Teacher\Dashboard::class)->name('dashboard');
+            });
+
+            // ========== PROFILE LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Teacher\Profile::class)->group(function()
+            {
+                Route::get('/profile', \App\Http\Livewire\Teacher\Profile::class)->name('profile');
+
+                // ========== UPDATE PROFILE PICTURE ========== //
+                Route::post('/update-profile-picture', "UpdateProfilePicture")->name('update-profile-picture');
+            });
+
+            // ========== HOMEROOM CLASS LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Student\HomeroomClass::class)->group(function()
+            {
+                Route::get('/homeroom-class', \App\Http\Livewire\Student\HomeroomClass::class)->name('homeroom-class');
+            });
+        });
+    });
+});
+
+
+
 // ========== STUDENT SECTION ========== //
 Route::group(['prefix' => 'student'], function ()
 {
@@ -67,12 +100,6 @@ Route::group(['prefix' => 'student'], function ()
 
                 // ========== UPDATE PROFILE PICTURE ========== //
                 Route::post('/update-profile-picture', "UpdateProfilePicture")->name('update-profile-picture');
-
-                // ========== UPDATE STUDENT INFO ========== //
-                Route::put('/update-student-info', "UpdateStudentInfo")->name('update-student-info');
-
-                // ========== UPDATE LOGIN INFO ========== //
-                Route::put('/update-login-info', "UpdateLoginInfo")->name('update-login-info');
             });
 
             // ========== HOMEROOM CLASS LIVEWIRE ========== //

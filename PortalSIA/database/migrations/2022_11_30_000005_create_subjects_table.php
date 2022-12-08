@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid("completeness_id");
+            $table->uuid("school_year_id");
             $table->tinyText("name");
+            $table->tinyInteger('completeness');
             $table->timestamps();
 
             // FOREIGN KEY
-            $table->foreign('completeness_id')->references('id')->on('completeness')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('completeness', function (Blueprint $table) {
+        Schema::create('school_years', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->double("score");
-            $table->char("school_year", 9);
+            $table->double("name");
             $table->timestamps();
         });
     }

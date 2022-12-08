@@ -52,9 +52,13 @@
                                             @if (Auth::user()->role == 0)
                                             Admin
                                             @elseif (Auth::user()->role == 1)
-                                            {{ Auth::user()->teacher->name }}
+                                                @for($i = 0; $i < 2; $i++)
+                                                    {!! print_r(explode(" ", auth()->user()->teacher->name)[$i], true); !!}
+                                                @endfor
                                             @else 
-                                            {{ Auth::user()->student->name }}
+                                                @for($i = 0; $i < 2; $i++)
+                                                    {!! print_r(explode(" ", auth()->user()->student->name)[$i], true); !!}
+                                                @endfor
                                             @endif
                                         </button>
                                         <div class="dropdown-menu">

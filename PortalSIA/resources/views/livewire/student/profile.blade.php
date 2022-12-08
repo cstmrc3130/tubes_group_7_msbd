@@ -70,10 +70,10 @@
                     <div class="card-body">
                         <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true">Student Info</a>
+                                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#student-profile-info">Student Info</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#previous-month" role="tab" aria-controls="pills-setting" aria-selected="false">Login Info</a>
+                                <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#student-login-info">Login Info</a>
                             </li>
                         </ul>
 
@@ -82,7 +82,7 @@
                             {{-- ========== STUDENT PROFILE INFO START ========== --}}
                             <div class="tab-pane fade show active" id="student-profile-info" role="tabpanel" aria-labelledby="pills-timeline-tab">
                                 <div class="card-body">
-                                    {!! Form::model($profile, ['route' => ['student.update-student-info'], "method" => "PUT", "class" => "form-horizontal", "autocomplete" => "off", "id" => 'student-profile-form']) !!}
+                                    {!! Form::model($profile, ["method" => "PUT", "class" => "form-horizontal", "autocomplete" => "off", "id" => 'student-profile-form']) !!}
 
                                         {{-- ========== NISN START ========== --}}
                                         <div class="form-group row">
@@ -135,12 +135,12 @@
                                         <div class="form-group row">
                                             {{ Form::label('Gender', 'Jenis Kelamin', ["class" => "col-md-3 col-form-label"]) }}
                                             <div class="col-md-3 col-form-label">
-                                                {{ Form::radio('gender', 'M', false, ['class' => ($errors->has('gender') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'male', 'wire:model' => 'gender']) }}
+                                                {{ Form::radio('gender', 'M', false, ['class' => ($errors->has('gender') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'male', 'disabled', 'wire:model' => 'gender']) }}
                                                 <label for="male">Laki-laki</label>
                                             </div>
                                             
                                             <div class="col-md-3 col-form-label">
-                                                {{ Form::radio('gender', 'F', false, ['class' => ($errors->has('gender') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'female', 'wire:model' => 'gender']) }}
+                                                {{ Form::radio('gender', 'F', false, ['class' => ($errors->has('gender') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'female', 'disabled', 'wire:model' => 'gender']) }}
                                                 <label for="female">Perempuan</label>
                                                 @error('gender')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
@@ -178,7 +178,7 @@
                                         <div class="form-group row">
                                             {{ Form::label('address', 'Alamat', ["class" => "col-md-3 col-form-label"]) }}
                                             <div class="col-md-9">
-                                                {{ Form::textarea('address', null, ['class' => 'form-control form-control-line'.($errors->has('address') ? ' is-invalid' : ''), 'style' => 'max-height: 12ch; min-height: 5ch', 'autocomplete' => 'off', 'id' => 'address', 'rows' => '3', 'wire:model' => 'address']) }}
+                                                {{ Form::textarea('address', 'address', ['class' => 'form-control form-control-line'.($errors->has('address') ? ' is-invalid' : ''), 'style' => 'max-height: 12ch; min-height: 5ch', 'autocomplete' => 'off', 'id' => 'address', 'rows' => '3', 'wire:model' => 'address']) }}
                                                 @error('address')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
                                         </div>
@@ -200,11 +200,7 @@
 
 
                                         {{-- ========== TERMS AND SUBMIT BUTTON START ========== --}}
-                                        <div class="form-group row">
-                                            <div class="col-md-12 col-form-label">
-                                                {{ Form::checkbox('terms', null, false, ['required']) }}
-                                                <label class="text-danger">Saya sudah memastikan data yang saya masukkan adalah yang sebenar-benarnya.</label>
-                                            </div>
+                                        <div class="form-group row mt-5">
                                             <div class="col-sm-12">
                                                 <button type="submit" class="btn btn-success" id="update-student-info-button"                                                
                                                 @if ($errors->has('NISN') ||
@@ -216,8 +212,10 @@
                                                     $errors->has('gender') ||
                                                     $errors->has('address') ||
                                                     $errors->has('phoneNumber'))
-                                                    disabled 
-                                                    @endif>
+                                                    @disabled(true) 
+                                                    @endif 
+                                                    >
+                                                    <i class="ti-save mr-2"></i>
                                                     Update Student Info
                                                 </button>
                                             </div>
@@ -228,13 +226,13 @@
                                 </div>
                             </div>
                             {{-- ========== STUDENT PROFILE INFO END ========== --}}
-                            
+
 
 
                             {{-- ========== STUDENT LOGIN INFO START ========== --}}
                             <div class="tab-pane fade" id="student-login-info" role="tabpanel" aria-labelledby="pills-setting-tab">
                                 <div class="card-body">
-                                    {!! Form::model($user, ['route' => ['student.update-login-info'], "method" => "PUT", "class" => "form-horizontal", "autocomplete" => "off", "id" => 'student-login-form', 'wire:submit.prevent' => "UpdateLoginInfo()"]) !!}
+                                    {!! Form::model($user, ["method" => "PUT", "class" => "form-horizontal", "autocomplete" => "off", "id" => 'student-login-form', 'wire:submit.prevent' => "UpdateLoginInfo()"]) !!}
 
                                         {{-- ========== EMAIL START ========== --}}
                                         <div class="form-group row">
@@ -264,7 +262,7 @@
                                         <div class="form-group row">
                                             {{ Form::label('new_password', 'Kata Sandi Baru', ["class" => "col-md-3 col-form-label"]) }}
                                             <div class="col-md-9">
-                                                {{ Form::password('new_password', ['class' => 'form-control form-control-line'.($errors->has('oldPassword') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'new_password', 'wire:model.defer' => 'newPassword', 'required']) }}
+                                                {{ Form::password('new_password', ['class' => 'form-control form-control-line'.($errors->has('newPassword') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'new_password', 'wire:model.defer' => 'newPassword', 'required']) }}
                                                 @error('newPassword')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
                                         </div>
@@ -273,14 +271,17 @@
 
 
                                         {{-- ========== SUBMIT BUTTON START ========== --}}
-                                        <div class="form-group row">
+                                        <div class="form-group row mt-5">
                                             <div class="col-sm-12">
-                                                <button type="submit" class="btn btn-success" id="update-login-info-button">Update Login Info</button>
+                                                <button type="submit" class="btn btn-success" id="update-login-info-button">
+                                                    <i class="ti-save mr-2"></i>
+                                                    Update Login Info
+                                                </button>
                                             </div>
                                         </div>
                                         {{-- ========== SUBMIT BUTTON END ========== --}}
 
-                                    {{ Form::close() }}
+                                    {!! Form::close() !!}
                                 </div>
                             </div>
                             {{-- ========== STUDENT LOGIN INFO END ========== --}}

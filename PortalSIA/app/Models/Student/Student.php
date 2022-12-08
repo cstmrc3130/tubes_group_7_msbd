@@ -2,6 +2,7 @@
 
 namespace App\Models\Student;
 
+use App\Models\Classroom\Classroom;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,4 +30,16 @@ class Student extends Model
         'guardian_name',
         'phone_number'
     ];
+
+    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
+    public function homeroomclass()
+    {
+        return $this->hasOne(Classroom::class, 'id', 'homeroom_class_id');
+    }
+
+    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
+    public function homeroomteacher()
+    {
+        return $this->hasOne(Teacher::class, 'homeroom_teacher_NIP', 'NIP');
+    }
 }

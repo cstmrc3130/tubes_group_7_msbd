@@ -18,7 +18,6 @@ return new class extends Migration
             $table->char("NIP", 18);
             $table->uuid("subject_id");
             $table->uuid("class_id");
-            $table->char("school_year", 9);
             $table->timestamps();
 
             // FOREIGN KEY

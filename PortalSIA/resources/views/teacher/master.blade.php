@@ -34,11 +34,11 @@
     
                     {{-- ========== LOGO AND TOGGLE BUTTON START ========== --}}
                     <div class="navbar-brand">
-                        <a href="{{ route("student.dashboard") }}" class="logo">
+                        <a href="{{ route("teacher.dashboard") }}" class="logo">
                             <span class="logo-text">
                                 <img src="{{ asset("/assets/images/landing-icon.png") }}" alt="homepage" width="40px" height="40px"/>
                             </span>
-                            <span class="font-semibold m-b-0 mx-2 text-light">Dashboard Siswa</span>
+                            <span class="font-semibold m-b-0 mx-2 text-light">Dashboard Guru</span>
                         </a>
                         <a class="sidebartoggler d-none d-md-block" href="javascript:void(0)" data-sidebartype="mini-sidebar">
                             <i class="mdi mdi-toggle-switch mdi-toggle-switch-off font-20"></i>
@@ -66,7 +66,7 @@
                                 <img src="{{ Auth::user()->profile_picture != 'DEFAULT' ? asset('users-profile-pictures/'.Auth::user()->profile_picture) : asset('users-profile-pictures/'.'default-user.svg')  }}" alt="profile-picture" class="rounded-circle" width="40">
                                 <span class="m-l-5 font-medium d-none d-sm-inline-block">
                                     @for($i = 0; $i < 2; $i++)
-                                        {!! print_r(explode(" ", auth()->user()->student->name)[$i], true); !!}
+                                        {!! print_r(explode(" ", auth()->user()->teacher->name)[$i], true); !!}
                                     @endfor
                                 <i class="mdi mdi-chevron-down"></i></span>
                             </a>
@@ -92,7 +92,7 @@
                                     <div class="m-l-10">
                                         <h4 class="m-b-0">
                                             @for($i = 0; $i < 2; $i++)
-                                                {!! print_r(explode(" ", auth()->user()->student->name)[$i], true); !!}
+                                                {!! print_r(explode(" ", auth()->user()->teacher->name)[$i], true); !!}
                                             @endfor
                                         </h4>
                                         <p class=" m-b-0">{{ Auth::user()->email }}</p>
@@ -106,7 +106,7 @@
                                 <div class="profile-dis scrollable">
     
                                     {{-- ========== PROFILE BUTTON START ========== --}}
-                                    <button type="button" class="btn dropdown-item" onclick="return window.location.href = '{{ route('student.profile') }}'">
+                                    <button type="button" class="btn dropdown-item" onclick="return window.location.href = '{{ route('teacher.profile') }}'">
                                         <i class="ti-user m-r-5 m-l-5"></i> 
                                         Profil
                                     </button>

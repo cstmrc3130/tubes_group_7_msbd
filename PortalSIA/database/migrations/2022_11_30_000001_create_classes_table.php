@@ -15,9 +15,13 @@ return new class extends Migration
     {
         Schema::create('classes', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('school_year_id');
             $table->tinyText("name");
             $table->tinyInteger("semester");
             $table->timestamps();
+
+            // FOREIGN KEY
+            $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

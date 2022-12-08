@@ -19,47 +19,101 @@
 <script src="{{ asset("assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js") }}"></script>
 <script src="{{ asset("dist/js/pages/dashboards/dashboard1.js") }}"></script>
 
-{{-- REMOVE FIRST 0 IN PHONE NUMBER --}}
+{{-- REMOVE 08 OR 62 IN PHONE NUMBER --}}
 <script>
     $(function ()
     {
         let phoneNumber = $('#phone_numbers').val();
 
-        phoneNumber.substring(0, 2) == '08' ? $('#phone_numbers').val(phoneNumber.substring(1, phoneNumber.length)) : ''
+        phoneNumber.substring(0, 2) == '62' ? $('#phone_numbers').val(phoneNumber.substring(2, phoneNumber.length)) : ''
+        phoneNumber.substring(0, 2) == '08' ? $('#phone_numbers').val(phoneNumber.substring(2, phoneNumber.length)) : ''
         
         $('#phone_numbers').bind('keyup', function (event)
         {
             phoneNumber = event.target.value;
-            phoneNumber.substring(0, 2) == '08' ? $('#phone_numbers').val(phoneNumber.substring(1, phoneNumber.length)) : ''
+
+            phoneNumber.substring(0, 2) == '62' ? $('#phone_numbers').val(phoneNumber.substring(2, phoneNumber.length)) : ''
+            phoneNumber.substring(0, 2) == '08' ? $('#phone_numbers').val(phoneNumber.substring(2, phoneNumber.length)) : ''
         })
     })
 </script>
 
 
-{{-- STUDENT PROFILE INFO SUBMIT BUTTON SCRIPT --}}
+
+{{-- STUDENT PROFILE INFO SUBMIT BUTTON --}}
 <script>
     $(function ()
     {
         const previousState = $('#student-profile-form').serialize();
 
-        console.log(previousState)
-
         $('#student-profile-form').on('input', function()
         {
-            console.log($(this).serialize())
             $(this).find('input:submit, button:submit').prop('disabled', previousState == $(this).serialize());
         }).find('input:submit, button:submit').prop('disabled', true);
 
-        $('#student-profile-form').submit(function (event) {
-            if (previousState == $(this).serialize())
-            {
-                event.preventDefault();
-            }
-        });
+        window.addEventListener('toggle-submit-button', event =>
+        {
+            $('#student-profile-form').find('input:submit, button:submit').prop('disabled', previousState == $('#student-profile-form').serialize());
+
+            $('#student-profile-form').submit(function (event) {
+                if (previousState == $(this).serialize())
+                {
+                    event.preventDefault();
+                }
+            });
+        })
     })
-    
-    
 </script>
+
+
+
+{{-- STUDENT LOGIN INFO UPDATE TOAST --}}
+<script>
+    $(function()
+    {
+        window.addEventListener('login-info-update-result', event =>
+        {
+            if (event.detail.response == 'success')
+            {
+                toastr.success('Informasi login berhasil di-update!', 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            }
+            else
+            {
+                toastr.error('Harap tunggu 5 menit sebelum melakukan update!', 'Failure!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            }
+
+            $('#student-login-form').find("input[type='password']").val('');
+        })
+    })
+</script>
+
+
+
+{{-- PERSIST BOOTSTRAP TAB UPON RELOAD --}}
+<script>
+    $(function()
+    {
+        window.addEventListener('persisting-last-tab', event => {
+            $('#pills-timeline-tab').toggleClass('active');
+            $('#pills-setting-tab').toggleClass('active show');
+
+            $('#student-profile-info').toggleClass('show active');
+            $('#'+event.detail['tab-ID']).toggleClass('show active');
+            $('#'+event.detail['tab-ID']).tab('show');
+        })
+        
+        $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
+            localStorage.setItem('tab-used', $(this).attr('href'));
+        });
+
+        var lastTab = localStorage.getItem('tab-used');
+        
+        if (lastTab) {
+            $('[href="' + lastTab + '"]').tab('show');
+        }
+    })
+</script>
+
 
 
 {{-- IJABOCROPTOOL --}}
@@ -80,10 +134,10 @@
         processUrl:'{{ route("student.update-profile-picture") }}',
         withCSRF:['_token','{{ csrf_token() }}'],
         onSuccess:function(message){
-            toastr.success('Foto profil anda berhasil di-update!', 'Sukses!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            toastr.success('Foto profil berhasil di-update!', 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
         },
         onError:function(message, element, status){
-            alert(message, status);
+            toastr.error('Foto profil gagal di-update!', 'Failure!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
         }
     }); 
 </script>
@@ -107,13 +161,26 @@
         }).then((isConfirm) => 
             {   
                 if (isConfirm && isConfirm.dismiss != 'cancel') {     
-                    swal("Sukses!", "Profilmu akan segera diperbarui apabila admin menyetujuinya", "success");
-                    this.submit();
+                    Livewire.emit('StudentIntendedToUpdate');
                 } else {     
                     swal("Gagal", "Perbaruan profil dibatalkan!", "error");   
                 } 
             });
     });
+
+    // CONVERT STRING INTO TITLE CASE
+    function ToTitleCase(str) {
+        return str.replace(
+            /\w\S*/g,
+            function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+        );
+    }
+
+    window.addEventListener('send-notification-to-admin', event => {
+        toastr.success('Profilmu akan segera diperbarui apabila admin menyetujuinya!', "" + ToTitleCase(event.detail.response) + "", {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+    })
 </script>
 
 
