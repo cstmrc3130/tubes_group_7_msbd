@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('homeroom_classes', function (Blueprint $table) {
+        Schema::create('extracurricular_scores', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->char("NIP", 18);
-            $table->uuid("class_id");
-            $table->char("school_year", 9);
+            $table->char("NISN", 10);
+            $table->uuid("extracurricular_id");
+            $table->double("score");
             $table->timestamps();
 
             // FOREIGN KEY
-            $table->foreign('NIP')->references('NIP')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('class_id')->references('id')->on('classes')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('extracurricular_id')->references('id')->on('extracurriculars')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('homeroom_classes');
+        Schema::dropIfExists('extracurricular_scores');
     }
 };

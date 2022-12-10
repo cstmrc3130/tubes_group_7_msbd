@@ -13,18 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('extracurricular_scores', function (Blueprint $table) {
+        Schema::create('absent_recapitulations', function (Blueprint $table) {
             $table->uuid("id")->primary();
             $table->char("NISN", 10);
-            $table->uuid("extracurricular_id");
-            $table->uuid("scoring_session_id");
-            $table->double("score");
+            $table->enum("type", ['S', 'A', 'I']);
+            $table->date('date');
             $table->timestamps();
 
             // FOREIGN KEY
             $table->foreign('NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('extracurricular_id')->references('id')->on('extracurriculars')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('scoring_session_id')->references('id')->on('scoring_sessions')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -35,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('extracurricular_scores');
+        //
     }
 };

@@ -13,18 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('teaching_subjects', function (Blueprint $table) {
+        Schema::create('subject_scores', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->char("NIP", 18);
             $table->uuid("subject_id");
-            $table->uuid("class_id");
-            $table->char("school_year", 9);
+            $table->char("NISN", 10);
+            $table->uuid("scoring_session_id");
+            $table->uuid("completeness_id");
+            $table->double("score");
             $table->timestamps();
 
             // FOREIGN KEY
-            $table->foreign('NIP')->references('NIP')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('class_id')->references('id')->on('classes')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('scoring_session_id')->references('id')->on('scoring_sessions')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -35,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teaching_subjects');
+        Schema::dropIfExists('subject_scores');
     }
 };

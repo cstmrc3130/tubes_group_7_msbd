@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('school_years', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('school_year_id');
-            $table->tinyText("name");
-            $table->tinyInteger("semester");
+            $table->char("year",9);
             $table->timestamps();
-
-            // FOREIGN KEY
-            $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('completenesses');
     }
 };

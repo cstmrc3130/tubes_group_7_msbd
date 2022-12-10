@@ -13,10 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('guardians', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid("school_year_id");
             $table->tinyText("name");
+            $table->tinyInteger('completeness');
             $table->timestamps();
+
+            // FOREIGN KEY
+            $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guardians');
+        Schema::dropIfExists('subjects');
     }
 };

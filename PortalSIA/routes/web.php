@@ -23,20 +23,19 @@ Route::group(['controller' => 'App\Http\Livewire\Auth\Login'], function ()
 
 
 
-
 // ========== LOGOUT FUNCTION FOR AUTHENTICATED USERS ========== //
 Route::post('/logout', 'App\Http\Livewire\Auth\Logout@Logout');
 
 
 
-// ========== SCHOOL EVENTS ========== //
+// ========== NEWS ========== //
 Route::get('/news', function () {
     return view('news');
 });
 
 
 
-// ========== ADMIN DASHBOARD FOR AUTHENTICATED USERS WITH ROLE AS ADMIN ========== //
+// ========== ADMIN SECTION ========== //
 Route::middleware(['auth', 'auth.role:0'])->group(function ()
 {
     // ========== DASHBOARD LIVEWIRE ========== //
@@ -48,18 +47,66 @@ Route::middleware(['auth', 'auth.role:0'])->group(function ()
 
 
 
-// ========== STUDENT DASHBOARD FOR AUTHENTICATED USERS WITH ROLE AS STUDENT ========== //
-Route::middleware(['auth', 'auth.role:2'])->group(function ()
+// ========== TEACHER SECTION ========== //
+Route::group(['prefix' => 'teacher'], function ()
 {
-    // ========== DASHBOARD LIVEWIRE ========== //
-    Route::controller(\App\Http\Livewire\Student\Dashboard::class)->group(function()
+    Route::name('teacher.')->group(function ()
     {
-        Route::get('/dashboard-student', \App\Http\Livewire\Student\Dashboard::class)->name('dashboard-student');
-    });
+        Route::middleware(['auth', 'auth.role:1'])->group(function ()
+        {
+            // ========== DASHBOARD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Teacher\Dashboard::class)->group(function()
+            {
+                Route::get('/dashboard', \App\Http\Livewire\Teacher\Dashboard::class)->name('dashboard');
+            });
 
-    // ========== PROFILE LIVEWIRE ========== //
-    Route::controller(\App\Http\Livewire\Student\Profile::class)->group(function()
+            // ========== PROFILE LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Teacher\Profile::class)->group(function()
+            {
+                Route::get('/profile', \App\Http\Livewire\Teacher\Profile::class)->name('profile');
+
+                // ========== UPDATE PROFILE PICTURE ========== //
+                Route::post('/update-profile-picture', "UpdateProfilePicture")->name('update-profile-picture');
+            });
+
+            // ========== HOMEROOM CLASS LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Student\HomeroomClass::class)->group(function()
+            {
+                Route::get('/homeroom-class', \App\Http\Livewire\Student\HomeroomClass::class)->name('homeroom-class');
+            });
+        });
+    });
+});
+
+
+
+// ========== STUDENT SECTION ========== //
+Route::group(['prefix' => 'student'], function ()
+{
+    Route::name('student.')->group(function ()
     {
-        Route::get('/profile', \App\Http\Livewire\Student\Profile::class)->name('student-profile');
+        Route::middleware(['auth', 'auth.role:2'])->group(function ()
+        {
+            // ========== DASHBOARD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Student\Dashboard::class)->group(function()
+            {
+                Route::get('/dashboard', \App\Http\Livewire\Student\Dashboard::class)->name('dashboard');
+            });
+
+            // ========== PROFILE LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Student\Profile::class)->group(function()
+            {
+                Route::get('/profile', \App\Http\Livewire\Student\Profile::class)->name('profile');
+
+                // ========== UPDATE PROFILE PICTURE ========== //
+                Route::post('/update-profile-picture', "UpdateProfilePicture")->name('update-profile-picture');
+            });
+
+            // ========== HOMEROOM CLASS LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Student\HomeroomClass::class)->group(function()
+            {
+                Route::get('/homeroom-class', \App\Http\Livewire\Student\HomeroomClass::class)->name('homeroom-class');
+            });
+        });
     });
 });

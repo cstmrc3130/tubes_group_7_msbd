@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('completeness', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->double("score");
-            $table->char("school_year", 9);
+        Schema::create('scoring_sessions', function (Blueprint $table) {
+            $table->uuid("id")->primary();
+            $table->enum("type", ["HW1", "EX1", "MID", "HW2", "EX2", "FIN"]);
+            $table->date("start_date");
+            $table->date("end_date");
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('completenesses');
+        Schema::dropIfExists('scoring_sessions');
     }
 };

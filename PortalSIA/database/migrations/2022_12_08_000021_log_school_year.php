@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('scoring_sessions', function (Blueprint $table) {
-            $table->uuid("id")->primary();
-            $table->date("start_date");
-            $table->date("end_date");
+        Schema::create('log_school_years', function (Blueprint $table) {
+            $table->uuid('id');
+            $table->char("old_year", 9);
+            $table->char("new_year", 9);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scoring_sessions');
+        //
     }
 };

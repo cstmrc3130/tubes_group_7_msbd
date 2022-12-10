@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subjects', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid("completeness_id");
-            $table->tinyText("name");
+        Schema::create('log_classes', function (Blueprint $table) {
+            $table->uuid('id');
+            $table->tinyText("old_name");
+            $table->tinyText("new_name");
+            $table->tinyInteger("old_semester");
+            $table->tinyInteger("new_semester");
+            $table->enum('type', ['U', 'I' ,'D']);
             $table->timestamps();
-
-            // FOREIGN KEY
-            $table->foreign('completeness_id')->references('id')->on('completeness')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subjects');
+        //
     }
 };

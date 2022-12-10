@@ -6,6 +6,27 @@
     {{-- ========== ASSETS AND META COMPONENT ========== --}}
     <x-login-page.assets-and-meta />
 
+    <style>
+        body {
+            background: linear-gradient(45deg, #f6f8f9, #abdef9, #7fe1e6, #558dd1);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            height: 100vh;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+
     @livewireStyles
 </head>
 
@@ -24,7 +45,7 @@
 
         
         {{-- ========== WRAPPER START ========== --}}
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url({{"assets/images/auth-bg.jpg"}}) no-repeat center center;">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
             <div class="auth-box m-0">
 
                 {{-- ========== LOGIN FORM START ========== --}}
