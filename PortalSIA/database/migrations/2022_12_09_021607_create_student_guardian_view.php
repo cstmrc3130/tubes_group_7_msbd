@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement("CREATE VIEW view_students AS
-        SELECT students.NISN, students.name, classes.name
-        FROM students, classes
-        WHERE students.homeroom_class_id=classes.id;
+        DB::statement("CREATE VIEW view_student_guardian AS
+        SELECT students.NISN, students.name, guardian.name,
+        FROM students, guardian
+        WHERE students.guardian_id=guardian.id;
         ");
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::statement("DROP VIEW view_students");
+        DB::statement("DROP VIEW view_students_parents");
     }
 };
