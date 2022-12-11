@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('school_year_id');
             $table->tinyText("name");
-            $table->tinyInteger("semester");
+            $table->char("semester");
             $table->timestamps();
 
             // FOREIGN KEY

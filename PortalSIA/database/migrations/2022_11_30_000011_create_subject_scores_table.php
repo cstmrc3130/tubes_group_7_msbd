@@ -18,7 +18,6 @@ return new class extends Migration
             $table->uuid("subject_id");
             $table->char("NISN", 10);
             $table->uuid("scoring_session_id");
-            $table->uuid("completeness_id");
             $table->double("score");
             $table->timestamps();
 
