@@ -74,7 +74,7 @@ END
 BEGIN   
     INSERT INTO users(id, NIP, PASSWORD, role, 
     profile_picture) VALUES (uuid(), NEW.NIP,
-    '$2a$12$1/pf2clpfcQxezv/Xw9gG.ITsGKwgewz4JFsflooHDyRy8qdzEJKy',
+    '$2a$12$HXA488uKmhQmJJa3zQKxC.J41vmu8g.PSKovhfEIqICc4DexC.CB.',
     '1','DEFAULT');
 END
 
@@ -82,7 +82,7 @@ END
 BEGIN   
     INSERT INTO users(id, NISN, PASSWORD, role, 
     profile_picture) VALUES (uuid(), NEW.NISN,
-    '$2a$12$1/pf2clpfcQxezv/Xw9gG.ITsGKwgewz4JFsflooHDyRy8qdzEJKy',
+    '$2a$12$HXA488uKmhQmJJa3zQKxC.J41vmu8g.PSKovhfEIqICc4DexC.CB.',
     '2','DEFAULT');
 END
 
