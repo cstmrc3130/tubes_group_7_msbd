@@ -92,23 +92,49 @@ BEGIN
     WHERE completeness.score = NEW.completeness_id);
 END
 
-//insert_students(after update)
-BEGIN
-    INSERT INTO log_students(id, old_name, new_name, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
-    VALUES(uuid(), NEW.name, NEW.place_of_birth, NEW.date_of_birth, NEW.address, NEW.phone_numbers, 'u');
-    END
-
-
-//update_students
-BEGIN
+//update_log_students ( before update )
+CREATE TRIGGER `update_log_students` BEFORE UPDATE ON `students`
+ FOR EACH ROW BEGIN
     INSERT INTO log_students(id, old_name, new_name, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
     VALUES(uuid(), OLD.name, NEW.name, OLD.place_of_birth, IF(NEW.place_of_birth IN (OLD.place_of_birth), '-', NEW.place_of_birth), OLD.date_of_birth, 
 NEW.date_of_birth, OLD.address, IF(NEW.address IN (OLD.address), '-', NEW.address), OLD.phone_numbers, NEW.phone_numbers, 'u');
     END
 
-
-//delete_students( before delete)
-BEGIN
+//delete_log_students ( BEFORE DELETE )
+CREATE TRIGGER `delete_log_students` BEFORE DELETE ON `students`
+ FOR EACH ROW BEGIN
     INSERT INTO log_students(id, old_name, new_name, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
-    VALUES(uuid(), OLD.name, OLD.place_of_birth, OLD.date_of_birth, OLD.address, OLD.phone_numbers, 'u');
+    VALUES(uuid(), OLD.name, OLD.place_of_birth, OLD.date_of_birth, OLD.address, OLD.phone_numbers, 'd');
+    END
+ 
+//insert_log_students ( AFTER UPDATE)
+CREATE TRIGGER `insert_log_students` AFTER INSERT ON `students`
+ FOR EACH ROW BEGIN
+    INSERT INTO log_students(id, old_name, new_name, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
+    VALUES(uuid(), NEW.name, NEW.place_of_birth, NEW.date_of_birth, NEW.address, NEW.phone_numbers, 'i');
+    END
+
+
+
+//delete_log_teachers( Before delete )
+CREATE TRIGGER `delete_log_teachers` BEFORE DELETE ON `teachers`
+ FOR EACH ROW BEGIN
+    INSERT INTO log_teachers(id, old_name, new_name, old_position, new_position, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
+    VALUES(uuid(), OLD.name, OLD.position, OLD.place_of_birth,   	 OLD.date_of_birth, OLD.address, OLD.phone_numbers, 'd');
+    END
+
+//insert_log_teachers( After Update )
+CREATE TRIGGER `insert_log_teachers` AFTER UPDATE ON `teachers`
+ FOR EACH ROW BEGIN
+    INSERT INTO log_teachers(id, old_name, new_name, old_position, new_position, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
+    VALUES(uuid(), NEW.name, NEW.position, NEW.place_of_birth,  
+    NEW.date_of_birth, NEW.address, NEW.phone_numbers, 'i');
+    END
+
+//update_log_teachers ( Before Update )
+CREATE TRIGGER `update_log_teachers` BEFORE UPDATE ON `teachers`
+ FOR EACH ROW BEGIN
+    INSERT INTO log_teachers(id, old_name, new_name, old_position, new_position, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
+    VALUES(uuid(), OLD.name, NEW.name, OLD.position, NEW.position, OLD.place_of_birth, IF(NEW.place_of_birth IN (OLD.place_of_birth), '-', NEW.place_of_birth), OLD.date_of_birth, 
+NEW.date_of_birth, OLD.address, IF(NEW.address IN (OLD.address), '-', NEW.address), OLD.phone_numbers, NEW.phone_numbers, 'u');
     END

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('log_teachers', function (Blueprint $table) {
-            $table->uuid("id")->primary();
+            $table->uuid("id");
             $table->tinyText("old_name");
             $table->tinyText("new_name");
             $table->tinyText("old_position");

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         
         Schema::create('log_students', function (Blueprint $table) {
-            $table->uuid("id")->primary();
+            $table->uuid("id");
             $table->tinyText("old_name");
             $table->tinyText("new_name");
             $table->tinyText("old_place_of_birth");
@@ -31,7 +31,7 @@ return new class extends Migration
             
 
         });
-    }
+    }   
 
     /**
      * Reverse the migrations.
