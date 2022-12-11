@@ -21,10 +21,10 @@ class Login extends Component
     // ========== RENDER ========== //
     public function render()
     {
-        return view('livewire.auth.login')->layout('auth.login');
+        return view('livewire.auth.login')->layout('auth.master');
     }
 
-    // ========== AUTHENTICATION PROCESS ========== //
+    // ========== LOGIN ========== //
     public function Login()
     {
         $throttleKey = strtolower($this->username) . '|' . request()->ip();

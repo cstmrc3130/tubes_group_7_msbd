@@ -31,33 +31,13 @@
     <div class="container-fluid">
         <div class="row">
 
-            {{-- ========== PROFILE START ========== --}} 
+            {{-- ========== CLASS START ========== --}} 
             <div class="col-sm-12 col-md-6">
-                <div class="card card-hover bg-success btn btn-block waves-effect rounded" wire:click="Profile">
-                    <div class="card-body text-white">
-                        <div class="d-flex flex-row">
-                            <div class="align-self-center display-6"><i class="mdi mdi-account-card-details"></i></div>
-                            <div class="p-10 align-self-center">
-                                <h4 class="m-b-0">Informasi Profil</h4>
-                            </div>
-                            <div class="ml-auto align-self-center">
-                                <h2 class="font-medium m-b-0">&#x203A;</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{-- ========== PROFILE END ========== --}} 
-
-
-
-            {{-- ========== HOMEROOM CLASS START ========== --}} 
-            <div class="col-sm-12 col-md-6"> 
-                <div class="card card-hover bg-info btn btn-block waves-effect rounded" wire:click="Class( '{{ Auth::id() }}' )">
-                    <div class="card-body text-white">
+                <div class="card card-hover bg-info btn btn-block waves-effect rounded" onclick="return window.location.href = '{{ route('student.homeroom-class') }}'">
+                    <div class="card-body text-white p-0">
                         <div class="d-flex flex-row">
                             <div class="align-self-center display-6"><i class="mdi mdi-chair-school"></i></div>
-                            <div class="p-10 align-self-center">
+                            <div class="p-2 align-self-center">
                                 <h4 class="m-b-0">Informasi Kelas</h4>
                             </div>
                             <div class="ml-auto align-self-center">
@@ -67,18 +47,18 @@
                     </div>
                 </div>
             </div>
-            {{-- ========== HOMEROOM CLASS END ========== --}} 
+            {{-- ========== CLASS END ========== --}} 
 
 
 
-            {{-- ========== SUBJECT START ========== --}} 
-            <div class="col-sm-12 col-md-6">
-                <div class="card card-hover bg-warning btn btn-block waves-effect rounded">
-                    <div class="card-body text-white">
+            {{-- ========== ABSENT RECAPITULATION START ========== --}} 
+            <div class="col-sm-12 col-md-6"> 
+                <div class="card card-hover bg-warning btn btn-block waves-effect rounded" onclick="return window.location.href = '{{ route('student.absent-recapitulation') }}'">
+                    <div class="card-body text-white p-0">
                         <div class="d-flex flex-row">
-                            <div class="align-self-center display-6"><i class="mdi mdi-book-open"></i></div>
-                            <div class="p-10 align-self-center">
-                                <h4 class="m-b-0">Informasi Mata Pelajaran</h4>
+                            <div class="align-self-center display-6"><i class="mdi mdi-playlist-check"></i></div>
+                            <div class="p-2 align-self-center">
+                                <h4 class="m-b-0">Rekapitulasi Absensi</h4>
                             </div>
                             <div class="ml-auto align-self-center">
                                 <h2 class="font-medium m-b-0">&#x203A;</h2>
@@ -87,18 +67,18 @@
                     </div>
                 </div>
             </div>
-            {{-- ========== SUBJECT END ========== --}} 
+            {{-- ========== ABSENT RECAPITULATION END ========== --}} 
 
 
 
-            {{-- ========== EXTRACURRICULAR START ========== --}} 
+            {{-- ========== MONTHLY REPORT START ========== --}} 
             <div class="col-sm-12 col-md-6">
-                <div class="card card-hover bg-cyan btn btn-block waves-effect rounded">
-                    <div class="card-body text-white">
+                <div class="card card-hover bg-cyan btn btn-block waves-effect rounded" onclick="return window.location.href = '{{ route('student.monthly-report') }}'">
+                    <div class="card-body text-white p-0">
                         <div class="d-flex flex-row">
-                            <div class="align-self-center display-6"><i class="mdi mdi-football"></i></div>
-                            <div class="p-10 align-self-center">
-                                <h4 class="m-b-0">Informasi Ekstrakurikuler</h4>
+                            <div class="align-self-center display-6"><i class="ti-agenda"></i></div>
+                            <div class="p-2 align-self-center">
+                                <h4 class="m-b-0">Rapor Bulanan</h4>
                             </div>
                             <div class="ml-auto align-self-center">
                                 <h2 class="font-medium m-b-0">&#x203A;</h2>
@@ -107,16 +87,36 @@
                     </div>
                 </div>
             </div>
-            {{-- ========== EXTRACURRICULAR END ========== --}} 
+            {{-- ========== MONTHLY REPORT END ========== --}} 
+
+
+
+            {{-- ========== SEMESTER REPORT START ========== --}} 
+            <div class="col-sm-12 col-md-6">
+                <div class="card card-hover bg-success btn btn-block waves-effect rounded" onclick="return window.location.href = '{{ route('student.semester-report') }}'">
+                    <div class="card-body text-white p-0">
+                        <div class="d-flex flex-row">
+                            <div class="align-self-center display-6"><i class="ti-bookmark-alt"></i></div>
+                            <div class="p-2 align-self-center">
+                                <h4 class="m-b-0">Rapor Semester</h4>
+                            </div>
+                            <div class="ml-auto align-self-center">
+                                <h2 class="font-medium m-b-0">&#x203A;</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- ========== SEMESTER REPORT END ========== --}} 
 
 
 
             {{-- ========== QUOTE START ========== --}} 
-            <div class="container pt-5 h-100">
+            <div class="container pt-5 h-100 mb-5">
                 <div class="row d-flex align-items-center h-100">
                     <div class="col col-lg-12 mb-4 mb-lg-0">
                         <figure class="bg-white p-3 rounded border-left border-danger border-2" >
-                            <blockquote class="blockquote pb-2">
+                            <blockquote class="blockquote mb-0">
                                 <p>
                                     {!! \Illuminate\Foundation\Inspiring::quote() !!}
                                 </p>
@@ -134,7 +134,7 @@
 
 
     {{-- ========== FOOTER START ========== --}} 
-    <footer class="footer text-center">All Rights Reserved by Kelompok 7 KOM C © 2022. </footer>
+    <footer class="footer text-center mt-5">All Rights Reserved by Kelompok 7 KOM C © 2022. </footer>
     {{-- ========== FOOTER START ========== --}} 
 
 </div>

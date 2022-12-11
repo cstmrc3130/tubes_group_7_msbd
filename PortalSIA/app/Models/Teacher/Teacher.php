@@ -3,18 +3,19 @@
 namespace App\Models\Teacher;
 
 use App\Models\User;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     // ========== SPECIFY TABLE TO USE (NOT MANDATORY => https://stackoverflow.com/a/51746287/19250775) ========== //
     protected $table = "teachers";
 
     // ========== DISABLING AUTO INCREMENT FOR PRIMARY KEY ========== //
-    public $primaryKey = "id";
+    public $primaryKey = "NIP";
     public $incrementing = false;
 
     // ========== MASS ASSIGNABLE ATTRIBUTES ========== //
@@ -63,5 +64,13 @@ class Teacher extends Model
     public function teachingextracurricular()
     {
         return $this->hasMany(TeachingExtracurricular::class, 'NIP', 'NIP');
+    }
+
+    // ========== TELL SCOUT WHICH COLUMN TO SEARCH ========== //
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+        ];
     }
 }

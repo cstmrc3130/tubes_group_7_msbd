@@ -1,4 +1,4 @@
-<div id="main-wrapper">
+<div class="container">
 
     {{-- ========== HEADER START ========== --}}
     <header class="topbar">
@@ -36,8 +36,8 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Guru</a>
-                                    <a class="dropdown-item" href="#">Siswa</a>
+                                    <a class="dropdown-item" href="{{ route('directory.teacher') }}">Guru</a>
+                                    <a class="dropdown-item" href="{{ route('directory.student') }}">Siswa</a>
                                 </div>
                             </div>
                             {{-- ========== DIREKTORI END ========== --}}
@@ -45,28 +45,29 @@
 
                             {{-- ========== DASHBOARD AND LOGOUT BUTTON START ========== --}}
                             <li class="nav-item">
-                                <form wire:submit.prevent="Logout">
-                                    @csrf
-                                    <div class="btn-group">
-                                        <button class="btn btn-danger dropdown-toggle text-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            @if (Auth::user()->role == 0)
-                                            Admin
-                                            @elseif (Auth::user()->role == 1)
-                                                @for($i = 0; $i < 2; $i++)
-                                                    {!! print_r(explode(" ", auth()->user()->teacher->name)[$i], true); !!}
-                                                @endfor
-                                            @else 
-                                                @for($i = 0; $i < 2; $i++)
-                                                    {!! print_r(explode(" ", auth()->user()->student->name)[$i], true); !!}
-                                                @endfor
-                                            @endif
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{ route("student.dashboard") }}">Dashboard</a>
-                                            <button type="submit" class="btn dropdown-item">Logout</button>
-                                        </div>
+                                <div class="btn-group">
+                                    <button class="btn btn-danger dropdown-toggle text-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @if (Auth::user()->role == 0)
+                                        Admin
+                                        @elseif (Auth::user()->role == 1)
+                                            @for($i = 0; $i < 2; $i++)
+                                                {!! print_r(explode(" ", auth()->user()->teacher->name)[$i], true); !!}
+                                            @endfor
+                                        @else 
+                                            @for($i = 0; $i < 2; $i++)
+                                                {!! print_r(explode(" ", auth()->user()->student->name)[$i], true); !!}
+                                            @endfor
+                                        @endif
+                                    </button>
+
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{{ route("student.dashboard") }}">Dashboard</a>
+                                        <form wire:submit.prevent="Logout">
+                                            @csrf
+                                            <button type="button" wire:click="Logout" class="btn dropdown-item">Logout</button>
+                                        </form>
                                     </div>
-                                </form>
+                                </div>
                             </li>
                             {{-- ========== DASHBOARD AND LOGOUT BUTTON END ========== --}}
 
@@ -87,8 +88,8 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Guru</a>
-                                    <a class="dropdown-item" href="#">Siswa</a>
+                                    <a class="dropdown-item" href="{{ route('directory.teacher') }}">Guru</a>
+                                    <a class="dropdown-item" href="{{ route('directory.student') }}">Siswa</a>
                                 </div>
                             </div>
                             {{-- ========== DIREKTORI END ========== --}}
@@ -108,69 +109,71 @@
                 </nav>
                 {{-- ========== NAVBAR END ========== --}}
 
-
-
-                {{-- ========== HERO START ========== --}}
-                <div class="row header-banner align-items-center">
-
-                    {{-- ========== HERO TEXT START ========== --}}
-                    <div class="col-lg-5 align-self-start">
-                        <h2>Sistem Informasi Akademik<span class="font-bold"> Madrasah Tsanawiyah Negeri 1 Labuhanbatu</span></h2>
-                        <p class="m-t-40">
-                            <span class="font-bold text-dark">Visi & Misi</span> 
-                            <br>
-                            <ul>
-                                <li>
-                                    Terwujudnya Madrasah Unggul dalam Prestasi, Terampil, Beriman, Bertaqwa, Berakhlakul Karimah dan Berwawasan Lingkungan.
-                                </li>
-                                <li>
-                                    Menciptakan peserta didik menjadi hafidz dan hafidzah.
-                                </li>
-                                <li>
-                                    Melaksanakan pembelajaran kontekstual yang islami.
-                                </li>
-                                <li>
-                                    Menyelenggarakan kegiatan pengembangan diri terhadap minat dan bakat siswa.
-                                </li>
-                            </ul>
-                        </p>
-                        <a href="{{url("full-profile")}}" class="btn btn-custom-md btn-outline-info m-t-10">Lihat Profil</a>
-                    </div>
-                    {{-- ========== HERO TEXT END ========== --}}
-
-
-
-                    {{-- ========== HERO IMAGE START ========== --}}
-                    <div id="hero-image" class="col-lg-6 offset-lg-1 text-right carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img class="img-shadow img-fluid" src="{{ asset("assets/images/front-gate1.jpg") }}" alt="Sekolah MTsN 1 Labuhanbatu">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="img-shadow img-fluid" src="{{ asset("assets/images/front1.jpg") }}" alt="Sekolah MTsN 1 Labuhanbatu">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="img-shadow img-fluid" src="{{ asset("assets/images/hero1.jpg") }}" alt="Sekolah MTsN 1 Labuhanbatu">
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#hero-image" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#hero-image" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                    {{-- ========== HERO IMAGE END ========== --}}
-
-                </div>
-                {{-- ========== HERO END ========== --}}
-
             </div>
         </div>
     </header>
     {{-- ========== HEADER END ========== --}}
+
+
+
+    {{-- ========== HERO START ========== --}}
+    <div class="container p-t-20">
+        <div class="row header-banner align-items-center">
+    
+            {{-- ========== HERO TEXT START ========== --}}
+            <div class="col-lg-5 align-self-start">
+                <h2>Sistem Informasi Akademik<span class="font-bold"> Madrasah Tsanawiyah Negeri 1 Labuhanbatu</span></h2>
+                <p class="m-t-40">
+                    <span class="font-bold text-dark">Visi & Misi</span> 
+                    <br>
+                    <ul>
+                        <li>
+                            Terwujudnya Madrasah Unggul dalam Prestasi, Terampil, Beriman, Bertaqwa, Berakhlakul Karimah dan Berwawasan Lingkungan.
+                        </li>
+                        <li>
+                            Menciptakan peserta didik menjadi hafidz dan hafidzah.
+                        </li>
+                        <li>
+                            Melaksanakan pembelajaran kontekstual yang islami.
+                        </li>
+                        <li>
+                            Menyelenggarakan kegiatan pengembangan diri terhadap minat dan bakat siswa.
+                        </li>
+                    </ul>
+                </p>
+                <a href="{{url("full-profile")}}" class="btn btn-custom-md btn-outline-info m-t-10">Lihat Profil</a>
+            </div>
+            {{-- ========== HERO TEXT END ========== --}}
+    
+    
+    
+            {{-- ========== HERO IMAGE START ========== --}}
+            <div id="hero-image" class="col-lg-6 offset-lg-1 text-right carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="img-shadow img-fluid" src="{{ asset("assets/images/front-gate1.jpg") }}" alt="Sekolah MTsN 1 Labuhanbatu">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="img-shadow img-fluid" src="{{ asset("assets/images/front1.jpg") }}" alt="Sekolah MTsN 1 Labuhanbatu">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="img-shadow img-fluid" src="{{ asset("assets/images/hero1.jpg") }}" alt="Sekolah MTsN 1 Labuhanbatu">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#hero-image" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#hero-image" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            {{-- ========== HERO IMAGE END ========== --}}
+    
+        </div>
+    </div>
+    {{-- ========== HERO END ========== --}}
 
 
 
@@ -201,10 +204,7 @@
     </div>
     {{-- ========== NEWS END ========== --}}
 
-
-
-    {{-- ========== FOOTER START ========== --}}
-    <x-footer/>
-    {{-- ========== FOOTER END ========== --}}
-
 </div>
+
+
+

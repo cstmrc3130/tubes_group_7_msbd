@@ -22,6 +22,6 @@ class LandingPage extends Component
     // ========== RENDER LANDING PAGE ========== //
     public function render()
     {
-        return view('livewire.landing-page')->layout('landing-page');
+        return view('livewire.landing-page')->layout('landing-page', ['title' => 'Landing Page']);
     }
 }

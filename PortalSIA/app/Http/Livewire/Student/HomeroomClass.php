@@ -13,7 +13,7 @@ class HomeroomClass extends Component
 
     public function mount()
     {
-        if (auth()->user()->student->homeroomclass_id != NULL)
+        if (auth()->user()->student->homeroom_class_id != NULL)
         {
             $this->homeroomClassName = Auth::user()->student->homeroomclass->name;
             $this->homeroomClassSemester = Auth::user()->student->homeroomclass->semester;
@@ -27,7 +27,7 @@ class HomeroomClass extends Component
 
     public function render()
     {
-        $title = "Homeroom Class";
+        $title = "Informasi Kelas";
         
         return view('livewire.student.homeroom-class')->layout('student.master', compact('title'));
     }

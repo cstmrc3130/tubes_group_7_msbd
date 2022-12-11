@@ -4,13 +4,21 @@
 <head>
 
     {{-- ========== ASSETS AND META COMPONENT ========== --}}
-    <x-landing-page.assets-and-meta />
+    <x-landing-page.assets-and-meta :title="$title"/>
 
     @livewireStyles
 </head>
 
 <body>
-    {{ $slot }}
+    <div id="main-wrapper" style="min-height: 77.5vh">
+        {{ $slot }}
+    </div>
+
+
+
+    {{-- ========== FOOTER START ========== --}}
+    <x-footer/>
+    {{-- ========== FOOTER END ========== --}}
 
 
 
@@ -19,7 +27,5 @@
 
     @livewireScripts
 </body>
-
-
 
 </html>

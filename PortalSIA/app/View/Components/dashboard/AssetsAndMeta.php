@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\dashboard;
+namespace App\View\Components\Dashboard;
 
 use Illuminate\View\Component;
 
@@ -12,7 +12,6 @@ class AssetsAndMeta extends Component
     {
         $this->title = $title;
     }
-
 
     public function render()
     {
