@@ -111,37 +111,9 @@
 
 
     {{-- ========== DATA TABLE FOR ACTIVE USERS START ========== --}}
-    <table id="currently-active-users" class="table table-striped table-bordered dataTable" role="grid" aria-describedby="currently-active-users_info">
-        <thead class="bg-dark text-white">
-            <tr role="row">
-                <th class="sorting_asc" tabindex="0"  rowspan="1" style="width: 0px;" colspan="1" aria-sort="ascending">No.</th>
-                <th class="sorting" tabindex="0"  rowspan="1" style="width: 0px;" colspan="1">UUID</th>
-                <th class="sorting" tabindex="0"  rowspan="1" style="width: 0px;" colspan="1">Name</th>
-                <th class="sorting" tabindex="0"  rowspan="1" style="width: 0px;" colspan="1">Role</th>
-                <th class="sorting" tabindex="0"  rowspan="1" style="width: 0px;" colspan="1">Status</th>
-                <th tabindex="0"  rowspan="1" style="width: 0px;" colspan="1">Action</th>
-            </tr>
-        </thead>
-
-        <tbody class="border-dark">
-
-            @foreach($onlineUsers as $data)
-            <tr role="row" class="odd">
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $data->id }}</td>
-                <td>{{ $data->role == 1 ? $data->teacher->name : $data->student->name }}</td>
-                <td>{{ $data->role }}</td>
-                <td>
-                    {!! $data->isonline() ? '<span class="text-success">Online</span>' : '<span class="text-danger">Offline</span>'!!}
-                </td>
-                <td>
-                    <button class="btn btn-danger"> Log out</button>
-                </td>
-            </tr>
-            @endforeach
-
-        </tbody>
-    </table>
+    <div class="container-fluid" wire:poll>
+        <livewire:online-users-collection />
+    </div>
     {{-- ========== DATA TABLE FOR ACTIVE USERS START ========== --}}
 
 
@@ -153,7 +125,7 @@
 
 
     {{-- ========== PROFILE MODAL START ========== --}}
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" style="display: none;" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" style="display: none;" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
@@ -213,23 +185,30 @@
 @endpush
 
 @push('additional-script')
+    {{-- SWEET ALERT FOR ONLINE USER --}}
     <script>
         $(function ()
         {
-            $('#currently-active-users').DataTable({
-                pageLength : 5,
-                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Show All']],
-                autoWidth: false,
-                columnDefs: [
-                    { "width": "10%", "targets": 0 },
-                    { "width": "25%", "targets": 1 },
-                    { "width": "25%", "targets": 2 },
-                    { "width": "15%", "targets": 3 },
-                    { "width": "15%", "targets": 4 },
-                    { "width": "5%", "targets": 5 },
-                    { className: 'vertical-align-middle', targets: "_all" },
-                ],
-            });
-        });
+            window.addEventListener('confirm-to-end-session', e =>
+            {
+                swal({   
+                title: "End Session",   
+                text: "Akhiri sesi untuk " + e.detail.username + "?",   
+                type: "warning",   
+                showCancelButton: true,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "Akhiri",   
+                cancelButtonText: "Batalkan",   
+                }).then((isConfirm) => 
+                    {   
+                        if (isConfirm && isConfirm.dismiss != 'cancel') {     
+                            Livewire.emit('EndUserSession', e.detail.id);
+                        } else {     
+                            swal("Batal", "Sesi tidak jadi diakhiri!", "error");   
+                        } 
+                    });
+                    
+            })
+        })
     </script>
 @endpush

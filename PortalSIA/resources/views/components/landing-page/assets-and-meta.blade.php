@@ -16,6 +16,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="{{ asset("/assets/images/landing-icon.png") }}">
 <link href="{{ asset("assets/libs/owl.carousel/dist/assets/owl.carousel.min.css") }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset("assets/libs/owl.carousel/dist/assets/owl.theme.default.min.css") }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset("assets/libs/toastr/build/toastr.min.css") }}" rel="stylesheet">
 <link href="{{ asset("assets/css/style.min.css") }}" rel="stylesheet">
 <link href="{{ asset("dist/css/icons/font-awesome/css/fontawesome-all.min.css") }}" rel="stylesheet">
 <link href="{{ asset("dist/css/icons/material-design-iconic-font/css/materialdesignicons.min.css") }}" rel="stylesheet">

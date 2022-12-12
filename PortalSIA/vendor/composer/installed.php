@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '7c957e7758754eaaaf93b4988b4925f35cb6720f',
+        'reference' => '1016442fb8bf25e593f613398809887ef764c0ff',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -47,7 +47,7 @@
             'install_path' => __DIR__ . '/../doctrine/cache',
             'aliases' => array(),
             'reference' => '1ca8f21980e770095a31456042471a57bc4c68fb',
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'doctrine/dbal' => array(
             'pretty_version' => '3.5.1',
@@ -56,7 +56,7 @@
             'install_path' => __DIR__ . '/../doctrine/dbal',
             'aliases' => array(),
             'reference' => 'f38ee8aaca2d58ee88653cb34a6a3880c23f38a5',
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'doctrine/deprecations' => array(
             'pretty_version' => 'v1.0.0',
@@ -65,7 +65,7 @@
             'install_path' => __DIR__ . '/../doctrine/deprecations',
             'aliases' => array(),
             'reference' => '0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de',
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'doctrine/event-manager' => array(
             'pretty_version' => '1.2.0',
@@ -74,7 +74,7 @@
             'install_path' => __DIR__ . '/../doctrine/event-manager',
             'aliases' => array(),
             'reference' => '95aa4cb529f1e96576f3fda9f5705ada4056a520',
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'doctrine/inflector' => array(
             'pretty_version' => '2.0.6',
@@ -415,7 +415,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '7c957e7758754eaaaf93b4988b4925f35cb6720f',
+            'reference' => '1016442fb8bf25e593f613398809887ef764c0ff',
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(
@@ -622,6 +622,15 @@
             'reference' => '9a8218511eb1a0965629ff820dda25985440aefc',
             'dev_requirement' => false,
         ),
+        'openspout/openspout' => array(
+            'pretty_version' => 'v4.8.1',
+            'version' => '4.8.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../openspout/openspout',
+            'aliases' => array(),
+            'reference' => 'e0a70a10ba497ce0bfb4c6f0e9e99ab61b595e90',
+            'dev_requirement' => false,
+        ),
         'phar-io/manifest' => array(
             'pretty_version' => '2.0.3',
             'version' => '2.0.3.0',
@@ -703,6 +712,15 @@
             'reference' => '851867efcbb6a1b992ec515c71cdcf20d895e9d2',
             'dev_requirement' => true,
         ),
+        'power-components/livewire-powergrid' => array(
+            'pretty_version' => 'v3.5.13',
+            'version' => '3.5.13.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../power-components/livewire-powergrid',
+            'aliases' => array(),
+            'reference' => 'c55910a524276a969761077c43f325f89b12b202',
+            'dev_requirement' => false,
+        ),
         'psr/cache' => array(
             'pretty_version' => '3.0.0',
             'version' => '3.0.0.0',
@@ -710,7 +728,7 @@
             'install_path' => __DIR__ . '/../psr/cache',
             'aliases' => array(),
             'reference' => 'aa5030cfa5405eccfdcb1083ce040c2cb8d253bf',
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'psr/container' => array(
             'pretty_version' => '2.0.2',

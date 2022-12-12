@@ -215,9 +215,8 @@
             </aside>
 
 
-            <div class="page-wrapper" >
-                {{ $slot }}
-            </div>
+            
+            {{ $slot }}
         </div>
 
 
@@ -225,9 +224,9 @@
         {{-- ========== JAVASCRIPTS ========== --}}
         <x-dashboard.javascript />
 
-        @stack('additional-script')
-
         @livewireScripts
+        
+        @stack('additional-script')
     </body>
 
 </html>

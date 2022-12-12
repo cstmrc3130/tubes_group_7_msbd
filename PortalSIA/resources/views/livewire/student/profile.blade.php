@@ -1,7 +1,7 @@
-<div class="livewire-component">
+<div class="page-wrapper">
 
     {{-- ========== BREADCRUMB START ========== --}} 
-    <div class="page-breadcrumb mb-3">
+    <div class="page-breadcrumb">
         <div class="row">
             <div class="col-5 align-self-center">
                 <h4 class="page-title">Profile</h4>
@@ -431,8 +431,6 @@
 
 
     {{-- SWEETALERT UPDATE PROFILE --}}
-    <script src="{{ asset("assets/libs/sweetalert2/dist/sweetalert2.all.min.js") }}"></script>
-    <script src="{{ asset("assets/libs/sweetalert2/sweet-alert.init.js") }}"></script>
     <script>
         $('#student-profile-form').submit(function(event){
             event.preventDefault();

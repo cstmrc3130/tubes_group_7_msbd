@@ -36,7 +36,7 @@ class Student extends Model
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
     public function user()
     {
-        return $this->hasOne(User::class, 'NISN', 'NISN');
+        return $this->hasOne(User::class, 'NISN');
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //

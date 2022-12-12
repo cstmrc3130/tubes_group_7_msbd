@@ -206,5 +206,18 @@
 
 </div>
 
+@push('additional-script')
+    {{-- SHOW ALERT FOR USERS WHO LOGGED OUT BY ADMIN --}}
+    <script>
+        $(function ()
+        {
+            @if(Cache::has('show-alert'))
+
+                toastr.error('Sesi untuk akun kamu telah diakhiri oleh admin!', 'Failure!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+                
+            @endif
+        })
+    </script>
+@endpush
 
 

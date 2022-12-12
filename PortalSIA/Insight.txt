@@ -1,11 +1,3 @@
 
 --> TEXT DATA TYPE DIFFERENCES (https://chartio.com/resources/tutorials/understanding-strorage-sizes-for-mysql-text-data-types/)
 --> CHAR VS VARCHAR VS TEXT VS STRING (https://stackoverflow.com/questions/4848964/difference-between-text-and-varchar-character-varying)
-
-BEGIN
-	INSERT INTO users(id, NISN, password, role, profile_picture) VALUES (uuid(), NEW.NISN, '$2a$12$u5bGhon7WC59MkW6WdUk2OA34v7SK.mmdBlXuMN9IhHcHnoTOdX3C', '2', 'DEFAULT');
-END
-
-BEGIN
-	INSERT INTO users(id, NIP, password, role, profile_picture) VALUES (uuid(), NEW.NIP, '$2a$12$u5bGhon7WC59MkW6WdUk2OA34v7SK.mmdBlXuMN9IhHcHnoTOdX3C', '1', 'DEFAULT');
-END

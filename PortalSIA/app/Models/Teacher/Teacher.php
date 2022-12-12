@@ -39,7 +39,7 @@ class Teacher extends Model
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
     public function user()
     {
-        return $this->hasOne(User::class, 'NIP', 'NIP');
+        return $this->hasOne(User::class, 'NIP');
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR POST ========== //

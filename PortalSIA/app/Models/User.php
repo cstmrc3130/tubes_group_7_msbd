@@ -7,10 +7,10 @@ use App\Models\News\News;
 use App\Models\Teacher\Teacher;
 use App\Models\Student\Student;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -49,13 +49,13 @@ class User extends Authenticatable
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
     public function teacher()
     {
-        return $this->belongsTo(Teacher::class, 'NIP', 'NIP');
+        return $this->belongsTo(Teacher::class, 'NIP');
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR POST ========== //
     public function student()
     {
-        return $this->belongsTo(Student::class, 'NISN', 'NISN');
+        return $this->belongsTo(Student::class, 'NISN');
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR POST ========== //

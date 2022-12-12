@@ -26,6 +26,8 @@
     <x-landing-page.javascript />
 
     @livewireScripts
+
+    @stack('additional-script')
 </body>
 
 </html>

@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire\Student;
 
-use App\Models\Student\Student;
 use Livewire\Component;
+use App\Models\Student\Student;
+use Illuminate\Support\Facades\Auth;
 
 class HomeroomClass extends Component
 {

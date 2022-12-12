@@ -21,17 +21,34 @@ class AuthenticateRole
         // SPECIFY WHAT PAGE A USER CAN SEE BASED ON THEIR ROLE
         if(in_array($request->user()->role, $role))
         {
-            return $next($request);
-        }
-
-        // CREATE A CACHE THAT LAST FOR 1 MINUTE TO INDICATE THAT A USER IS ONLINE
-        if(Auth::check())
-        {
-            if(Auth::user()->role == 1 || Auth::user()->role == 2)
+            if(Auth::check())
             {
-                $expireDuration = now()->addMinutes(1);
-                Cache::put('user-is-online' . Auth::id(), true, $expireDuration);
+                // CREATE A CACHE THAT LAST FOR 1 MINUTE TO INDICATE THAT A USER IS ONLINE
+                if(Auth::user()->role == 1 || Auth::user()->role == 2)
+                {
+                    $expireDuration = now()->addMinutes(1);
+                    Cache::put('user-is-online' . Auth::id(), true, $expireDuration);
+                }
+
+                // LOG USER OUT AND CLEAR CACHE
+                if(Cache::has('end-session-for' . Auth::id()))
+                {
+                    Cache::put('user-is-online' . Auth::id(), false, -5);
+                    Cache::forget('user-is-online' . Auth::id());
+
+                    Cache::put('show-alert', true, 5);
+
+                    Auth::logout();
+
+                    request()->session()->invalidate();
+                
+                    request()->session()->regenerateToken();
+
+                    return redirect()->to('/');
+                }
             }
+
+            return $next($request);
         }
 
         // IF USER'S ROLE DOESN'T MATCH WITH THE MIDDLEWARE, SEND THEM TO /login TO REDIRECT AGAIN USING RedirectIfAuthenticated

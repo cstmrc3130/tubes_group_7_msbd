@@ -35448,7 +35448,7 @@ html[dir=ltr] body .p-l-0
 {
     background: #f2f4f5;
     position: relative;
-    display: none
+    /* display: none */
 }
 
 .page-wrapper>.container-fluid
@@ -44795,7 +44795,7 @@ html[dir=rtl] #main-wrapper[data-sidebartype=overlay].show-sidebar .left-sidebar
     {
         max-width: 1200px;
         margin: 0 auto;
-        position: relative
+        /* position: relative */
     }
 
     #main-wrapper[data-layout=horizontal][data-boxed-layout=boxed] .sidebar-nav #sidebarnav

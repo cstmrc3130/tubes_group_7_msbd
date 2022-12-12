@@ -1,7 +1,7 @@
-<div class="livewire-component">
+<div class="page-wrapper">
 
     {{-- ========== BREADCRUMB START ========== --}} 
-    <div class="page-breadcrumb mb-3">
+    <div class="page-breadcrumb">
         <div class="row">
             <div class="col-5 align-self-center">
                 <h4 class="page-title">Informasi Kelas</h4>

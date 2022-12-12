@@ -9,6 +9,7 @@
         @stack('additional-style')
 
         @livewireStyles
+        @powerGridStyles
     </head>
 
     <body>
@@ -421,10 +422,12 @@
 
         {{-- ========== JAVASCRIPTS ========== --}}
         <x-dashboard.javascript />
-
+        
+        @livewireScripts
+        @powerGridScripts
+        
         @stack('additional-script')
 
-        @livewireScripts
     </body>
 
 </html>
