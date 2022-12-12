@@ -138,3 +138,43 @@ CREATE TRIGGER `update_log_teachers` BEFORE UPDATE ON `teachers`
     VALUES(uuid(), OLD.name, NEW.name, OLD.position, NEW.position, OLD.place_of_birth, IF(NEW.place_of_birth IN (OLD.place_of_birth), '-', NEW.place_of_birth), OLD.date_of_birth, 
 NEW.date_of_birth, OLD.address, IF(NEW.address IN (OLD.address), '-', NEW.address), OLD.phone_numbers, NEW.phone_numbers, 'u');
     END
+
+
+
+///USERS 
+//UPDATE_LOG_USERS 
+CREATE TRIGGER `update_log_users` BEFORE UPDATE ON `users`
+ FOR EACH ROW BEGIN	
+	INSERT INTO log_users ( id, old_email, new_email, 	     
+                           old_password, new_password, 
+                           old_profile_picture, 
+                           new_profile_picture, type)
+                   VALUES  (uuid(), OLD.email, NEW.email, 
+                            OLD.password, NEW.password, 
+                            OLD.profile_picture, 
+                            NEW.profile_picture, 'u');
+                   END
+
+//DELETE_LOG_USERS
+CREATE TRIGGER `delete_log_users` BEFORE DELETE ON `users`
+ FOR EACH ROW BEGIN	
+	INSERT INTO log_users ( id, old_email, new_email, 	     
+                           old_password, new_password, 
+                           old_profile_picture, 
+                           new_profile_picture, type)
+                   VALUES  (uuid(), OLD.email, 
+                            OLD.password, 
+                            OLD.profile_picture, 'd');
+                   END
+
+//INSERT_LOG_USERS 
+CREATE TRIGGER `insert_log_users` AFTER UPDATE ON `users`
+ FOR EACH ROW BEGIN	
+	INSERT INTO log_users ( id, old_email, new_email, 	     
+                           old_password, new_password, 
+                           old_profile_picture, 
+                           new_profile_picture, type)
+                   VALUES  (uuid(), NEW.email, 
+                            NEW.password, 
+                            NEW.profile_picture, 'i');
+                   END
