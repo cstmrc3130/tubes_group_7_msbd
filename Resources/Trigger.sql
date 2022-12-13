@@ -92,6 +92,12 @@ BEGIN
     WHERE completeness.score = NEW.completeness_id);
 END
 
+
+////////////////////////////////////////////////
+////////////// TRIGGER ////////////////////////
+//////////////////////////////////////////////
+
+// STUDENTS
 //update_log_students ( before update )
 CREATE TRIGGER `update_log_students` BEFORE UPDATE ON `students`
  FOR EACH ROW BEGIN
@@ -115,7 +121,7 @@ CREATE TRIGGER `insert_log_students` AFTER INSERT ON `students`
     END
 
 
-
+// TRIGGER TEACHERS
 //delete_log_teachers( Before delete )
 CREATE TRIGGER `delete_log_teachers` BEFORE DELETE ON `teachers`
  FOR EACH ROW BEGIN
@@ -140,9 +146,34 @@ NEW.date_of_birth, OLD.address, IF(NEW.address IN (OLD.address), '-', NEW.addres
     END
 
 
-
 ///USERS 
-//UPDATE_LOG_USERS 
+//DELETE_LOG_USERS 
+CREATE TRIGGER `delete_log_users` BEFORE DELETE ON `users`
+ FOR EACH ROW BEGIN	
+	INSERT INTO log_users ( id, old_email, new_email, 	     
+                           old_password, new_password, 
+                           old_profile_picture, 
+                           new_profile_picture, type)
+                   VALUES  (uuid(), OLD.email, 
+                            OLD.password, 
+                            OLD.profile_picture, 'd');
+                   END
+
+
+//INSERT_LOG_USERS
+CREATE TRIGGER `insert_log_users` AFTER UPDATE ON `users`
+ FOR EACH ROW BEGIN	
+	INSERT INTO log_users ( id, old_email, new_email, 	     
+                           old_password, new_password, 
+                           old_profile_picture, 
+                           new_profile_picture, type)
+                   VALUES  (uuid(), NEW.email, 
+                            NEW.password, 
+                            NEW.profile_picture, 'i');
+                   END
+
+
+///UPDATE_LOG_USERS
 CREATE TRIGGER `update_log_users` BEFORE UPDATE ON `users`
  FOR EACH ROW BEGIN	
 	INSERT INTO log_users ( id, old_email, new_email, 	     
@@ -155,26 +186,29 @@ CREATE TRIGGER `update_log_users` BEFORE UPDATE ON `users`
                             NEW.profile_picture, 'u');
                    END
 
-//DELETE_LOG_USERS
-CREATE TRIGGER `delete_log_users` BEFORE DELETE ON `users`
- FOR EACH ROW BEGIN	
-	INSERT INTO log_users ( id, old_email, new_email, 	     
-                           old_password, new_password, 
-                           old_profile_picture, 
-                           new_profile_picture, type)
-                   VALUES  (uuid(), OLD.email, 
-                            OLD.password, 
-                            OLD.profile_picture, 'd');
-                   END
+///CLASSES 
+//DELETE_LOG_CLASSES (MESSAGE)
+CREATE TRIGGER `delete_log_classes` BEFORE DELETE ON `classes`
+ FOR EACH ROW BEGIN
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You Cant Delete This Class';
+END
 
-//INSERT_LOG_USERS 
-CREATE TRIGGER `insert_log_users` AFTER UPDATE ON `users`
- FOR EACH ROW BEGIN	
-	INSERT INTO log_users ( id, old_email, new_email, 	     
-                           old_password, new_password, 
-                           old_profile_picture, 
-                           new_profile_picture, type)
-                   VALUES  (uuid(), NEW.email, 
-                            NEW.password, 
-                            NEW.profile_picture, 'i');
-                   END
+//UPDATE_LOG_CLASSES 
+CREATE TRIGGER `update_log_classes` BEFORE UPDATE ON `classes`
+ FOR EACH ROW BEGIN
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'YOU CANT CHANGE CONTAIN IN THIS CLASS';
+END
+
+
+//SUBJECTS 
+//UPDATE_LOG_SUBJECTS
+BEGIN 
+	INSERT INTO log_subjects (id, old_name, new_name, 		
+                              old_completeness, new_completeness 
+                              )
+                      VALUES  (uuid(), OLD.name, NEW.name, 
+                               OLD.completeness, 
+                               NEW.completeness
+                               );
+                        	   END
+
