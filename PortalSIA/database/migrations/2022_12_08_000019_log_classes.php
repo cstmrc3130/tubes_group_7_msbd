@@ -19,7 +19,6 @@ return new class extends Migration
             $table->tinyText("new_name");
             $table->tinyInteger("old_semester");
             $table->tinyInteger("new_semester");
-            $table->enum('type', ['U', 'I' ,'D']);
             $table->timestamps();
         });
     }

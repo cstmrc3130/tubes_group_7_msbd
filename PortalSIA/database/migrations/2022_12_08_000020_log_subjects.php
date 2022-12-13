@@ -20,8 +20,7 @@ return new class extends Migration
             $table->tinyInteger('old_completeness');
             $table->tinyInteger('new_completeness');
             $table->timestamps();
-
-
+                       
         });
     }
 

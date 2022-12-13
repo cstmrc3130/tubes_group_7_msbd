@@ -70,7 +70,7 @@ BEGIN
     SET NEW.id = uuid();
 END
 
-//create_teacher_account (BEFORE INSERT ON)
+//create_teacher_account (AFTER INSERT ON)
 BEGIN   
     INSERT INTO users(id, NIP, PASSWORD, role, 
     profile_picture) VALUES (uuid(), NEW.NIP,
@@ -78,7 +78,7 @@ BEGIN
     '1','DEFAULT');
 END
 
-//create_students_account (BEFORE INSERT ON)
+//create_students_account (AFTER INSERT ON)
 BEGIN   
     INSERT INTO users(id, NISN, PASSWORD, role, 
     profile_picture) VALUES (uuid(), NEW.NISN,
@@ -97,8 +97,13 @@ END
 ////////////// TRIGGER ////////////////////////
 //////////////////////////////////////////////
 
-// STUDENTS
-//update_log_students ( before update )
+// STUDENTS //
+CREATE TRIGGER `insert_log_students` AFTER INSERT ON `students`
+ FOR EACH ROW BEGIN
+    INSERT INTO log_students(id, new_name, new_place_of_birth, new_date_of_birth, new_address, new_phone_numbers, type)
+    VALUES(uuid(), NEW.name, NEW.place_of_birth, NEW.date_of_birth, NEW.address, NEW.phone_numbers, 'i');
+    END
+
 CREATE TRIGGER `update_log_students` BEFORE UPDATE ON `students`
  FOR EACH ROW BEGIN
     INSERT INTO log_students(id, old_name, new_name, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
@@ -106,38 +111,24 @@ CREATE TRIGGER `update_log_students` BEFORE UPDATE ON `students`
 NEW.date_of_birth, OLD.address, IF(NEW.address IN (OLD.address), '-', NEW.address), OLD.phone_numbers, NEW.phone_numbers, 'u');
     END
 
-//delete_log_students ( BEFORE DELETE )
-CREATE TRIGGER `delete_log_students` BEFORE DELETE ON `students`
- FOR EACH ROW BEGIN
-    INSERT INTO log_students(id, old_name, new_name, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
-    VALUES(uuid(), OLD.name, OLD.place_of_birth, OLD.date_of_birth, OLD.address, OLD.phone_numbers, 'd');
-    END
- 
-//insert_log_students ( AFTER UPDATE)
-CREATE TRIGGER `insert_log_students` AFTER INSERT ON `students`
- FOR EACH ROW BEGIN
-    INSERT INTO log_students(id, old_name, new_name, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
-    VALUES(uuid(), NEW.name, NEW.place_of_birth, NEW.date_of_birth, NEW.address, NEW.phone_numbers, 'i');
-    END
 
 
-// TRIGGER TEACHERS
-//delete_log_teachers( Before delete )
-CREATE TRIGGER `delete_log_teachers` BEFORE DELETE ON `teachers`
- FOR EACH ROW BEGIN
-    INSERT INTO log_teachers(id, old_name, new_name, old_position, new_position, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
-    VALUES(uuid(), OLD.name, OLD.position, OLD.place_of_birth,   	 OLD.date_of_birth, OLD.address, OLD.phone_numbers, 'd');
-    END
+//  TEACHERS //
+CREATE TRIGGER `create_new_account_teachers` AFTER INSERT ON `teachers`
+ FOR EACH ROW BEGIN   
+    INSERT INTO users(id, NIP, PASSWORD, role, 
+    profile_picture) VALUES (uuid(), NEW.NIP,
+    '$2a$12$HXA488uKmhQmJJa3zQKxC.J41vmu8g.PSKovhfEIqICc4DexC.CB.',
+    '1','DEFAULT');
+END
 
-//insert_log_teachers( After Update )
-CREATE TRIGGER `insert_log_teachers` AFTER UPDATE ON `teachers`
+CREATE TRIGGER `insert_log_teachers` AFTER INSERT ON `teachers`
  FOR EACH ROW BEGIN
-    INSERT INTO log_teachers(id, old_name, new_name, old_position, new_position, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
+    INSERT INTO log_teachers(id, new_name, new_position, new_place_of_birth, new_date_of_birth, new_address, new_phone_numbers, type)
     VALUES(uuid(), NEW.name, NEW.position, NEW.place_of_birth,  
     NEW.date_of_birth, NEW.address, NEW.phone_numbers, 'i');
     END
 
-//update_log_teachers ( Before Update )
 CREATE TRIGGER `update_log_teachers` BEFORE UPDATE ON `teachers`
  FOR EACH ROW BEGIN
     INSERT INTO log_teachers(id, old_name, new_name, old_position, new_position, old_place_of_birth, new_place_of_birth, old_date_of_birth, new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
@@ -146,34 +137,16 @@ NEW.date_of_birth, OLD.address, IF(NEW.address IN (OLD.address), '-', NEW.addres
     END
 
 
-///USERS 
-//DELETE_LOG_USERS 
-CREATE TRIGGER `delete_log_users` BEFORE DELETE ON `users`
+/// USERS /// 
+CREATE TRIGGER `insert_log_users` BEFORE INSERT ON `users`
  FOR EACH ROW BEGIN	
-	INSERT INTO log_users ( id, old_email, new_email, 	     
-                           old_password, new_password, 
-                           old_profile_picture, 
-                           new_profile_picture, type)
-                   VALUES  (uuid(), OLD.email, 
-                            OLD.password, 
-                            OLD.profile_picture, 'd');
-                   END
-
-
-//INSERT_LOG_USERS
-CREATE TRIGGER `insert_log_users` AFTER UPDATE ON `users`
- FOR EACH ROW BEGIN	
-	INSERT INTO log_users ( id, old_email, new_email, 	     
-                           old_password, new_password, 
-                           old_profile_picture, 
-                           new_profile_picture, type)
+	INSERT INTO log_users ( id, new_email, 	     
+                            new_password, new_profile_picture, type)
                    VALUES  (uuid(), NEW.email, 
                             NEW.password, 
                             NEW.profile_picture, 'i');
                    END
 
-
-///UPDATE_LOG_USERS
 CREATE TRIGGER `update_log_users` BEFORE UPDATE ON `users`
  FOR EACH ROW BEGIN	
 	INSERT INTO log_users ( id, old_email, new_email, 	     
@@ -186,29 +159,70 @@ CREATE TRIGGER `update_log_users` BEFORE UPDATE ON `users`
                             NEW.profile_picture, 'u');
                    END
 
-///CLASSES 
-//DELETE_LOG_CLASSES (MESSAGE)
-CREATE TRIGGER `delete_log_classes` BEFORE DELETE ON `classes`
+CREATE TRIGGER `delete_log_users` BEFORE DELETE ON `users`
  FOR EACH ROW BEGIN
-SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You Cant Delete This Class';
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "YOU CAN'T DELETE IT";
 END
 
-//UPDATE_LOG_CLASSES 
+
+
+/// CLASSES // 
+CREATE TRIGGER `insert_log_classes` AFTER UPDATE ON `classes`
+ FOR EACH ROW BEGIN 
+	INSERT INTO log_classes (id, new_name, new_semester)
+   					 VALUES (uuid(), NEW.name, NEW.semester);
+    END
+
 CREATE TRIGGER `update_log_classes` BEFORE UPDATE ON `classes`
  FOR EACH ROW BEGIN
-SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'YOU CANT CHANGE CONTAIN IN THIS CLASS';
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "YOU CAN'T CHANGE CONTAIN IN THIS CLASS";
+END
+
+CREATE TRIGGER `delete_classes` BEFORE DELETE ON `classes`
+ FOR EACH ROW BEGIN
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "YOU CAN'T DELETE THIS CLASS";
 END
 
 
-//SUBJECTS 
-//UPDATE_LOG_SUBJECTS
-BEGIN 
-	INSERT INTO log_subjects (id, old_name, new_name, 		
-                              old_completeness, new_completeness 
+
+/// SUBJECTS ///
+CREATE TRIGGER `delete_log_subjects` BEFORE DELETE ON `subjects`
+ FOR EACH ROW BEGIN
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "YOU CAN'T DELETE IT!";
+END
+
+CREATE TRIGGER `insert_log_subjects` AFTER INSERT ON `subjects`
+ FOR EACH ROW BEGIN 
+	INSERT INTO log_subjects (id, new_name, 		
+                              new_completeness 
                               )
-                      VALUES  (uuid(), OLD.name, NEW.name, 
-                               OLD.completeness, 
+                      VALUES  (uuid(), NEW.name, 
                                NEW.completeness
                                );
                         	   END
 
+CREATE TRIGGER `update_log_subjects` BEFORE UPDATE ON `subjects`
+ FOR EACH ROW BEGIN
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "YOU CAN'T CHANGE IT!";
+END
+
+
+
+
+///  SCHOOL_YEAR  // 
+CREATE TRIGGER `delete_log_school_year` BEFORE DELETE ON `school_years`
+ FOR EACH ROW BEGIN
+	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "You Can't Delete it!!";
+    END
+
+CREATE TRIGGER `insert_log_school_year` BEFORE INSERT ON `school_years`
+ FOR EACH ROW BEGIN	
+	INSERT INTO log_school_years (
+        id, new_year)
+        VALUES (uuid(), NEW.year);
+        END
+
+CREATE TRIGGER `update_log_school_year` BEFORE UPDATE ON `school_years`
+ FOR EACH ROW BEGIN
+	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "You Can't Change it!";
+    END
