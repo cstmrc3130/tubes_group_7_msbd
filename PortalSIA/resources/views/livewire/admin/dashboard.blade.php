@@ -32,12 +32,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row align-items-center">
-                            <div class="col-7">
+                            <div class="col-6">
                                 <i class="mdi mdi-emoticon font-20 text-info"></i>
                                 <p class="font-16 m-b-5">Siswa</p>
                             </div>
-                            <div class="col-5">
-                                <h1 class="font-light text-right mb-0">{{ $studentCount }}</h1>
+                            <div class="col-6">
+                                <h1 class="font-light text-center mb-0">{{ $studentCount }}</h1>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-7">
-                                <i class="mdi mdi-image font-20 text-success"></i>
+                                <i class="mdi mdi-account-multiple font-20 text-success"></i>
                                 <p class="font-16 m-b-5">Guru</p>
                             </div>
                             <div class="col-5">
@@ -65,11 +65,11 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-7">
-                                <i class="mdi mdi-currency-eur font-20 text-purple"></i>
-                                <p class="font-16 m-b-5">Mata Pelajaran</p>
+                                <i class="mdi mdi-city font-20 text-danger"></i>
+                                <p class="font-16 m-b-5">Kelas</p>
                             </div>
                             <div class="col-5">
-                                <h1 class="font-light text-right mb-0">157</h1>
+                                <h1 class="font-light text-right mb-0">{{ $classroomCount }}</h1>
                             </div>
                         </div>
                     </div>
@@ -81,11 +81,11 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-7">
-                                <i class="mdi mdi-poll font-20 text-danger"></i>
-                                <p class="font-16 m-b-5">Kelas</p>
+                                <i class="mdi mdi-calendar font-20 text-purple"></i>
+                                <p class="font-16 m-b-5">Tahun Ajaran</p>
                             </div>
                             <div class="col-5">
-                                <h1 class="font-light text-right mb-0">236</h1>
+                                <h1 class="font-light font-14 text-right mb-0">{{ \App\Models\SchoolYear::latest()->take(1)->value('year') }}</h1>
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
 
     {{-- ========== DATA TABLE FOR ACTIVE USERS START ========== --}}
     <div class="container-fluid" wire:poll>
-        <livewire:online-users-collection />
+        <livewire:online-user-collection />
     </div>
     {{-- ========== DATA TABLE FOR ACTIVE USERS START ========== --}}
 
@@ -122,67 +122,7 @@
     <footer class="footer text-center">All Rights Reserved by Kelompok 7 KOM C © 2022. </footer>
     {{-- ========== FOOTER START ========== --}}
 
-
-
-    {{-- ========== PROFILE MODAL START ========== --}}
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" style="display: none;" aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel1">Profile Info</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                </div>
-
-                <div class="modal-body">
-                    <form>
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <label for="fname" class="col-sm-3 text-right control-label col-form-label">First Name</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="fname" placeholder="First Name Here">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="lname" class="col-sm-3 text-right control-label col-form-label">Last Name</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="lname" placeholder="Last Name Here">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="email1" class="col-sm-3 text-right control-label col-form-label">Email</label>
-                                <div class="col-sm-9">
-                                    <input type="email" class="form-control" id="email1" placeholder="Email Here">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Contact No</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="cono1" placeholder="Contact No Here">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    {{-- ========== PROFILE MODAL END ========== --}}
-
 </div>
-
-@push('additional-style')
-    <style>
-        .vertical-align-middle{
-            vertical-align: middle !important
-        }
-    </style>
-@endpush
 
 @push('additional-script')
     {{-- SWEET ALERT FOR ONLINE USER --}}

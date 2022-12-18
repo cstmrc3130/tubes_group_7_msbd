@@ -65,9 +65,13 @@
                                 <a class="nav-link dropdown-toggle waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img src="{{ Auth::user()->profile_picture != 'DEFAULT' ? asset('users-profile-pictures/'.Auth::user()->profile_picture) : asset('users-profile-pictures/'.'default-user.svg')  }}" alt="profile-picture" class="rounded-circle" width="40">
                                     <span class="m-l-5 font-medium d-none d-sm-inline-block">
-                                        @for($i = 0; $i < 2; $i++)
-                                            {!! print_r(explode(" ", auth()->user()->student->name)[$i], true); !!}
-                                        @endfor
+                                        @if (str_word_count(auth()->user()->student->name) > 1)
+                                            @for($i = 0; $i < 2; $i++)
+                                                {!! print_r(explode(" ", auth()->user()->student->name)[$i], true); !!}
+                                            @endfor
+                                        @else
+                                            {!! print_r(explode(" ", auth()->user()->student->name)[0], true); !!}
+                                        @endif
                                     <i class="mdi mdi-chevron-down"></i></span>
                                 </a>
                                 {{-- ========== NAME AND PROFILE PICTURE END ========== --}}
@@ -91,9 +95,13 @@
                                         </div>
                                         <div class="m-l-10">
                                             <h4 class="m-b-0">
+                                            @if (str_word_count(auth()->user()->student->name) > 1)
                                                 @for($i = 0; $i < 2; $i++)
                                                     {!! print_r(explode(" ", auth()->user()->student->name)[$i], true); !!}
                                                 @endfor
+                                            @else
+                                                {!! print_r(explode(" ", auth()->user()->student->name)[0], true); !!}
+                                            @endif
                                             </h4>
                                             <p class=" m-b-0">{{ Auth::user()->email }}</p>
                                         </div>

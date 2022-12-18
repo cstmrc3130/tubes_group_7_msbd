@@ -62,6 +62,34 @@ Route::group(['prefix' => 'admin'], function ()
             {
                 Route::get('/dashboard', \App\Http\Livewire\Admin\Dashboard::class)->name('dashboard');
             });
+
+            // ========== STUDENT CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\StudentCRUD::class)->group(function()
+            {
+                Route::get('/student-list', \App\Http\Livewire\Admin\StudentCRUD::class)->name('student-list');
+            });
+
+            // ========== TEACHER CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\TeacherCRUD::class)->group(function()
+            {
+                Route::get('/teacher-list', \App\Http\Livewire\Admin\TeacherCRUD::class)->name('teacher-list');
+            });
+
+            // ========== TEACHER CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\SubjectCRUD::class)->group(function()
+            {
+                Route::get('/subject-list', \App\Http\Livewire\Admin\SubjectCRUD::class)->name('subject-list');
+            });
+
+            // ========== NEWS CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\NewsCRUD::class)->group(function()
+            {
+                Route::get('/news', \App\Http\Livewire\Admin\NewsCRUD::class)->name('news');
+
+
+                // ========== CREATE NEWS LIVEWIRE ========== //
+                Route::post('/upload-image', "UploadImage")->name("upload-image");
+            });
         });
     });
 });
@@ -161,3 +189,4 @@ Route::group(['prefix' => 'student'], function ()
         });
     });
 });
+

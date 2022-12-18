@@ -18,11 +18,14 @@ use PowerComponents\LivewirePowerGrid\PowerGridEloquent;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 
-final class OnlineUsersCollection extends PowerGridComponent
+final class OnlineUserCollection extends PowerGridComponent
 {
     use ActionButton;
 
-    
+    public string $sortField = 'status';
+
+    public string $sortDirection = 'desc';
+
     // ========== DATA SOURCE (I.E COLLECTION) ========== //
     public function datasource(): ?Collection
     {
@@ -33,14 +36,21 @@ final class OnlineUsersCollection extends PowerGridComponent
         // {
         //     if($data->isonline())
         //     {
-        //         array_push($foundOnline, $data);
+        //         array_push($foundOnline, ['id' => $data->id, 'name' => $data->role == 1 ? $data->teacher->name : $data->student->name, 'role' => $data->role, 'status' => $data->isonline() ? true : false]);
         //     }
         // }
 
         // return collect($foundOnline);
 
         // SHOW BOTH OFFLINE AND ONLINE USERS
-        return User::query()->whereNot('role', '0')->get();
+        $foundOnline = [];
+
+        foreach(User::query()->whereNot('role', '0')->get() as $data)
+        {
+            array_push($foundOnline, ['id' => $data->id, 'name' => $data->role == 1 ? $data->teacher->name : $data->student->name, 'role' => $data->role, 'status' => $data->isonline() ? true : false]);
+        }
+
+        return collect($foundOnline);
     }
 
     // ========== HEADER AND FOOTER FUNCTIONALITY ========== //
@@ -58,9 +68,9 @@ final class OnlineUsersCollection extends PowerGridComponent
     {
         return PowerGrid::eloquent()
                 ->addColumn('id')
-                ->addColumn('name', fn (User $model) => ($model->role == 1 ? $model->teacher->name : $model->student->name))
-                ->addColumn('role', fn (User $model) => ($model->role == 1 ? e('Guru') : e('Siswa')))
-                ->addColumn('status', fn (User $model) => ($model->isonline() ? e('Online') : e('Offline')));
+                ->addColumn('name')
+                ->addColumn('role', fn($collection) => $collection->role == 1 ? "Guru" : "Siswa")
+                ->addColumn('status', fn($collection) => $collection->status ? "Online" : "Offline");
     }
 
     // ========== CREATING COLUMN FOR TABLE ========== //
@@ -68,7 +78,7 @@ final class OnlineUsersCollection extends PowerGridComponent
     {
         return [
             Column::make('UUID', 'id')->searchable()->sortable(),  
-            Column::make('Name', 'name', 'NIP')->searchable()->sortable(),
+            Column::make('Name', 'name')->searchable()->sortable(),
             Column::make('Role', 'role')->searchable()->sortable(),
             Column::make('Status', 'status')->searchable()->sortable(),
         ];
@@ -90,18 +100,18 @@ final class OnlineUsersCollection extends PowerGridComponent
     {
         return [
             // IF USER IS OFFLINE SET TEXT AS DANGER
-            Rule::rows()->when(function (User $model) 
+            Rule::rows()->when(function ($collection) 
             {
-                return $model->isonline() == false;
+                return $collection->status == false;
             })->setAttribute('class', 'text-danger'),
 
             // IF USER IS ONLINE SET TEXT AS SUCCESS
-            Rule::rows()->when(function (User $model) 
+            Rule::rows()->when(function ($collection) 
             { 
-                return $model->isonline() == true;
+                return $collection->status == true;
             })->setAttribute('class', 'text-success'),
 
-            Rule::button('log-out-online-user')->when(fn(User $model) => $model->isonline() == false)->disable()->caption('Offline'),
+            Rule::button('log-out-online-user')->when(fn($collection) => $collection->status == false)->disable()->caption('Offline'),
         ];
     }
 

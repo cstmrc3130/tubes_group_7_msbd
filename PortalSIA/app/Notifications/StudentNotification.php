@@ -3,59 +3,43 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
-class EditStudentData extends Notification
+class StudentNotification extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct($user_id, $name, $place_of_birth, $date_of_birth, $father_name, $mother_name, $address, $phone_numbers)
     {
-        //
+        $this->user_id = $user_id;
+        $this->name = $name;
+        $this->place_of_birth = $place_of_birth;
+        $this->date_of_birth = $date_of_birth;
+        $this->father_name = $father_name;
+        $this->mother_name = $mother_name;
+        $this->address = $address;
+        $this->phone_numbers = $phone_numbers;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
+    // DEFINE 'data' COLUMN IN NOTIFICATION TABLE
     public function toArray($notifiable)
     {
         return [
-            //
+            'user_id' => $this->user_id,
+            'name' => $this->name,
+            'place_of_birth' => $this->place_of_birth,
+            'date_of_birth' => $this->date_of_birth,
+            'father_name' => $this->father_name,
+            'mother_name' => $this->mother_name,
+            'address' => $this->address,
+            'phone_numbers' => $this->phone_numbers
         ];
     }
 }

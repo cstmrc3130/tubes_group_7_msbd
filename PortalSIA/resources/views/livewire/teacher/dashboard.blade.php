@@ -1,3 +1,3 @@
 <div>
-    {{-- The whole world belongs to you. --}}
+    {{ Cache::has('user-is-online' . Auth::id()) ? "True" : "False" }}
 </div>

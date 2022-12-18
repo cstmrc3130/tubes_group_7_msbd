@@ -311,15 +311,28 @@
         {
             let phoneNumber = $('#phone_numbers').val();
 
-            phoneNumber.substring(0, 2) == '62' ? $('#phone_numbers').val(phoneNumber.substring(2, phoneNumber.length)) : ''
-            phoneNumber.substring(0, 2) == '08' ? $('#phone_numbers').val(phoneNumber.substring(2, phoneNumber.length)) : ''
-            
+            if (phoneNumber.length == 13)
+            {
+                if (phoneNumber.substring(0, 2) == '62' )
+                {
+                    $('#phone_numbers').val(phoneNumber.substring(2, phoneNumber.length))
+                }
+                else if(phoneNumber.substring(0, 2) == '08')
+                {
+                    $('#phone_numbers').val(phoneNumber.substring(1, phoneNumber.length))
+                }
+            }
+            else if(phoneNumber.length == 12)
+            {
+                phoneNumber.substring(0, 2) == '08' ? $('#phone_numbers').val(phoneNumber.substring(1, phoneNumber.length)) : ''
+            }
+
             $('#phone_numbers').bind('keyup', function (event)
             {
                 phoneNumber = event.target.value;
 
                 phoneNumber.substring(0, 2) == '62' ? $('#phone_numbers').val(phoneNumber.substring(2, phoneNumber.length)) : ''
-                phoneNumber.substring(0, 2) == '08' ? $('#phone_numbers').val(phoneNumber.substring(2, phoneNumber.length)) : ''
+                phoneNumber.substring(0, 2) == '08' ? $('#phone_numbers').val(phoneNumber.substring(1, phoneNumber.length)) : ''
             })
         })
     </script>

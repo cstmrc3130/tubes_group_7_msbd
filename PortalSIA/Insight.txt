@@ -1,3 +1,5 @@
 
 --> TEXT DATA TYPE DIFFERENCES (https://chartio.com/resources/tutorials/understanding-strorage-sizes-for-mysql-text-data-types/)
 --> CHAR VS VARCHAR VS TEXT VS STRING (https://stackoverflow.com/questions/4848964/difference-between-text-and-varchar-character-varying)
+
+

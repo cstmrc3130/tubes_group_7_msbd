@@ -186,19 +186,31 @@
                         <h1>News</h1>
                         <a href="{{ url("news") }}" class="m-t-20 text-danger border-bottom border-danger">Semua berita</a>
                     </div>
-                    <div class="col-lg-4 col-md-6 m-t-20">
-                        <div class="card live-box">
-                            <img class="card-img-top img-responsive" src="{{ asset("assets/images/trophies2.jpg") }}" alt="Sesuaikan dengan database">
+
+                    @forelse($allNews as $news)
+                    <div class="col-lg-4 col-md-6 m-t-20 ">
+                        <div class="card live-box flex-col justify-content-between h-100">
+                            @if (preg_match('%<img\s.*?src=".*?/?([^/]+?(\.gif|\.png|\.jpg))"%s', $news->content, $regs)) 
+                            <img class="card-img-top" src="{{ asset('/storage/news-images/' . $regs[1]) }}" height="250px" alt="Card image cap">
+                            @else 
+                            <img class="card-img-top" src="{{ asset('assets/images/auth-bg2.jpg') }}" height="250px" alt="Card image cap">
+                            @endif
                             <div class="overlay">
                                 <a class="btn btn-cyan live-btn" href="..">Baca selengkapnya</a>
                             </div>
                             <div class="card-body">
-                                <h4 class="card-title">Event Title</h4>
-                                <h6 class="card-subtitle mb-2 text-muted">Author Name</h6>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h4 class="card-title">{{ $news->title }}</h4>
+                                <h6 class="card-subtitle mb-2 text-muted"> by Admin</h6>
+                                <div class="m-b-0 m-t-10" style="overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; ">
+                                    {{ Str::words($news->content, 10, '...') }}
+                                </div>
                             </div>
                         </div>
                     </div>
+                    @empty
+                    @endforelse
+
+                </div>
             </div>
         </section>
     </div>

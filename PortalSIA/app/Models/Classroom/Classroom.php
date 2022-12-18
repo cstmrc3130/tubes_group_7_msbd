@@ -18,6 +18,7 @@ class Classroom extends Model
     // ========== MASS ASSIGNABLE ATTRIBUTES ========== //
     protected $fillable = 
     [ 
+        'school_year_id',
         'name',
         'semester',
     ];
@@ -25,12 +26,12 @@ class Classroom extends Model
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
     public function student()
     {
-        return $this->belongsTo(Student::class, 'homeroom_class_id', 'id');
+        return $this->hasMany(Student::class, 'homeroom_class_id', 'id');
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
-    public function homeroomteacher()
+    public function teacher()
     {
-        return $this->hasOne(Teacher::class, 'homeroom_teacher_NIP', 'NIP');
+        return $this->hasOne(Teacher::class, 'homeroom_class_id', 'id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Student;
 
+use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\StudentNotification;
 
 class Profile extends Component
 {
@@ -46,7 +49,6 @@ class Profile extends Component
         "dateOfBirth" => ['required', 'date_format:Y-m-d', 'before:12 years ago', 'after:17 years ago'],
         "fatherName" => ['required', 'string', 'min:3', 'max:50'],
         "motherName" => ['required', 'string', 'min:3', 'max:50'],
-        'gender' => ['required', 'in:M, F'],
         'address' => ['required', 'string', "max:255"],
         "phoneNumber" => 'required|numeric|min:10',
     ]);
@@ -75,7 +77,35 @@ class Profile extends Component
         $this->fatherName = $this->profile->father_name;
         $this->motherName = $this->profile->mother_name;
         $this->address = $this->profile->address;
-        $this->phoneNumber = Str::substr($this->profile->phone_numbers, 2, Str::length($this->profile->phone_numbers));;
+
+        // CHECK IF PHONE NUMBER IS 13 IN LENGTH AND IS STARTED WITH 62
+        if (Str::length($this->profile->phone_numbers) == 13)
+        {
+            if (Str::contains(Str::substr($this->profile->phone_numbers, 0, 2), '62'))
+            {
+                $this->phoneNumber = Str::substr($this->profile->phone_numbers, 2, Str::length($this->profile->phone_numbers));
+            }
+            elseif (Str::contains(Str::substr($this->profile->phone_numbers, 0, 2), '08'))
+            {
+                $this->phoneNumber = Str::substr($this->profile->phone_numbers, 1, Str::length($this->profile->phone_numbers));
+            }
+        }
+
+        // CHECK IF PHONE NUMBER IS 12 IN LENGTH AND IS STARTED WITH 08
+        else if (Str::length($this->profile->phone_numbers) == 12)
+        {
+            if (Str::contains(Str::substr($this->profile->phone_numbers, 0, 2), '08'))
+            {
+                $this->phoneNumber = Str::substr($this->profile->phone_numbers, 1, Str::length($this->profile->phone_numbers));
+            }
+        }
+
+        // IF PHONE NUMBER IS ALREADY FORMATTED, DON'T DO ANYTHING
+        else
+        {
+            $this->phoneNumber = $this->profile->phone_numbers;
+        }
+
         $this->email = Auth::user()->email;
 
         $this->validate();
@@ -133,7 +163,21 @@ class Profile extends Component
     // ========== UPDATE STUDENT PROFILE INFO ========== //
     public function UpdateProfileInfo()
     {
-        $this->dispatchBrowserEvent('send-notification-to-admin', ['response' => 'success']);
+        // MAKE INTERVAL FOR EACH UPDATE TO 5 MINUTES
+        if (!Cookie::has('cooldown-' . Auth::id()) || now()->diffInMinutes(Cookie::get('cooldown-' . Auth::id())) > 5)
+        {
+            $admin = User::where('role', '0')->first();
+
+            Notification::send($admin, new StudentNotification(Auth::id(), $this->name, $this->placeOfBirth, $this->dateOfBirth, $this->fatherName, $this->motherName, $this->address, $this->phoneNumber));
+
+            $this->dispatchBrowserEvent('send-notification-to-admin', ['response' => 'success']);
+
+            Cookie::queue('cooldown-' . Auth::id(), now());
+        }
+        else
+        {
+            $this->dispatchBrowserEvent('login-info-update-result', ['response' => 'failed']);
+        }
     }
 
     // ========== UPDATE STUDENT LOGIN INFO ========== // 

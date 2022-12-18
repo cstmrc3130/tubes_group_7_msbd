@@ -4,8 +4,9 @@ namespace App\Models\Teacher;
 
 use App\Models\User;
 use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Classroom\Classroom;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Teacher extends Model
 {
@@ -22,6 +23,7 @@ class Teacher extends Model
     protected $fillable = 
     [
         'NIP',
+        'homeroom_class_id',
         'KARPEG',
         'position',
         'name',
@@ -29,7 +31,7 @@ class Teacher extends Model
         'date_of_birth',
         'gender',
         'address',
-        'phone_number',
+        'phone_numbers',
         'graduated_from',
         'graduated_at',
         'started_working_at'
@@ -51,7 +53,7 @@ class Teacher extends Model
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR POST ========== //
     public function homeroomclass()
     {
-        return $this->hasOne(HomeroomClass::class, 'NIP', 'NIP');
+        return $this->belongsTo(Classroom::class, 'homeroom_class_id', 'id');
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR POST ========== //

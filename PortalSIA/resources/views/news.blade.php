@@ -4,7 +4,7 @@
 <head>
 
     {{-- ========== ASSETS AND META COMPONENT ========== --}}
-    <x-news.assets-and-meta />
+    <x-landing-page.assets-and-meta title="Seems Like" />
 </head>
 
 <body>

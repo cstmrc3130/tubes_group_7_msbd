@@ -63,15 +63,22 @@
         
                             {{-- ========== NOTIFICATION START ========== --}} 
                             <li class="nav-item dropdown border-right">
+
+                                @php 
+                                    $recentNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where("created_at", '>=', now()->subDays(1)->toDateTimeString());
+                                @endphp
         
                                 {{-- ========== NOTIFICATION COUNT START ========== --}} 
                                 <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="mdi mdi-bell-outline font-22"></i>
-                                    <span class="badge badge-pill badge-info noti">3</span>
+                                    @if($recentNotification->count() > 0)
+                                    <span class="badge badge-pill badge-info noti" id="noti-count">{{ $recentNotification->count() }}</span>
+                                    @endif
                                 </a>
                                 {{-- ========== NOTIFICATION COUNT END ========== --}} 
         
-        
+
+
                                 {{-- ========== NOTIFICATION ICON START ========== --}} 
                                 <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">
         
@@ -85,35 +92,34 @@
         
                                     {{-- ========== NOTIFICATION SECTION START ========== --}}
                                     <ul class="list-style-none">
-        
+
                                         {{-- ========== TITLE START ========== --}}
                                         <li>
                                             <div class="drop-title bg-primary text-white">
-                                                <h4 class="m-b-0 m-t-5">4 New</h4>
+                                                <h4 class="m-b-0 m-t-5" id="noti-text">{{ $recentNotification->count() }} New</h4>
                                                 <span class="font-light">Notifications</span>
                                             </div>
                                         </li>
                                         {{-- ========== TITLE END ========== --}}
         
         
+
                                         {{-- ========== NOTIFICATION ITEMS START ========== --}}
                                         <li>
-                                            <div class="message-center notifications">
-                                                <a href="javascript:void(0)" class="message-item">
-                                                    <span class="btn btn-danger btn-circle">
-                                                        <i class="fa fa-link"></i>
-                                                    </span>
-                                                    <div class="mail-contnet">
-                                                        <h5 class="message-title">Luanch Admin</h5>
-                                                        <span class="mail-desc">Just see the my new admin!</span>
-                                                        <span class="time">9:30 AM</span>
-                                                    </div>
-                                                </a>
+                                            <div class="message-center notifications h-auto" >
+                                                @foreach($recentNotification as $notification)
+                                                    @livewire('admin.notification-inline', [
+                                                        'notificationID' => $notification->id, 
+                                                        'name' => \App\Models\User::find($notification->data['user_id'])->student->name, 
+                                                        'createdAt' => $notification->created_at->diffForHumans()
+                                                        ])
+                                                @endforeach
                                             </div>
                                         </li>
                                         {{-- ========== NOTIFICATION ITEMS END ========== --}}
         
-        
+
+
                                         {{-- ========== VIEW ALL START ========== --}}
                                         <li>
                                             <a class="nav-link text-center m-b-5 text-dark" href="javascript:void(0);">
@@ -121,7 +127,7 @@
                                                 <i class="fa fa-angle-right"></i>
                                             </a>
                                         </li>
-                                        {{-- ========== VIEW ALL START ========== --}}
+                                        {{-- ========== VIEW ALL END ========== --}}
         
                                     </ul>
                                     {{-- ========== NOTIFICATION SECTION END ========== --}}
@@ -133,14 +139,14 @@
                             {{-- ========== NOTIFICATION END ========== --}} 
         
         
-        
+
                             {{-- ========== USER INFO START ========== --}}
                             <li class="nav-item dropdown">
         
                                 {{-- ========== NAME AND PROFILE PICTURE START ========== --}}
                                 <a class="nav-link dropdown-toggle waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img src="{{ asset("/assets/images/landing-icon.png") }}" alt="user" class="rounded-circle" width="40">
-                                    <span class="m-l-5 font-medium d-none d-sm-inline-block">Jonathan Doe <i class="mdi mdi-chevron-down"></i></span>
+                                    <span class="m-l-5 font-medium d-none d-sm-inline-block">{{ Auth::user()->email }}<i class="mdi mdi-chevron-down"></i></span>
                                 </a>
                                 {{-- ========== NAME AND PROFILE PICTURE END ========== --}}
         
@@ -162,22 +168,22 @@
                                             <img src="{{ asset("/assets/images/landing-icon.png") }}" alt="user" class="rounded-circle" width="60">
                                         </div>
                                         <div class="m-l-10">
-                                            <h4 class="m-b-0">Jonathan Doe</h4>
-                                            <p class=" m-b-0">jon@gmail.com</p>
+                                            <h4 class="m-b-0">Admin MTsN</h4>
+                                            <p class=" m-b-0">{{ Auth::user()->email }}</p>
                                         </div>
                                     </div>
                                     {{-- ========== NAME AND EMAIL END ========== --}}
         
         
         
-                                    {{-- ========== PROFIL SECTION START ========== --}}
+                                    {{-- ========== PROFILE SECTION START ========== --}}
                                     <div class="profile-dis scrollable">
         
                                         {{-- ========== PROFIL BUTTON START ========== --}}
                                         
-                                        <a class="btn dropdown-item" data-toggle="modal" data-target="#exampleModal">
+                                        <a class="btn dropdown-item" data-toggle="modal" data-target="#loginInfoModal">
                                             <i class="ti-user m-r-5 m-l-5"></i> 
-                                            Profil
+                                            Login Info
                                         </a>
                                         {{-- ========== PROFIL BUTTON END ========== --}}
         
@@ -198,7 +204,7 @@
                                         {{-- ========== LOGOUT BUTTON END ========== --}}
         
                                     </div>
-                                    {{-- ========== PROFIL SECTION END ========== --}}
+                                    {{-- ========== PROFILE SECTION END ========== --}}
         
                                 </div>
         
@@ -223,40 +229,85 @@
                                 <span class="hide-menu">DATA DAN PROFIL</span>
                             </li>
                             {{-- ========== TITLE END ========== --}} 
-        
-        
-        
+
+
+
                             {{-- ========== STUDENT START ========== --}} 
                             <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <a class="sidebar-link waves-effect has-arrow waves-dark" href="javascript:void(0)" aria-expanded="false">
                                     <i class="mdi mdi-face"></i>
                                     <span class="hide-menu">Data Siswa</span>
                                 </a>
-                                <ul aria-expanded="false" class="collapse first-level m-l-20">
+                                <ul aria-expanded="false" class="collapse first-level">
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link">
+                                        <a href="{{ route('admin.student-list') }}"  class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
-                                            <span class="hide-menu">Kelas 7</span>
+                                            <span class="hide-menu">Daftar Siswa</span>
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link">
+                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
-                                            <span class="hide-menu">Kelas 8</span>
+                                            <span class="hide-menu">Ekstrakurikuler Siswa</span>
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link">
+                                        <a class="sidebar-link waves-effect has-arrow waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
-                                            <span class="hide-menu">Kelas 9</span>
+                                            <span class="hide-menu">Rapor Siswa</span>
                                         </a>
+                                        <ul aria-expanded="false" class="collapse first-level m-l-20">
+                                            <li class="sidebar-item">
+                                                <a href="{{ route('admin.student-list') }}"  class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                                    <i class="mdi mdi-adjust"></i>
+                                                    <span class="hide-menu">Bulanan</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-item">
+                                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                                    <i class="mdi mdi-adjust"></i>
+                                                    <span class="hide-menu">Semester</span>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </li>
                             {{-- ========== STUDENT END ========== --}} 
-        
-        
-        
+
+
+
+                            {{-- ========== TEACHER START ========== --}} 
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect has-arrow waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-account-multiple"></i>
+                                    <span class="hide-menu">Data Guru</span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse first-level">
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('admin.teacher-list') }}"  class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                            <i class="mdi mdi-adjust"></i>
+                                            <span class="hide-menu">Daftar Guru</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                            <i class="mdi mdi-adjust"></i>
+                                            <span class="hide-menu">Ekstrakurikuler Guru</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                            <i class="mdi mdi-adjust"></i>
+                                            <span class="hide-menu">Mata Pelajaran Guru</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {{-- ========== TEACHER END ========== --}} 
+
+
+
                             {{-- ========== CLASSROOM START ========== --}} 
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
@@ -265,140 +316,49 @@
                                 </a>
                                 <ul aria-expanded="false" class="collapse first-level">
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
                                             <span class="hide-menu">Kelas 7</span>
                                         </a>
-                                        <ul aria-expanded="false" class="collapse  first-level">
-                                            <li class="sidebar-item">
-                                                <a class="sidebar-link">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">7 - 1</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-item">
-                                                <a class="sidebar-link">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">7 - 2</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-item">
-                                                <a class="sidebar-link">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">7 - 3</span>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
                                             <span class="hide-menu">Kelas 8</span>
                                         </a>
-                                        <ul aria-expanded="false" class="collapse  first-level">
-                                            <li class="sidebar-item">
-                                                <a class="sidebar-link">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">8 - 1</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-item">
-                                                <a class="sidebar-link">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">8 - 2</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-item">
-                                                <a class="sidebar-link">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">8 - 3</span>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
                                             <span class="hide-menu">Kelas 9</span>
                                         </a>
-                                        <ul aria-expanded="false" class="collapse  first-level">
-                                            <li class="sidebar-item">
-                                                <a class="sidebar-link">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">9 - 1</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-item">
-                                                <a class="sidebar-link">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">9 - 2</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-item">
-                                                <a class="sidebar-link">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">9 - 3</span>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
                                 </ul>
                             </li>
                             {{-- ========== CLASSROOM END ========== --}} 
-        
-        
-        
-                            {{-- ========== TEACHER START ========== --}} 
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="mdi mdi-account-multiple"></i>
-                                    <span class="hide-menu">Data Guru</span>
-                                </a>
-                            </li>
-                            {{-- ========== TEACHER END ========== --}} 
-        
-        
-        
+
+
+
                             {{-- ========== TITLE START ========== --}} 
                             <li class="nav-small-cap">
                                 <i class="mdi mdi-dots-horizontal"></i>
-                                <span class="hide-menu">KEGIATAN</span>
+                                <span class="hide-menu">KEGIATAN INTI</span>
                             </li>
                             {{-- ========== TITLE END ========== --}} 
-        
-        
-        
+
+
+
                             {{-- ========== SUBJECTS START ========== --}} 
                             <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <a href="{{ route('admin.subject-list') }}" class="sidebar-link waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                                     <i class="mdi mdi-newspaper"></i>
                                     <span class="hide-menu">Mata Pelajaran</span>
                                 </a>
-                                <ul aria-expanded="false" class="collapse first-level">
-                                    <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                            <i class="mdi mdi-adjust"></i>
-                                            <span class="hide-menu">Kelas 7</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                            <i class="mdi mdi-adjust"></i>
-                                            <span class="hide-menu">Kelas 8</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                            <i class="mdi mdi-adjust"></i>
-                                            <span class="hide-menu">Kelas 9</span>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
                             {{-- ========== SUBJECTS END ========== --}} 
-        
-        
-        
+
+
+
                             {{-- ========== EXTRACURRICULARS START ========== --}} 
                             <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
@@ -406,7 +366,58 @@
                                     <span class="hide-menu">Ekstrakurikuler</span>
                                 </a>
                             </li>
-                            {{-- ========== EXTRACURRICULARS END ========== --}} 
+                            {{-- ========== EXTRACURRICULARS END ========== --}}
+
+
+
+                            {{-- ========== TITLE START ========== --}} 
+                            <li class="nav-small-cap">
+                                <i class="mdi mdi-dots-horizontal"></i>
+                                <span class="hide-menu">SESI DAN TAHUN AJARAN</span>
+                            </li>
+                            {{-- ========== TITLE END ========== --}} 
+
+
+
+                            {{-- ========== SCHOOL YEAR START ========== --}} 
+                            <li class="sidebar-item">
+                                <a href="{{ route('admin.subject-list') }}" class="sidebar-link waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-newspaper"></i>
+                                    <span class="hide-menu">Tahun Ajaran</span>
+                                </a>
+                            </li>
+                            {{-- ========== SUBJECTS END ========== --}} 
+
+
+
+                            {{-- ========== SCORING SESSION START ========== --}} 
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-newspaper"></i>
+                                    <span class="hide-menu">Sesi Penilaian</span>
+                                </a>
+                            </li>
+                            {{-- ========== SCORING SESSION END ========== --}}
+
+
+
+                            {{-- ========== TITLE START ========== --}} 
+                            <li class="nav-small-cap">
+                                <i class="mdi mdi-dots-horizontal"></i>
+                                <span class="hide-menu">BERITA</span>
+                            </li>
+                            {{-- ========== TITLE END ========== --}} 
+
+
+
+                            {{-- ========== NEWS START ========== --}} 
+                            <li class="sidebar-item">
+                                <a href="{{ route('admin.news') }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-newspaper"></i>
+                                    <span class="hide-menu">Daftar Berita</span>
+                                </a>
+                            </li>
+                            {{-- ========== NEWS END ========== --}}
         
                         </ul>
                     </nav>
@@ -420,12 +431,218 @@
 
 
 
+        {{-- ========== NOTIFICATION MODAL START ========== --}}
+        <div class="modal fade show" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel1">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="notificationModalLabel1">Update Data Siswa</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                
+                                {{-- ========== OLD DATA START ========== --}}
+                                <div class="col-6 border-right border-dark">
+                                    <h4 class="text-center font-bold mb-3">Data Lama</h4>
+
+                                    <div class="form-group row">
+                                        {{ Form::label('old-name', 'Nama Lengkap', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('old-name', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="form-group row">
+                                        {{ Form::label('old-place-of-birth', 'Tempat Lahir', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('old-place-of-birth', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="form-group row">
+                                        {{ Form::label('old-date-of-birth', 'Tanggal Lahir', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::date('old-date-of-birth', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="form-group row">
+                                        {{ Form::label('old-father-name', 'Nama Ayah', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('old-father-name', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="form-group row">
+                                        {{ Form::label('old-mother-name', 'Nama Ibu', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('old-mother-name', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        {{ Form::label('old-address', 'Alamat', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('old-address', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        {{ Form::label('old-phone-number', 'Nomor Handphone', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('old-phone-number', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+        
+                                </div>
+                                {{-- ========== OLD DATA END ========== --}}
+
+
+
+                                {{-- ========== NEW DATA START ========== --}}
+                                <div class="col-6">
+                                    <h4 class="text-center font-bold mb-3">Data Baru</h4>
+
+                                    <div class="form-group row">
+                                        {{ Form::label('new-name', 'Nama Lengkap', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('new-name', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="form-group row">
+                                        {{ Form::label('new-place-of-birth', 'Tempat Lahir', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('new-place-of-birth', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="form-group row">
+                                        {{ Form::label('new-date-of-birth', 'Tanggal Lahir', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::date('new-date-of-birth', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="form-group row">
+                                        {{ Form::label('new-father-name', 'Nama Ayah', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('new-father-name', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="form-group row">
+                                        {{ Form::label('new-mother-name', 'Nama Ibu', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('new-mother-name', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        {{ Form::label('new-address', 'Alamat', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('new-address', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        {{ Form::label('new-phone-number', 'Nomor Handphone', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                        <div class="col-md-8">
+                                            {{ Form::text('new-phone-number', '', ['class' => 'form-control form-control-line bg-transparent']) }}
+                                        </div>
+                                    </div>
+        
+                                </div>
+                                {{-- ========== OLD DATA END ========== --}}
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="abort-update" class="btn btn-danger" data-dismiss="modal">Tolak</button>
+                        <button type="button" id="approve-update" class="btn btn-success" data-dismiss="modal">Setujui</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- ========== NOTIFICATION MODAL END ========== --}}
+
+
+
+        {{-- ========== LOGIN INFO MODAL START ========== --}}
+        <div class="modal fade show" id="loginInfoModal" tabindex="-1" role="dialog" aria-labelledby="loginInfoModalLabel1" wire:ignore.self>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="loginInfoModalLabel1">Informasi Login</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="login-info-form">
+                            <div class="row">
+                                
+                                {{-- ========== OLD DATA START ========== --}}
+                                <div class="col-12">
+                                    
+                                    {{-- ========== EMAIL START ========== --}}
+                                    <div class="form-group row">
+                                        {{ Form::label('email', 'Email', ["class" => "col-md-3 col-form-label"]) }}
+                                        <div class="col-md-9">
+                                            {{ Form::email('email', Auth::user()->email, ['class' => 'form-control form-control-line'.($errors->has('email') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'email', 'required']) }}
+                                            @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+                                    </div>
+                                    {{-- ========== EMAIL START ========== --}}
+
+
+
+                                    {{-- ========== OLD PASSWORD START ========== --}}
+                                    <div class="form-group row">
+                                        {{ Form::label('old_password', 'Kata Sandi Lama', ["class" => "col-md-3 col-form-label"]) }}
+                                        <div class="col-md-9">
+                                            {{ Form::password('old_password', ['class' => 'form-control form-control-line'.($errors->has('oldPassword') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'old_password', 'required']) }}
+                                            @error('oldPassword')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+                                    </div>
+                                    {{-- ========== OLD PASSWORD START ========== --}}
+
+
+
+                                    {{-- ========== NEW PASSWORD START ========== --}}
+                                    <div class="form-group row">
+                                        {{ Form::label('new_password', 'Kata Sandi Baru', ["class" => "col-md-3 col-form-label"]) }}
+                                        <div class="col-md-9">
+                                            {{ Form::password('new_password', ['class' => 'form-control form-control-line'.($errors->has('newPassword') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'new_password', 'required']) }}
+                                            @error('newPassword')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+                                    </div>
+                                    {{-- ========== NEW PASSWORD START ========== --}}
+
+                                </div>
+                                {{-- ========== OLD DATA END ========== --}}
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="button" id="save" class="btn btn-info" data-dismiss="modal">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- ========== LOGIN INFO MODAL END ========== --}}
+
+
+
         {{-- ========== JAVASCRIPTS ========== --}}
         <x-dashboard.javascript />
         
         @livewireScripts
         @powerGridScripts
-        
+
         @stack('additional-script')
 
     </body>

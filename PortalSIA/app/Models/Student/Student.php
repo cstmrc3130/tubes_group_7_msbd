@@ -23,6 +23,8 @@ class Student extends Model
     protected $fillable = 
     [
         'NISN',
+        'homeroom_class_id',
+        'homeroom_teacher_NIP',
         'name',
         'place_of_birth',
         'date_of_birth',
@@ -30,7 +32,11 @@ class Student extends Model
         'father_name',
         'mother_name',
         'guardian_name',
-        'phone_number'
+        'address',
+        'phone_numbers',
+        'status',
+        'entry_year',
+        'special_needs'
     ];
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
@@ -42,7 +48,7 @@ class Student extends Model
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
     public function homeroomclass()
     {
-        return $this->hasOne(Classroom::class, 'id', 'homeroom_class_id');
+        return $this->belongsTo(Classroom::class, 'homeroom_class_id', 'id');
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //

@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Notification extends Model
+class SchoolYear extends Model
 {
     use HasFactory;
 
     // ========== SPECIFY TABLE TO USE ========== //
-    protected $table = "notifications";
+    protected $table = "school_years";
 
     // ========== DISABLING AUTO INCREMENT FOR PRIMARY KEY ========== //
     public $primaryKey = "id";

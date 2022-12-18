@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\News;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,6 +23,8 @@ class LandingPage extends Component
     // ========== RENDER LANDING PAGE ========== //
     public function render()
     {
-        return view('livewire.landing-page')->layout('landing-page', ['title' => 'Landing Page']);
+        $allNews = News::all()->take(3);
+
+        return view('livewire.landing-page', compact('allNews'))->layout('landing-page', ['title' => 'Landing Page']);
     }
 }

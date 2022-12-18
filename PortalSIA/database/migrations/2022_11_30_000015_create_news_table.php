@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->uuid("id")->primary();
             $table->uuid("author_id");
-            $table->tinyText("title");
-            $table->text("description");
-            $table->text("image");
+            $table->text("title");
+            $table->mediumText('content');
             $table->timestamps();
 
             // onDelete restrict PREVENT TO DELETE users RECORD DIRECTLY IF POST IS ALREADY FILLED
