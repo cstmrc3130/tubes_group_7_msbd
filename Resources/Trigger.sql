@@ -212,7 +212,7 @@ END
 ///  SCHOOL_YEAR  // 
 CREATE TRIGGER `delete_log_school_year` BEFORE DELETE ON `school_years`
  FOR EACH ROW BEGIN
-	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "You Can't Delete it!!";
+	SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "You Cant Delete it!!";
     END
 
 CREATE TRIGGER `insert_log_school_year` BEFORE INSERT ON `school_years`
@@ -224,5 +224,5 @@ CREATE TRIGGER `insert_log_school_year` BEFORE INSERT ON `school_years`
 
 CREATE TRIGGER `update_log_school_year` BEFORE UPDATE ON `school_years`
  FOR EACH ROW BEGIN
-	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "You Can't Change it!";
+	SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "You Cant Change it!";
     END
