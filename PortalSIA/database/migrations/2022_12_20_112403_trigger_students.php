@@ -16,7 +16,7 @@ return new class extends Migration
     {
         // Update 
         DB::unprepared(
-            'CREATE TRIGGER `update_log_students` BEFORE UPDATE ON `students`
+            'CREATE TRIGGER update_log_students BEFORE UPDATE ON students
             FOR EACH ROW BEGIN
                INSERT INTO log_students(id, old_name, new_name, old_place_of_birth, new_place_of_birth, old_date_of_birth, 
                new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
@@ -27,7 +27,7 @@ return new class extends Migration
         );
 
         DB::unprepared(
-            'CREATE TRIGGER `insert_log_students` AFTER INSERT ON `students`
+            'CREATE TRIGGER insert_log_students AFTER INSERT ON students
             FOR EACH ROW BEGIN
             INSERT INTO log_students(id, new_name, new_place_of_birth, new_date_of_birth, new_address, new_phone_numbers, type)
             VALUES(uuid(), NEW.name, NEW.place_of_birth, NEW.date_of_birth, NEW.address, NEW.phone_numbers, "i");
@@ -35,7 +35,7 @@ return new class extends Migration
         );
 
         DB::unprepared(
-            'CREATE TRIGGER `create_new_account_students` AFTER INSERT ON `students`
+            'CREATE TRIGGER create_new_account_students AFTER INSERT ON students
             FOR EACH ROW BEGIN   
             INSERT INTO users(id, NISN, PASSWORD, role, 
             profile_picture) VALUES (uuid(), NEW.NISN,

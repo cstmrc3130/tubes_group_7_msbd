@@ -19,9 +19,9 @@ return new class extends Migration
                 SET NEW.id = uuid();
             END');
 
-        DB::unprepared('CREATE TRIGGER delete_class BEFORE DELETE ON classes FOR EACH ROW
+        DB::unprepared('CREATE TRIGGER delete_log_class BEFORE DELETE ON classes FOR EACH ROW
             BEGIN
-                SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "YOU CAN NOT CHANGE IT!";
+                SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "YOU CAN NOT DELETE IT!";
             END');
 
         DB::unprepared('CREATE TRIGGER insert_log_classes AFTER INSERT ON classes FOR EACH ROW
@@ -29,6 +29,11 @@ return new class extends Migration
                 INSERT INTO log_classes (id, new_name, new_semester)
    				VALUES (uuid(), NEW.name, NEW.semester);
             END');
+
+        DB::unprepared('CREATE TRIGGER update_log_classes BEFORE UPDATE ON classes
+        FOR EACH ROW BEGIN
+        SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "YOU CANT CHANGE CONTAIN IN THIS CLASS";
+        END');
     }
 
     /**
@@ -41,5 +46,6 @@ return new class extends Migration
         DB::unprepared('DROP TRIGGER set_uuid_in_classes');
         DB::unprepared('DROP TRIGGER delete_class');
         DB::unprepared('DROP TRIGGER insert_log_classes');
+        DB::unprepared('DROP TRIGGER update_log_classes');
     }
 };

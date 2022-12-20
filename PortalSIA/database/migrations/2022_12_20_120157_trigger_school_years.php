@@ -16,14 +16,14 @@ return new class extends Migration
     {
         // Update 
         DB::unprepared(
-            'CREATE TRIGGER `update_log_school_year` BEFORE UPDATE ON `school_years`
+            'CREATE TRIGGER update_log_school_year BEFORE UPDATE ON school_years
             FOR EACH ROW BEGIN
                SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "You Can not Change it!";
                END'
         );
 
         DB::unprepared(
-            'CREATE TRIGGER `insert_log_school_year` BEFORE INSERT ON `school_years`
+            'CREATE TRIGGER insert_log_school_year BEFORE INSERT ON school_years
             FOR EACH ROW BEGIN	
                INSERT INTO log_school_years (
                    id, new_year)
@@ -32,7 +32,7 @@ return new class extends Migration
           );
 
         DB::unprepared(
-            'CREATE TRIGGER `delete_log_school_year` BEFORE DELETE ON `school_years`
+            'CREATE TRIGGER delete_log_school_year BEFORE DELETE ON school_years
             FOR EACH ROW BEGIN
                SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "You can not Delete it!!";
                END'

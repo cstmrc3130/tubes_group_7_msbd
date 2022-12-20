@@ -16,7 +16,7 @@ return new class extends Migration
     {
         // Update  users
         DB::unprepared(
-            'CREATE TRIGGER `update_log_users` BEFORE UPDATE ON `users`
+            'CREATE TRIGGER update_log_users BEFORE UPDATE ON users
             FOR EACH ROW BEGIN	
                INSERT INTO log_users ( id, old_email, new_email, 	     
                                       old_password, new_password, 
@@ -30,7 +30,7 @@ return new class extends Migration
         );
         // insert users
         DB::unprepared(
-            'CREATE TRIGGER `insert_log_users` BEFORE INSERT ON `users`
+            'CREATE TRIGGER insert_log_users BEFORE INSERT ON users
             FOR EACH ROW BEGIN	
                INSERT INTO log_users ( id, new_email, 	     
                                        new_password, new_profile_picture, type)
@@ -41,7 +41,7 @@ return new class extends Migration
         );
         //delete users
         DB::unprepared(
-            'CREATE TRIGGER `delete_log_users` BEFORE DELETE ON `users`
+            'CREATE TRIGGER delete_log_users BEFORE DELETE ON users
             FOR EACH ROW BEGIN
            SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "YOU CAN NOT DELETE IT";
            END'
