@@ -20,8 +20,8 @@ return new class extends Migration
             FOR EACH ROW BEGIN
                INSERT INTO log_students(id, old_name, new_name, old_place_of_birth, new_place_of_birth, old_date_of_birth, 
                new_date_of_birth, old_address, new_address, old_phone_numbers, new_phone_numbers, type)
-               VALUES(uuid(), OLD.name, NEW.name, OLD.place_of_birth, IF(NEW.place_of_birth IN (OLD.place_of_birth), "-"",
-                NEW.place_of_birth), OLD.date_of_birth, NEW.date_of_birth, OLD.address, IF(NEW.address IN (OLD.address), "-"", 
+               VALUES(uuid(), OLD.name, NEW.name, OLD.place_of_birth, IF(NEW.place_of_birth IN (OLD.place_of_birth), "-",
+                NEW.place_of_birth), OLD.date_of_birth, NEW.date_of_birth, OLD.address, IF(NEW.address IN (OLD.address), "-", 
                 NEW.address), OLD.phone_numbers, NEW.phone_numbers, "u");
                END'
         );
