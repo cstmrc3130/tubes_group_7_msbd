@@ -8,6 +8,8 @@ class Profile extends Component
 {
     public function render()
     {
-        return view('livewire..teacher.profile');
+        $title = "Dashboard";
+
+        return view('livewire.teacher.profile')->layout('teacher.master', compact('title'));
     }
 }

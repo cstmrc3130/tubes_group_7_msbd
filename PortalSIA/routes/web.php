@@ -29,9 +29,7 @@ Route::post('/logout', 'App\Http\Livewire\Auth\Logout@Logout');
 
 
 // ========== NEWS ========== //
-Route::get('/news', function () {
-    return view('news');
-});
+Route::get('/news', \App\Http\Livewire\AllNews::class);
 
 
 
@@ -75,10 +73,34 @@ Route::group(['prefix' => 'admin'], function ()
                 Route::get('/teacher-list', \App\Http\Livewire\Admin\TeacherCRUD::class)->name('teacher-list');
             });
 
-            // ========== TEACHER CRUD LIVEWIRE ========== //
+            // ========== TEACHER TEACHING SUBJECT CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\TeacherTeachingSubjectCRUD::class)->group(function()
+            {
+                Route::get('/teacher-teaching-subject', \App\Http\Livewire\Admin\TeacherTeachingSubjectCRUD::class)->name('teacher-teaching-subject');
+            });
+
+            // ========== SUBJECT CRUD LIVEWIRE ========== //
             Route::controller(\App\Http\Livewire\Admin\SubjectCRUD::class)->group(function()
             {
                 Route::get('/subject-list', \App\Http\Livewire\Admin\SubjectCRUD::class)->name('subject-list');
+            });
+
+            // ========== EXTRACURRICULAR CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\ExtracurricularCRUD::class)->group(function()
+            {
+                Route::get('/extracurricular-list', \App\Http\Livewire\Admin\ExtracurricularCRUD::class)->name('extracurricular-list');
+            });
+
+            // ========== SCHOOL YEAR CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\SchoolYearCRUD::class)->group(function()
+            {
+                Route::get('/school-year', \App\Http\Livewire\Admin\SchoolYearCRUD::class)->name('school-year');
+            });
+
+            // ========== SCORING SESSION LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\ScoringSessionCRUD::class)->group(function()
+            {
+                Route::get('/scoring-session', \App\Http\Livewire\Admin\ScoringSessionCRUD::class)->name('scoring-session');
             });
 
             // ========== NEWS CRUD LIVEWIRE ========== //
@@ -86,8 +108,7 @@ Route::group(['prefix' => 'admin'], function ()
             {
                 Route::get('/news', \App\Http\Livewire\Admin\NewsCRUD::class)->name('news');
 
-
-                // ========== CREATE NEWS LIVEWIRE ========== //
+                // ========== UPLOAD IMAGE LIVEWIRE ========== //
                 Route::post('/upload-image', "UploadImage")->name("upload-image");
             });
         });
@@ -122,6 +143,18 @@ Route::group(['prefix' => 'teacher'], function ()
             Route::controller(\App\Http\Livewire\Student\HomeroomClass::class)->group(function()
             {
                 Route::get('/homeroom-class', \App\Http\Livewire\Student\HomeroomClass::class)->name('homeroom-class');
+            });
+
+            // ========== SUBJECT SCORE LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Teacher\SubjectScoreCRUD::class)->group(function()
+            {
+                Route::get('/subject-score', \App\Http\Livewire\Teacher\SubjectScoreCRUD::class)->name('subject-score');
+            });
+
+            // ========== EXTRACURRICULAR SCORE LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Teacher\ExtracurricularScoreCRUD::class)->group(function()
+            {
+                Route::get('/extracurricular-score', \App\Http\Livewire\Teacher\ExtracurricularScoreCRUD::class)->name('extracurricular-score');
             });
         });
     });

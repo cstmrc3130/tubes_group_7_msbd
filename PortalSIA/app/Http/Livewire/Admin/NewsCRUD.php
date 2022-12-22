@@ -39,12 +39,6 @@ class NewsCRUD extends Component
         $this->validateOnly($property_name);
     }
 
-    // ========== CONSTRUCTOR TO INITIATE PROPERTIES ========== //
-    public function mount()
-    {
-        // $this->allNews = News::query()->paginate(3);
-    }
-
     // ========== RENDER ========== //
     public function render()
     {
@@ -67,7 +61,7 @@ class NewsCRUD extends Component
         return response()->json(['location' => asset('storage/news-images/' . $newImageName)]);
     }
 
-    // ========== CREATE NEWS ========== //
+    // ========== CREATE OR UPDATE NEWS ========== //
     public function CreateOrUpdateNews()
     {
         // VALIDATOR TO CATCH ERROR AND SEND TO JAVASCRIPT

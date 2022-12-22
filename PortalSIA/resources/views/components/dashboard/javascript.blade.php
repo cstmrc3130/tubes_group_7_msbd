@@ -79,7 +79,7 @@
 
             notificationCount--;
 
-            // $("#" + notificationID).remove();
+            $("#" + notificationID).remove();
             $('#noti-text').html(notificationCount + " New")
 
             if(notificationCount == 0)

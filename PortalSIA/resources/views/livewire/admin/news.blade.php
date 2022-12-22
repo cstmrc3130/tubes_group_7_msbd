@@ -28,7 +28,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-4 col-sm-2 d-flex justify-content-start m-b-20">
-                <button class="btn btn-block btn-info" data-toggle='modal' data-target="#exampleModal">
+                <button class="btn btn-block btn-info" id="add-news" data-toggle='modal' data-target="#exampleModal">
                     <i class="mdi mdi-plus-outline"></i>
                     Tambah Data
                 </button>
@@ -44,7 +44,7 @@
                         @else 
                             <img class="card-img-top" src="{{ asset('assets/images/auth-bg2.jpg') }}" height="250px" alt="Card image cap">
                         @endif
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column justify-content-between">
 
                         <div class="d-flex no-block align-items-center m-b-15">
                             <span><i class="ti-calendar"></i> {{ $news->created_at->diffForHumans() }}</span>
@@ -59,7 +59,7 @@
                             {{ Str::words($news->content, 10, '...') }}
                         </div>
 
-                        <div class="row align-items-end">
+                        <div class="row">
                             <div class="col-6">
                                 <button class="btn btn-outline-dark btn-block waves-effect waves-light m-t-20" data-toggle="modal" data-target="#exampleModal" wire:click="ConfigureNewsModal('{{ $news->id }}')">Edit</button>
                             </div>
@@ -221,6 +221,17 @@
         });
     </script>
 
+    {{-- CLEAN MODAL ON FIRST MOUNT --}}
+    <script>
+        $(function (){
+            $('#add-news').click(e =>
+            {
+                $('#title').val('');
+                tinymce.activeEditor.setContent('');
+            })
+        })
+    </script>
+
     {{-- TOAST FOR SUBMIT OR UPDATE --}}
     <script>
         $(function ()
@@ -228,9 +239,9 @@
             // SHOW SUCCESS TOAST, DISMISS MODAL, AND CLEAN ALL INPUT FIELDS
             window.addEventListener('news-created-successfully', e =>
             {
-                toastr.success("Berita berhasil disubmit!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+                toastr.success("Berita berhasil dibuat!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
 
-                $(':input').not(':button, :submit, :reset, :hidden').removeAttr('checked').removeAttr('selected').not(':checkbox, :radio, select').val('');
+                $('#title').val('');
                 
                 $("[data-dismiss=modal]").trigger({ type: "click" })
                 
@@ -245,11 +256,15 @@
         })
     </script>
 
-    {{-- TOAST FOR DELETE DATA --}}
+    {{-- TOAST FOR DELETE NEWS --}}
     <script>
         $(function (){
             window.addEventListener('success-delete', event =>
             {
+                tinymce.activeEditor.setContent('');
+
+                $('#title').val('');
+
                 toastr.success("Berita berhasil dihapus!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
             })
         })

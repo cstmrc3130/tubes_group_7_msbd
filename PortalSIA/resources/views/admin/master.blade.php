@@ -252,24 +252,10 @@
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect has-arrow waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                        <a href="{{ url('test') }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
                                             <span class="hide-menu">Rapor Siswa</span>
                                         </a>
-                                        <ul aria-expanded="false" class="collapse first-level m-l-20">
-                                            <li class="sidebar-item">
-                                                <a href="{{ route('admin.student-list') }}"  class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">Bulanan</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-item">
-                                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                                    <i class="mdi mdi-adjust"></i>
-                                                    <span class="hide-menu">Semester</span>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
                                 </ul>
                             </li>
@@ -297,7 +283,7 @@
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                        <a href="{{ route("admin.teacher-teaching-subject") }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
                                             <span class="hide-menu">Mata Pelajaran Guru</span>
                                         </a>
@@ -351,7 +337,7 @@
                             {{-- ========== SUBJECTS START ========== --}} 
                             <li class="sidebar-item">
                                 <a href="{{ route('admin.subject-list') }}" class="sidebar-link waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="mdi mdi-newspaper"></i>
+                                    <i class="mdi mdi-book-open"></i>
                                     <span class="hide-menu">Mata Pelajaran</span>
                                 </a>
                             </li>
@@ -361,8 +347,8 @@
 
                             {{-- ========== EXTRACURRICULARS START ========== --}} 
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="mdi mdi-newspaper"></i>
+                                <a href="{{ route('admin.extracurricular-list') }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-football"></i>
                                     <span class="hide-menu">Ekstrakurikuler</span>
                                 </a>
                             </li>
@@ -381,19 +367,19 @@
 
                             {{-- ========== SCHOOL YEAR START ========== --}} 
                             <li class="sidebar-item">
-                                <a href="{{ route('admin.subject-list') }}" class="sidebar-link waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="mdi mdi-newspaper"></i>
+                                <a href="{{ route('admin.school-year') }}" class="sidebar-link waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-calendar"></i>
                                     <span class="hide-menu">Tahun Ajaran</span>
                                 </a>
                             </li>
-                            {{-- ========== SUBJECTS END ========== --}} 
+                            {{-- ========== SCHOOL YEAR END ========== --}} 
 
 
 
                             {{-- ========== SCORING SESSION START ========== --}} 
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="mdi mdi-newspaper"></i>
+                                <a href="{{ route('admin.scoring-session') }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-alarm-check"></i>
                                     <span class="hide-menu">Sesi Penilaian</span>
                                 </a>
                             </li>

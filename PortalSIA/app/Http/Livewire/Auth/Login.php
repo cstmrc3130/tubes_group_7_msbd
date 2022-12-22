@@ -2,10 +2,10 @@
 
 namespace App\Http\Livewire\Auth;
 
+use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
 
 class Login extends Component
@@ -46,6 +46,9 @@ class Login extends Component
         {
             if (auth()->user()->role == 0)
             {
+                // SET CURRENT SCHOOL YEAR TO THE LATEST RECORD
+                session()->put('currentSchoolYear', \App\Models\SchoolYear::orderBy('year', 'desc')->value('id'));
+
                 return redirect()->intended(route('admin.dashboard'));
             }
             else if (auth()->user()->role == 1)

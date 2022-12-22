@@ -35,6 +35,13 @@ class SubjectScore extends Model
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN TAUGHT SUBJECT AND SUBJECT ========== //
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
+    }
+
+
+    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN TAUGHT SUBJECT AND SUBJECT ========== //
     public function extracurricular()
     {
         return $this->belongsTo(Extracurricular::class, 'extracurricular_id', 'id');

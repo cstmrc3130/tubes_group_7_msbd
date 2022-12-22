@@ -97,5 +97,4 @@ class TeacherCRUD extends Component
 
         $this->dispatchBrowserEvent('success-delete', ['data' => $NIP]);
     }
-    
 }

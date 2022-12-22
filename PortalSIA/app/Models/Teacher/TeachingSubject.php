@@ -25,7 +25,6 @@ class TeachingSubject extends Model
         'NIP',
         'subject_id',
         'class_id',
-        'school_year',
     ];
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN SUBJECT ITS TEACHER ========== //
@@ -43,6 +42,6 @@ class TeachingSubject extends Model
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN TAUGHT SUBJECT AND SUBJECT ========== //
     public function classroom()
     {
-        return $this->belongsTo(Classroom::class, 'subject_id', 'id');
+        return $this->belongsTo(Classroom::class, 'class_id', 'id');
     }
 }

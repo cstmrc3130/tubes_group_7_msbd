@@ -85,7 +85,7 @@
                                 <p class="font-16 m-b-5">Tahun Ajaran</p>
                             </div>
                             <div class="col-5">
-                                <h1 class="font-light font-14 text-right mb-0">{{ \App\Models\SchoolYear::latest()->take(1)->value('year') }}</h1>
+                                <h1 class="font-light font-14 text-right mb-0">{{ \App\Models\SchoolYear::find(session('currentSchoolYear'))->year }}</h1>
                             </div>
                         </div>
                     </div>

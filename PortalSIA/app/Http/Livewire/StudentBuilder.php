@@ -21,7 +21,6 @@ final class StudentBuilder extends PowerGridComponent
     // ========== HEADER AND FOOTER FUNCTIONALITY ========== //
     public function setUp(): array
     {
-
         return [
             Header::make()->showSearchInput(),
             Footer::make()
@@ -33,7 +32,9 @@ final class StudentBuilder extends PowerGridComponent
     // ========== DATA SOURCE (I.E BUILDER) ========== //
     public function datasource(): Builder
     {
-        return Student::query();
+        // RETUN ALL STUDENTS WHICH HOMEROOM CLASS HAS SCHOOL YEAR EQUAL TO CURRENT SCHOOL YEAR
+        return Student::query()->whereHas('homeroomclass', fn(Builder $query) 
+                => $query->where('classes.school_year_id', session('currentSchoolYear')));
     }
 
     public function relationSearch(): array

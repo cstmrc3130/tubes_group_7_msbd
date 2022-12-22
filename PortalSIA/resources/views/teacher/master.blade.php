@@ -65,9 +65,7 @@
                             <a class="nav-link dropdown-toggle waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="{{ Auth::user()->profile_picture != 'DEFAULT' ? asset('users-profile-pictures/'.Auth::user()->profile_picture) : asset('users-profile-pictures/'.'default-user.svg')  }}" alt="profile-picture" class="rounded-circle" width="40">
                                 <span class="m-l-5 font-medium d-none d-sm-inline-block">
-                                    @for($i = 0; $i < 2; $i++)
-                                        {!! print_r(explode(" ", auth()->user()->teacher->name)[$i], true); !!}
-                                    @endfor
+                                    {{ auth()->user()->teacher->name }}
                                 <i class="mdi mdi-chevron-down"></i></span>
                             </a>
                             {{-- ========== NAME AND PROFILE PICTURE END ========== --}}
@@ -91,9 +89,7 @@
                                     </div>
                                     <div class="m-l-10">
                                         <h4 class="m-b-0">
-                                            @for($i = 0; $i < 2; $i++)
-                                                {!! print_r(explode(" ", auth()->user()->teacher->name)[$i], true); !!}
-                                            @endfor
+                                        {{ auth()->user()->teacher->name }}
                                         </h4>
                                         <p class=" m-b-0">{{ Auth::user()->email }}</p>
                                     </div>
@@ -156,27 +152,21 @@
     
     
     
-                        {{-- ========== E-RAPOR START ========== --}} 
+                        {{-- ========== CLASS START ========== --}} 
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                            <a href="{{ route('teacher.homeroom-class') }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                 <i class="ti-agenda"></i>
-                                <span class="hide-menu">Rapor Bulanan</span>
+                                <span class="hide-menu">Wali Kelas</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                <i class="ti-bookmark-alt"></i>
-                                <span class="hide-menu">Rapor Semester</span>
-                            </a>
-                        </li>
-                        {{-- ========== E-RAPOR END ========== --}} 
+                        {{-- ========== CLASS END ========== --}} 
 
 
 
                         {{-- ========== TITLE START ========== --}} 
                         <li class="nav-small-cap">
                             <i class="mdi mdi-dots-horizontal"></i>
-                            <span class="hide-menu">Informasi Rapor</span>
+                            <span class="hide-menu">Manajemen Nilai</span>
                         </li>
                         {{-- ========== TITLE END ========== --}} 
     
@@ -184,15 +174,16 @@
     
                         {{-- ========== E-RAPOR START ========== --}} 
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                <i class="ti-agenda"></i>
-                                <span class="hide-menu">Rapor Bulanan</span>
+                            <a href="{{ route('teacher.subject-score') }}" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-adjust"></i>
+                                <span class="hide-menu">Nilai Mata Pelajaran</span>
                             </a>
                         </li>
+
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                <i class="ti-bookmark-alt"></i>
-                                <span class="hide-menu">Rapor Semester</span>
+                            <a href="{{ route('teacher.extracurricular-score') }}" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-adjust"></i>
+                                <span class="hide-menu">Nilai Ekstrakurikuler</span>
                             </a>
                         </li>
                         {{-- ========== E-RAPOR END ========== --}} 
@@ -203,9 +194,8 @@
         </aside>
 
 
-        <div class="page-wrapper" >
-            {{ $slot }}
-        </div>
+
+        {{ $slot }}
     </div>
 
 

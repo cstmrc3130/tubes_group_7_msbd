@@ -16,10 +16,14 @@ class ScoringSession extends Model
     public $primaryKey = "id";
     public $incrementing = false;
 
+    // ========== NON MASS ASSIGNABLE ATTRIBUTES ========== // 
+    protected $guarded = [];
+    
     // ========== MASS ASSIGNABLE ATTRIBUTES ========== //
     protected $fillable = 
     [
         'id',
+        'type',
         'start_date',
         'end_date',
     ];

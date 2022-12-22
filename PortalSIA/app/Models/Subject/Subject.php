@@ -2,7 +2,7 @@
 
 namespace App\Models\Subject;
 
-use App\Models\Completeness;
+use App\Models\SchoolYear;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,14 +21,15 @@ class Subject extends Model
     protected $fillable = 
     [
         'id',
-        'completeness_id',
+        'school_year_id',
+        'completeness',
         'name',
     ];
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN SUBJECT ITS TEACHER ========== //
-    public function completeness()
+    public function schoolyear()
     {
-        return $this->belongsTo(Completeness::class, 'completeness_id', 'id');
+        return $this->belongsTo(SchoolYear::class, 'school_year_id', 'id');
     }
 
 }

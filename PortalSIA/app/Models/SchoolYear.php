@@ -15,4 +15,11 @@ class SchoolYear extends Model
     // ========== DISABLING AUTO INCREMENT FOR PRIMARY KEY ========== //
     public $primaryKey = "id";
     public $incrementing = false;
+
+    // ========== MASS ASSIGNABLE ATTRIBUTES ========== //
+    protected $fillable = 
+    [
+        'id',
+        'year'
+    ];
 }
