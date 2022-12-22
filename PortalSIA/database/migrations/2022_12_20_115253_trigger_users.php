@@ -19,11 +19,13 @@ return new class extends Migration
             'CREATE TRIGGER update_log_users BEFORE UPDATE ON users
             FOR EACH ROW BEGIN	
                INSERT INTO log_users ( id, old_email, new_email, 	     
-                                      old_password, new_password, 
+                                      old_password, new_password,
+                                      old_role, new_role,
                                       old_profile_picture, 
                                       new_profile_picture, type)
                               VALUES  (uuid(), OLD.email, NEW.email, 
-                                       OLD.password, NEW.password, 
+                                       OLD.password, NEW.password,
+                                       OLD.role, NEW.role,
                                        OLD.profile_picture, 
                                        NEW.profile_picture, "u");
                               END'
@@ -33,9 +35,12 @@ return new class extends Migration
             'CREATE TRIGGER insert_log_users BEFORE INSERT ON users
             FOR EACH ROW BEGIN	
                INSERT INTO log_users ( id, new_email, 	     
-                                       new_password, new_profile_picture, type)
+                                       new_password,
+                                       new_role,
+                                       new_profile_picture, type)
                               VALUES  (uuid(), NEW.email, 
-                                       NEW.password, 
+                                       NEW.password,
+                                       NEW.role,
                                        NEW.profile_picture, "i");
                               END'
         );

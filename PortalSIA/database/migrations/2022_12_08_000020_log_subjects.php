@@ -15,9 +15,7 @@ return new class extends Migration
     {
         Schema::create('log_subjects', function (Blueprint $table) {
             $table->uuid('id');
-            $table->tinyText("old_name");
             $table->tinyText("new_name");
-            $table->tinyInteger('old_completeness');
             $table->tinyInteger('new_completeness');
             $table->timestamps();
                        
