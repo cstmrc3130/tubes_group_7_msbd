@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Student\Student;
+use App\Models\SchoolYear;
 use Illuminate\Support\Carbon;
+use App\Models\Student\Student;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
+use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
 final class StudentBuilder extends PowerGridComponent
@@ -22,9 +23,12 @@ final class StudentBuilder extends PowerGridComponent
     public function setUp(): array
     {
         return [
+            Exportable::make('DaftarNamaSiswa_TA_' .  str_replace("/", "-", SchoolYear::query()->find(session('currentSchoolYear'))->year))
+                ->striped('#A6ACCD')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
-                ->showPerPage(5)
+                ->showPerPage(5, [0, 5, 10, 20, 50])
                 ->showRecordCount(),
         ];
     }
@@ -32,9 +36,11 @@ final class StudentBuilder extends PowerGridComponent
     // ========== DATA SOURCE (I.E BUILDER) ========== //
     public function datasource(): Builder
     {
-        // RETUN ALL STUDENTS WHICH HOMEROOM CLASS HAS SCHOOL YEAR EQUAL TO CURRENT SCHOOL YEAR
-        return Student::query()->whereHas('homeroomclass', fn(Builder $query) 
-                => $query->where('classes.school_year_id', session('currentSchoolYear')));
+        $currentSchoolYear = SchoolYear::query()->find(session('currentSchoolYear'))->year;
+
+        // RETUN ALL STUDENTS WHICH ENTRY YEAR IS BETWEEN CURRENT SCHOOL YEAR - 2 TO CURRENT SCHOOL YEAR
+        // e.g IF CURRENT SCHOOL YEAR IS 2022/2023, SELECT entry_year BETWEEN 2020 - 2022
+        return Student::query()->whereBetween('entry_year', [substr($currentSchoolYear, 0, 4) - 2, substr($currentSchoolYear, 0, 4)]);
     }
 
     public function relationSearch(): array
@@ -49,7 +55,7 @@ final class StudentBuilder extends PowerGridComponent
             ->addColumn('NISN')
             ->addColumn('name')
             ->addColumn('homeroom_class_id')
-            ->addColumn('homeroom_class_id', fn(Student $model) => $model->homeroomclass->name)
+            ->addColumn('homeroom_class_id', fn(Student $model) => $model->homeroomclass != null ? $model->homeroomclass->name : "")
             ->addColumn('place_of_birth')
             ->addColumn('date_of_birth_formatted', fn (Student $model) => Carbon::parse($model->date_of_birth)->format('Y-m-d'))
             ->addColumn('gender', fn (Student $model) => $model->gender == "M" ? "Laki-Laki" : "Perempuan")

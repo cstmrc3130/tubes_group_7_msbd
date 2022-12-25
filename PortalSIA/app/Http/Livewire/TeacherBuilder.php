@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\SchoolYear;
 use App\Models\Teacher\Teacher;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,9 +23,12 @@ final class TeacherBuilder extends PowerGridComponent
     public function setUp(): array
     {
         return [
+            Exportable::make('DaftarNamaGuru_TA_' .  str_replace("/", "-", SchoolYear::query()->find(session('currentSchoolYear'))->year))
+                ->striped('#A6ACCD')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
-                ->showPerPage(5, [5, 10, 20, 50, 0])
+                ->showPerPage(5, [0, 5, 10, 20, 50])
                 ->showRecordCount(),
         ];
     }
@@ -32,7 +36,9 @@ final class TeacherBuilder extends PowerGridComponent
     // ========== DATA SOURCE (I.E BUILDER) ========== //
     public function datasource(): Builder
     {
-        return Teacher::query();
+        $currentSchoolYear = SchoolYear::query()->find(session('currentSchoolYear'))->year;
+
+        return Teacher::query()->where('started_working_at', '<=', substr($currentSchoolYear, 5, strlen($currentSchoolYear)));
     }
 
     public function relationSearch(): array

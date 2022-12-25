@@ -17,6 +17,8 @@ return new class extends Migration
             $table->uuid('id');
             $table->tinyText("old_name");
             $table->tinyText("new_name");
+            $table->uuid('old_school_year_id');
+            $table->uuid('new_school_year_id');
             $table->tinyInteger("old_semester");
             $table->tinyInteger("new_semester");
             $table->timestamps();

@@ -24,7 +24,7 @@
 
 
 
-    {{-- ========== CONFIGURE DATE START ========== --}}
+    {{-- ========== CONFIGURE SUBJECT START ========== --}}
     <div class="container-fluid">
         <div class="col-md-12">
             <div class="card">
@@ -95,7 +95,7 @@
             </div>
         </div>
     </div>
-    {{-- ========== CONFIGURE DATE END ========== --}}
+    {{-- ========== CONFIGURE SUBJECT END ========== --}}
 
 
 

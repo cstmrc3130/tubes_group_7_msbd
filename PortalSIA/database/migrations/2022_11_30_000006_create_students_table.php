@@ -27,8 +27,9 @@ return new class extends Migration
             $table->tinyText("mother_name")->nullable();
             $table->tinyText("guardian_name")->nullable();
             $table->integer("entry_year");
-            $table->enum("special_needs", ['E', "NE"])->nullable;
+            $table->enum("special_needs", ['E', "NE"])->nullable();
             $table->enum("status", ["A", "I"]);
+            $table->tinyText("description");
             $table->timestamps();
 
             // FOREIGN KEY

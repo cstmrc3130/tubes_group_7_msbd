@@ -59,6 +59,33 @@
         
         
                     <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav float-left mr-0" style="padding-left: 20px">
+                            <div class="row alert alert-cyan mb-0 nowrap py-2">
+                                <li class="col-2 align-self-center">
+                                    <i class="mdi mdi-access-point mdi-24px"></i>
+                                </li>
+                                <div class="col-10 flex-column">
+                                    <li> 
+                                        Tahun Ajaran Aktif :
+                                        <span class="font-bold">
+                                            {{ \App\Models\SchoolYear::find(session('currentSchoolYear'))->year }}
+                                        </span>
+                                    </li>
+                                    <li> 
+                                        Semester Aktif :
+
+                                        @if(\App\Models\Classroom\Classroom::query()->where('school_year_id', session('currentSchoolYear'))->first() != NULL)
+                                        <span class="font-bold">
+                                            {{ \App\Models\Classroom\Classroom::query()->select('semester')->where('school_year_id', session('currentSchoolYear'))->first()->value('semester') }}
+                                        </span>
+                                        @endif
+                                    </li>
+                                </div>
+                            </div>
+                        </ul>
+
+
+
                         <ul class="navbar-nav float-right ml-auto">
         
                             {{-- ========== NOTIFICATION START ========== --}} 
@@ -109,9 +136,9 @@
                                             <div class="message-center notifications h-auto" >
                                                 @foreach($recentNotification as $notification)
                                                     @livewire('admin.notification-inline', [
-                                                        'notificationID' => $notification->id, 
-                                                        'name' => \App\Models\User::find($notification->data['user_id'])->student->name, 
-                                                        'createdAt' => $notification->created_at->diffForHumans()
+                                                            'notificationID' => $notification->id, 
+                                                            'name' => \App\Models\User::find($notification->data['user_id'])->student->name, 
+                                                            'createdAt' => $notification->created_at->diffForHumans()
                                                         ])
                                                 @endforeach
                                             </div>

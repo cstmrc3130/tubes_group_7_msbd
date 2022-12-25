@@ -2,17 +2,14 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\News;
 use Livewire\Component;
 
-class AllNews extends Component
+class SchoolProfile extends Component
 {
     // ========== RENDER ========== //
     public function render()
     {
-        $allNews = News::all()->take(3);
-
-        return view('livewire.news', compact('allNews'))->layout('landing-page', ['title' => 'Berita']);
+        return view('livewire.school-profile')->layout('landing-page', ['title' => 'Profil Sekolah']);
     }
 
     // ========== LOGGING OUT WITHOUT RELOAD ========== //

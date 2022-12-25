@@ -48,6 +48,11 @@ Route::group(['prefix' => 'directory'], function ()
 
 
 
+// ========== DIRECTORY ========== //
+Route::get('school-profile', 'App\Http\Livewire\SchoolProfile'::class)->name('school-profile');
+
+
+
 // ========== ADMIN SECTION ========== //
 Route::group(['prefix' => 'admin'], function ()
 {

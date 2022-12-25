@@ -17,9 +17,12 @@ final class SchoolYearBuilder extends PowerGridComponent
     public function setUp(): array
     {
         return [
+            Exportable::make('my-export-file')
+                ->striped('#A6ACCD')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
-                ->showPerPage(5)
+                ->showPerPage(5, [0, 5, 10, 20, 50])
                 ->showRecordCount(),
         ];
     }

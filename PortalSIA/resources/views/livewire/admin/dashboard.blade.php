@@ -25,7 +25,7 @@
 
 
     {{-- ========== ENTITIES AMOUNT START ========== --}}
-    <div class="container-fluid" style="min-height: 1em">
+    <div class="container-fluid" style="min-height: 1px">
         <div class="row">
 
             <div class="col-lg-3 col-md-6">
@@ -81,11 +81,11 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-7">
-                                <i class="mdi mdi-calendar font-20 text-purple"></i>
-                                <p class="font-16 m-b-5">Tahun Ajaran</p>
+                                <i class="mdi mdi-account font-20 text-purple"></i>
+                                <p class="font-16 m-b-5">Admin</p>
                             </div>
                             <div class="col-5">
-                                <h1 class="font-light font-14 text-right mb-0">{{ \App\Models\SchoolYear::find(session('currentSchoolYear'))->year }}</h1>
+                                <h1 class="font-light font-14 text-right mb-0">{{ $adminCount }}</h1>
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
 
 
     {{-- ========== DATA TABLE FOR ACTIVE USERS START ========== --}}
-    <div class="container-fluid" wire:poll>
+    <div class="container-fluid" style="min-height: 43vh">
         <livewire:online-user-collection />
     </div>
     {{-- ========== DATA TABLE FOR ACTIVE USERS START ========== --}}

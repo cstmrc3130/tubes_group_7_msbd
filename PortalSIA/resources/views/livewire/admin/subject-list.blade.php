@@ -124,11 +124,16 @@
     <script>
         $(function ()
         {
+            function htmlDecode(input) {
+                var doc = new DOMParser().parseFromString(input, "text/html");
+                return doc.documentElement.textContent;
+            }
+            
             window.addEventListener('confirm-to-delete-subject', e =>
             {
                 swal({   
                 title: "Delete Data",   
-                text: "Hapus mata pelajaran " + e.detail.name + "?",   
+                html: "Hapus mata pelajaran " + htmlDecode(e.detail.name) + "?",   
                 type: "warning",   
                 showCancelButton: true,   
                 confirmButtonColor: "#DD6B55",   

@@ -141,7 +141,7 @@
                         </li>
                     </ul>
                 </p>
-                <a href="{{url("full-profile")}}" class="btn btn-custom-md btn-outline-info m-t-10">Lihat Profil</a>
+                <a href="{{ route("school-profile") }}" class="btn btn-custom-md btn-outline-info m-t-10">Lihat Profil</a>
             </div>
             {{-- ========== HERO TEXT END ========== --}}
     

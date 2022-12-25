@@ -28,7 +28,7 @@ class SubjectScore extends Model
         'score'
     ];
 
-    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN SUBJECT ITS TEACHER ========== //
+    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN SUBJECT ITS STUDENT ========== //
     public function student()
     {
         return $this->belongsTo(Student::class, 'NISN', 'NISN');
@@ -39,7 +39,6 @@ class SubjectScore extends Model
     {
         return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
-
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN TAUGHT SUBJECT AND SUBJECT ========== //
     public function extracurricular()

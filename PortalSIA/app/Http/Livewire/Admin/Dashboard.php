@@ -19,6 +19,7 @@ class Dashboard extends Component
     public $studentCount;
     public $teacherCount;
     public $classroomCount;
+    public $adminCount;
 
     // ========== ADMIN LOGIN INFO PROPERTIES ========== //
     public $email;
@@ -34,6 +35,7 @@ class Dashboard extends Component
         $this->studentCount = Student::all()->count();
         $this->teacherCount = Teacher::all()->count();
         $this->classroomCount = Classroom::all()->count();
+        $this->adminCount = User::query()->where('role', '0')->count();
     }
 
     // ========== RENDER ========== //

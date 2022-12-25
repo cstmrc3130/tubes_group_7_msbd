@@ -22,6 +22,7 @@
 <script src="{{ asset("assets/libs/sweetalert2/sweet-alert.init.js") }}"></script>
 <script src="{{ asset('assets/extra-libs/DataTables/datatables.min.js') }}"></script>
 <script src="{{ asset('dist/js/pages/datatable/datatable-basic.init.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 
 

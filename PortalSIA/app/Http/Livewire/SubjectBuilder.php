@@ -88,11 +88,11 @@ final class SubjectBuilder extends PowerGridComponent
         return [
             Button::make('destroy', 'Delete')
                 ->class('btn btn-outline-danger')
-                ->emit('ConfirmToDeleteSubject', ['id' => 'id', 'name' => 'name']),
+                ->emit('ConfirmToDeleteSubject', ['id' => 'id', 'name' => htmlspecialchars('name', ENT_NOQUOTES)]),
         ];
     }
 
-    // ========== GET LISTENERS FROM ACTION BUTTON ========== //
+    // ========== GET LISTENERS ========== //
     protected function getListeners()
     {
         return array_merge(parent::getListeners(), ['ConfirmToDeleteSubject']);
@@ -101,6 +101,6 @@ final class SubjectBuilder extends PowerGridComponent
     // ========== DISPATCH THE EVENT ========== //
     public function ConfirmToDeleteSubject(array $data)
     {
-        $this->dispatchBrowserEvent('confirm-to-delete-subject', ['id' => $data['id'], 'name' => $data['name']]);
+        $this->dispatchBrowserEvent('confirm-to-delete-subject', ['id' => $data['id'], 'name' => htmlspecialchars($data['name'], ENT_NOQUOTES)]);
     }
 }

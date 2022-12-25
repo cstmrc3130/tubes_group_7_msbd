@@ -116,47 +116,75 @@
 
 
 
-    {{-- ========== ALL NEWS START ========== --}}
+    {{-- ========== SCHOOL PROFILE START ========== --}}
     <div class="page-wrapper">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-10 align-self-start m-t-20 m-b-20">
+                <div class="col-lg-3 align-self-start m-t-20 m-b-20">
                     <h3>
-                        <span class="font-bold">Sort Or Search</span>
+                        <span class="font-bold">Profil Sekolah</span>
                     </h3>
                 </div>
 
 
 
-                <div class="container row justify-content-evenly">
-
-                    @forelse($allNews as $news)
-                    <div class="col-4">
-                        <div class="card m-b-30">
-                            @if (preg_match('%<img\s.*?src=".*?/?([^/]+?(\.gif|\.png|\.jpg))"%s', $news->content, $regs)) 
-                            <img class="card-img-top" src="{{ asset('/storage/news-images/' . $regs[1]) }}" height="250px" alt="Card image cap">
-                            @else 
-                            <img class="card-img-top" src="{{ asset('assets/images/auth-bg2.jpg') }}" height="250px" alt="Card image cap">
-                            @endif
-                            <div class="card-body">
-                                <div class="d-flex no-block align-items-center m-b-15">
-                                    <span><i class="ti-calendar"></i> {{ $news->created_at->diffForHumans() }}</span>
-                                </div>
-                                <h4 class="card-title">{{ $news->title }}</h4>
-                                <div class="m-b-0 m-t-10" style="overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; ">
-                                    {{ Str::words($news->content, 10, '...') }}
-                                </div>
-                                <a class="btn btn-success btn-rounded waves-effect waves-light m-t-20" href="{{ url("full-events") }}">Baca Selengkapnya</a>
-                            </div>
-                        </div>
-                    </div>
-                    @empty
-                    @endforelse
-
+                <div class="col-lg-9 align-self-start m-t-20 m-b-20">
+                    <img src="{{ asset("assets/images/front-gate1.jpg")}}" class="img-fluid w-50 m-b-40">
+                    <dl class="row" style="text-align:justify">
+                        <dt class="col-sm-3">Nama Sekolah </dt>
+                        <dd class="col-sm-9">: MTsn 1 Labuhanbatu</dd>
+                        <dt class="col-sm-3">Status </dt>
+                        <dd class="col-sm-9">: Negeri </dd>
+                        <dt class="col-sm-3">Nomor Stastistik </dt>
+                        <dd class="col-sm-9">: 121112100091</dd>
+                        <dt class="col-sm-3">Kecamatan</dt>
+                        <dd class="col-sm-9">: Rantau Utara</dd>
+                        <dt class="col-sm-3">Desa/Kelurahan</dt>
+                        <dd class="col-sm-9">: Kartini</dd>
+                        <dt class="col-sm-3">Jalan</dt>
+                        <dd class="col-sm-9">: Kamp. Baru Gg. Tsanawiyah No.150</dd>
+                        <dt class="col-sm-3">Kode Pos</dt>
+                        <dd class="col-sm-9">: 21418</dd>
+                        <dt class="col-sm-3">Telepon</dt>
+                        <dd class="col-sm-9">: + 06212345678</dd>
+                        <dt class="col-sm-3">Daerah</dt>
+                        <dd class="col-sm-9">: Perkotaan</dd>
+                        <dt class="col-sm-3">Akreditasi</dt>
+                        <dd class="col-sm-9">: A</dd>
+                        <dt class="col-sm-3">Surat Keputusan / SK</dt>
+                        <dd class="col-sm-9">: -</dd>
+                        <dt class="col-sm-3">Tahun Berdiri</dt>
+                        <dd class="col-sm-9">: 1991</dd>
+                        <dt class="col-sm-3">Organisasi Penyelenggara</dt>
+                        <dd class="col-sm-9">: Pemerintah</dd>
+                        <dt class="col-sm-3">NPSN</dt>
+                        <dd class="col-sm-9">: 10263986</dd>
+                        <dt class="col-sm-3">VISI</dt>
+                        <dd class="col-sm-9">: Terwujudnya Madrasah Unggul dalam Prestasi, Terampil, Beriman, Bertaqwa,<br>Berakhlakul Karimah dan Berwawasan Lingkungan.</dd>
+                        <dt class="col-sm-3">MISI</dt>
+                        
+                        <dd class="col-sm-9">: 
+                            1. Menyelenggarakan Pendidikan Agama dan Umum secara efektif,<br> sehingga siswa berkembang secara maksimal.<br>
+                            2. Melaksanakan pembelajaran kontekstual yang islami.<br>
+                            3. Menyelenggarakan kegiatan pengembangan diri terhadap minat dan bakat siswa.<br>
+                            4. Melaksanakan pembinaan dan diklat pendidik serta tenaga kependidikan.<br>
+                            5. Membudayakan perilaku terpuji dan kepekaan sosial dalam kehidupan sehari-hari.<br>
+                            6. Menciptakan peserta didik menjadi hafidz dan hafidzah.<br>
+                            7. Menumbuhkembangkan budaya dan tanggung jawab terhadap lingkungan yang<br> terintegrasi dalam proses pembelajaran.
+                        </dd>
+                    </dl>
+                    </dd>
+                    </dl>
                 </div>
             </div>
         </div>
     </div>
-    {{-- ========== ALL NEWS END ========== --}}
+    {{-- ========== SCHOOL PROFILE START ========== --}}
 
 </div>
+
+@push('additional-script')
+
+@endpush
+
+

@@ -45,7 +45,7 @@
                         <div class="col-sm-3 col-md-6">
                             <div class="form-group">
                                 <label for="">Kelas</label>
-                                <select class="form-control form-select" >
+                                <select class="form-control form-select" wire:model="selectedClass">
                                     <option value=""></option>
                                     @foreach($dynamicClass as $class)
                                         <option value="{{ $class->class_id }}">{{ $class->classroom->name }}</option>
@@ -62,14 +62,77 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title text-info border-bottom pb-3">Nilai Siswa</h4>
-                    <form class="row align-items-end" wire:submit.prevent="UpdateOrCreateScore">
-                        <div class="col-sm-3 col-md-12">
-                            <div class="form-group">
-                                <label for="">Tabulasi Nilai Siswa</label>
-                                
+
+                    @if(\App\Models\ScoringSession::query()->first() == NULL)
+                    <div class="row align-items-end">
+                        <div class="col-sm-2 col-md-12">
+                            <div class="alert alert-warning alert-rounded" id="test"> 
+                                <i class="ti ti-alert"></i> 
+                                Saat ini bukan merupakan masa pengisian nilai!
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+                                    <span aria-hidden="true">×</span> 
+                                </button>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    @endif
+
+                    {{-- ========== ROW TITLE START ========== --}}
+                    <div class="row align-items-end">
+                        <div class="col-sm-3 col-md-4">
+                            <div class="text-left">
+                                <label for="">Nama</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3 col-md-1">
+                            <div class="text-center">
+                                <label for="">HW1</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3 col-md-1">
+                            <div class="text-center">
+                                <label for="">EX1</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3 col-md-1">
+                            <div class="text-center">
+                                <label for="">MID</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3 col-md-1">
+                            <div class="text-center">
+                                <label for="">HW2</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3 col-md-1">
+                            <div class="text-center">
+                                <label for="">EX2</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3 col-md-1">
+                            <div class="text-center">
+                                <label for="">FIN</label>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- ========== ROW TITLE END ========== --}}
+
+                    @foreach($dynamicStudent as $student)
+                        @livewire('teacher.subject-score-inline', ['eachStudent' => $student], key($student->NISN))
+                    @endforeach
+
+                    {{-- ========== PAGINATION START ========== --}}
+                    <div class="row justify-content-center align-items-center my-3">
+                        {{ $dynamicStudent->links() }}
+                    </div>
+                    {{-- ========== PAGINATION END ========== --}}
+
                 </div>
             </div>
         </div>
