@@ -30,20 +30,7 @@ return new class extends Migration
                                        NEW.profile_picture, "u");
                               END'
         );
-        // insert users
-        DB::unprepared(
-            'CREATE TRIGGER insert_log_users BEFORE INSERT ON users
-            FOR EACH ROW BEGIN	
-               INSERT INTO log_users ( id, new_email, 	     
-                                       new_password,
-                                       new_role,
-                                       new_profile_picture, type)
-                              VALUES  (uuid(), NEW.email, 
-                                       NEW.password,
-                                       NEW.role,
-                                       NEW.profile_picture, "i");
-                              END'
-        );
+
         //delete users
         DB::unprepared(
             'CREATE TRIGGER delete_log_users BEFORE DELETE ON users

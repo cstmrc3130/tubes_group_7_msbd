@@ -19,12 +19,6 @@ return new class extends Migration
             SET NEW.id = uuid();
         END');
 
-        DB::unprepared('CREATE TRIGGER insert_log_subjects AFTER INSERT ON subjects FOR EACH ROW
-        BEGIN
-            INSERT INTO log_subjects (id, new_name, new_completeness)
-            VALUES  (uuid(), NEW.name, NEW.completeness);
-        END');
-
         DB::unprepared('CREATE TRIGGER update_log_subjects BEFORE UPDATE ON subjects FOR EACH ROW
         BEGIN
             SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "YOU CAN NOT CHANGE IT!";

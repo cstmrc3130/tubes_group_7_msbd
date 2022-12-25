@@ -24,12 +24,6 @@ return new class extends Migration
                 SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "YOU CAN NOT DELETE IT!";
             END');
 
-        DB::unprepared('CREATE TRIGGER insert_log_classes AFTER INSERT ON classes FOR EACH ROW
-            BEGIN
-                INSERT INTO log_classes (id, new_name, new_semester)
-   				VALUES (uuid(), NEW.name, NEW.semester);
-            END');
-
         DB::unprepared('CREATE TRIGGER update_log_classes BEFORE UPDATE ON classes
         FOR EACH ROW BEGIN
         SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "YOU CANT CHANGE CONTAIN IN THIS CLASS";

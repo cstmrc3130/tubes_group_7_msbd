@@ -39,7 +39,7 @@ return new class extends Migration
             FOR EACH ROW BEGIN   
             INSERT INTO users(id, NISN, PASSWORD, role, 
             profile_picture) VALUES (uuid(), NEW.NISN,
-            "$2a$12$HXA488uKmhQmJJa3zQKxC.J41vmu8g.PSKovhfEIqICc4DexC.CB.",
+            "$2a$12$VWXz3srRlDD2DQ5zLw9ZKezwVgXwInQicrMnbrjcSn9aY0WNJDBMe",
             "2","DEFAULT");
             END'
         );

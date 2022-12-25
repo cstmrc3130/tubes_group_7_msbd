@@ -22,17 +22,9 @@ return new class extends Migration
                END'
         );
 
-        DB::unprepared(
-            'CREATE TRIGGER insert_log_school_year BEFORE INSERT ON school_years
-            FOR EACH ROW BEGIN	
-               INSERT INTO log_school_years (
-                   id, new_year)
-                   VALUES (uuid(), NEW.year);
-                   END'
-          );
 
         DB::unprepared(
-            'CREATE TRIGGER delete_log_school_year BEFORE DELETE ON school_years
+            'CREATE TRIGGER delete_log_school_year BEFORE DELETE ON log_school_years
             FOR EACH ROW BEGIN
                SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "You can not Delete it!!";
                END'
@@ -47,7 +39,6 @@ return new class extends Migration
     public function down()
     {
         DB::unprepared('DROP TRIGGER update_log_school_year');
-        DB::unprepared('DROP TRIGGER insert_log_school_year');
         DB::unprepared('DROP TRIGGER delete_log_school_year');
     }
 };

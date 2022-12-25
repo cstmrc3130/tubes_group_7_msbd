@@ -323,30 +323,10 @@
 
                             {{-- ========== CLASSROOM START ========== --}} 
                             <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <a href="{{ route('admin.class-list') }}" class="sidebar-link waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                                     <i class="mdi mdi-book-open-variant"></i>
                                     <span class="hide-menu">Data Kelas</span>
                                 </a>
-                                <ul aria-expanded="false" class="collapse first-level">
-                                    <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                            <i class="mdi mdi-adjust"></i>
-                                            <span class="hide-menu">Kelas 7</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                            <i class="mdi mdi-adjust"></i>
-                                            <span class="hide-menu">Kelas 8</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                            <i class="mdi mdi-adjust"></i>
-                                            <span class="hide-menu">Kelas 9</span>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
                             {{-- ========== CLASSROOM END ========== --}} 
 

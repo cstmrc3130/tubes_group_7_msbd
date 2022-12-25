@@ -78,6 +78,12 @@ Route::group(['prefix' => 'admin'], function ()
                 Route::get('/teacher-list', \App\Http\Livewire\Admin\TeacherCRUD::class)->name('teacher-list');
             });
 
+            // ========== CLASS CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\ClassCRUD::class)->group(function()
+            {
+                Route::get('/class-list', \App\Http\Livewire\Admin\ClassCRUD::class)->name('class-list');
+            });
+
             // ========== TEACHER TEACHING SUBJECT CRUD LIVEWIRE ========== //
             Route::controller(\App\Http\Livewire\Admin\TeacherTeachingSubjectCRUD::class)->group(function()
             {

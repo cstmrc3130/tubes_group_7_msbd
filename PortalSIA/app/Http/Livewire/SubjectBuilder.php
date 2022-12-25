@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Subject\Subject;
+use App\Models\SchoolYear;
 use Illuminate\Support\Carbon;
+use App\Models\Subject\Subject;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
+use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
 final class SubjectBuilder extends PowerGridComponent
@@ -19,6 +20,9 @@ final class SubjectBuilder extends PowerGridComponent
     public function setUp(): array
     {
         return [
+            Exportable::make('DaftarMataPelajaran_TA_' .  str_replace("/", "-", SchoolYear::query()->find(session('currentSchoolYear'))->year))
+                ->striped('#A6ACCD')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage(5)

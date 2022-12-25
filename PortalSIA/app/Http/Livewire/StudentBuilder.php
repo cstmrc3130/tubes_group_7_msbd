@@ -131,8 +131,7 @@ final class StudentBuilder extends PowerGridComponent
 
             Column::make('STATUS', 'status')
                 ->sortable()
-                ->searchable()
-                ->editOnClick(),
+                ->searchable(),
                 
             Column::make('SPECIAL NEEDS', 'special_needs')
                 ->sortable()
