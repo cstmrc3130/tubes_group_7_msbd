@@ -15,8 +15,6 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->char("NISN", 10)->primary();
-            $table->uuid("homeroom_class_id");
-            $table->uuid("homeroom_teacher_NIP");
             $table->tinyText("name");
             $table->tinyText("place_of_birth");
             $table->date("date_of_birth");
@@ -31,10 +29,6 @@ return new class extends Migration
             $table->enum("status", ["A", "I"]);
             $table->tinyText("description");
             $table->timestamps();
-
-            // FOREIGN KEY
-            $table->foreign('homeroom_class_id')->references('id')->on('classes')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('homeroom_teacher_NIP')->references('NIP')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

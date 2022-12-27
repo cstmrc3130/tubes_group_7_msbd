@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('extracurriculars', function (Blueprint $table) {
-            $table->uuid("id")->primary();
-            $table->tinyText("name");
-            $table->text("description");
-            $table->text("image");
+        Schema::create('school_years', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->char("year",9);
+            $table->enum("semester", ['Ganjil', 'Genap']);
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('extracurriculars');
+        Schema::dropIfExists('completenesses');
     }
 };

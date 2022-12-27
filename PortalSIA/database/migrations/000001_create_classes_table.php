@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('absent_recapitulations', function (Blueprint $table) {
-            $table->uuid("id")->primary();
-            $table->char("NISN", 10);
-            $table->enum("type", ['S', 'A', 'I']);
-            $table->date('date');
+        Schema::create('classes', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->tinyText("name");
             $table->timestamps();
-
-            // FOREIGN KEY
-            $table->foreign('NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('classes');
     }
 };

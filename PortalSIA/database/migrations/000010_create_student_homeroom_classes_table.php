@@ -13,15 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('taking_extracurriculars', function (Blueprint $table) {
-            $table->uuid("id")->primary();
-            $table->char("NISN", 10);
-            $table->uuid("extracurricular_id");
+        Schema::create('student_homeroom_classes', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->char("NISN", 18);
+            $table->uuid("school_year_id");
+            $table->uuid("homeroom_class_id");
             $table->timestamps();
 
             // FOREIGN KEY
             $table->foreign('NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('extracurricular_id')->references('id')->on('extracurriculars')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('homeroom_class_id')->references('id')->on('classes')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taking_extracurriculars');
+        Schema::dropIfExists('homeroom_classes');
     }
 };

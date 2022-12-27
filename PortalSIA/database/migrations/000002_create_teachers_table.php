@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->char("NIP", 18)->primary();
-            $table->char('homeroom_class_id')->nullable();
             $table->char("KARPEG");
             $table->tinyText("position");
             $table->tinyText("name");
@@ -28,9 +27,6 @@ return new class extends Migration
             $table->smallInteger("graduated_at");
             $table->smallInteger("started_working_at");
             $table->timestamps();
-
-            // FOREIGN KEY
-            $table->foreign('homeroom_class_id')->references('id')->on('classes')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
