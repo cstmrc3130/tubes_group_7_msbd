@@ -4,7 +4,7 @@
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-5 align-self-center">
-                <h4 class="page-title">Mata Pelajaran Guru</h4>
+                <h4 class="page-title">Ekstrakurikuler Guru</h4>
             </div>
             <div class="col-7 align-self-center">
                 <div class="d-flex align-items-center justify-content-end">
@@ -13,7 +13,7 @@
                             <li class="breadcrumb-item">
                                 <a href="#">Home</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Mata Pelajaran Guru</li>
+                            <li class="breadcrumb-item active" aria-current="page">Ekstrakurikuler Guru</li>
                         </ol>
                     </nav>
                 </div>
@@ -29,10 +29,10 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title text-info border-bottom pb-3">Tambah Mata Pelajaran Guru</h4>
+                    <h4 class="card-title text-info border-bottom pb-3">Tambah Ekstrakurikuler Guru</h4>
                     <div id="education_fields" class="m-t-20"></div>
                     <form class="row align-items-end" wire:submit.prevent="UpdateOrCreateRecords">
-                        <div class="col-sm-3 col-md-12">
+                        <div class="col-sm-3 col-md-6">
                             <div class="form-group">
                                 <label for="">Nama</label>
                                 <select class="form-control form-select" wire:model="NIP">
@@ -46,27 +46,14 @@
 
                         <div class="col-sm-2 col-md-6">
                             <div class="form-group">
-                                <label for="">Mata Pelajaran</label>
-                                <select class="form-control form-select" wire:model="subject">
+                                <label for="">Ekstrakurikuler</label>
+                                <select class="form-control form-select" wire:model="extracurricular">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Subject\Subject::all() as $subject)
-                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                    @foreach(\App\Models\Extracurricular\Extracurricular::all() as $extracurricular)
+                                    <option value="{{ $extracurricular->id }}">{{ $extracurricular->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('subject')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                            </div>
-                        </div>
-
-                        <div class="col-sm-2 col-md-6">
-                            <div class="form-group">
-                                <label for="">Kelas</label>
-                                <select class="form-control form-select" wire:model="class">
-                                    <option value=""></option>
-                                    @foreach(\App\Models\Classroom\Classroom::all() as $class)
-                                    <option value="{{ $class->id }}">{{ $class->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('class')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                @error('extracurricular')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                         </div>
 
@@ -88,7 +75,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title text-info border-bottom pb-3">Tabulasi Mata Pelajaran Guru</h4>
+                    <h4 class="card-title text-info border-bottom pb-3">Tabulasi Ekstrakurikuler Guru</h4>
                     <div id="education_fields" class="m-t-20"></div>
 
                     {{-- <button class="btn btn-outline-orange" style="margin-bottom: 1rem" id="export">
@@ -96,24 +83,22 @@
                         Export as PDF
                     </button> --}}
 
-                    <div class="table-responsive" id="teaching-subject-tabulation">
+                    <div class="table-responsive" id="teaching-extracurricular-tabulation">
                         <table class="table" >
                             <thead class="bg-inverse text-white">
                                 <tr>
                                     <th>No</th>
-                                    <th>Mata Pelajaran</th>
-                                    <th>Kelas</th>
+                                    <th>Ekstrakurikuler</th>
                                     <th>Tahun Ajaran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="border border-dark">
-                                @foreach(\App\Models\Teacher\TeachingSubject::query()->where('NIP', $NIP)->get() as $data)
+                                @foreach(\App\Models\Teacher\TeachingExtracurricular::query()->where('NIP', $NIP)->get() as $data)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ \App\Models\Subject\Subject::find($data->subject_id)->name }}</td>
-                                    <td>{{ \App\Models\Classroom\Classroom::find($data->class_id)->name }}</td>
-                                    <td>{{ \App\Models\SchoolYear::find(\App\Models\Classroom\Classroom::find($data->class_id)->school_year_id)->year }}</td>
+                                    <td>{{ \App\Models\Extracurricular\Extracurricular::find($data->extracurricular_id)->name }}</td>
+                                    <td>{{ \App\Models\SchoolYear::find(session('currentSchoolYear'))->year }}</td>
                                     <td>
                                         <button class="btn btn-block btn-outline-danger" wire:click="DeleteRecord('{{ $data->id }}')">
                                             <i class="mdi mdi-delete-circle"></i>

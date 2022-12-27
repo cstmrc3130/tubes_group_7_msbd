@@ -18,19 +18,11 @@ class ScoringSessionCRUD extends Component
     public $activeStartDate;
     public $activeEndDate;
 
-    // ========== EVENT LISTENERS ========== //
-    // protected $listeners = ['DeleteStudent'];
-
     // ========== RULES ========== //
     protected $rules = ([
         "type" => ['required'],
         "startDate" => ['required', 'date', 'after_or_equal: today'],
         "endDate" => ['required', 'date', 'after: "startDate"'],
-    ]);
-
-    // ========== CUSTOM :ATTRIBUTES ========== //
-    protected $validationAttributes = ([
-        // 'NISN' => 'NISN'
     ]);
 
     // ========== LIVE VALIDATION ========== //
@@ -44,13 +36,14 @@ class ScoringSessionCRUD extends Component
     {
         $title = "Sesi Penilaian";
 
-        $this->activeType = ScoringSession::query()->where('start_date', '>=', date('Y-m-d'))->where('end_date', '>=', 'start_date')->value('type');
-        $this->activeStartDate = ScoringSession::query()->where('start_date', '>=', date('Y-m-d'))->where('end_date', '>=', 'start_date')->value('start_date');
-        $this->activeEndDate = ScoringSession::query()->where('start_date', '>=', date('Y-m-d'))->where('end_date', '>=', 'start_date')->value('end_date');
+        $this->activeType = ScoringSession::query()->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->value('type');
+        $this->activeStartDate = ScoringSession::query()->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->value('start_date');
+        $this->activeEndDate = ScoringSession::query()->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->value('end_date');
 
         return view('livewire.admin.scoring-session')->layout('admin.master', compact('title'));
     }
 
+    // ========== SET A NEW SCORING SESSION ========== //
     public function SetActiveSession()
     {
         $this->validate();
@@ -67,5 +60,18 @@ class ScoringSessionCRUD extends Component
         ]);
 
         $this->dispatchBrowserEvent('success-configure-session', ['data' => $this->type]);
+    }
+
+    // ========== DISABLE AN ACTIVE SCORING SESSION ========== //
+    public function DisableActiveSession()
+    {
+        $this->dispatchBrowserEvent('scoring-session-disabled', ['data' => $this->activeType]);
+
+        ScoringSession::query()->where('type', $this->activeType)->update(
+            [
+                'start_date' => NULL,
+                'end_date' => NULL
+            ]
+        );
     }
 }

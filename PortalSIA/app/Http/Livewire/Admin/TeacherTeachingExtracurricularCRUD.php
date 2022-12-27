@@ -3,15 +3,14 @@
 namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
-use App\Models\Teacher\TeachingSubject;
 use Illuminate\Support\Str;
+use App\Models\Teacher\TeachingExtracurricular;
 
-class TeacherTeachingSubjectCRUD extends Component
+class TeacherTeachingExtracurricularCRUD extends Component
 {
     // ========== CARD ATTRIBUTES ========== //
     public $NIP;
-    public $class;
-    public $subject;
+    public $extracurricular;
 
     // ========== EVENT LISTENERS ========== //
     protected $listeners = [];
@@ -19,8 +18,7 @@ class TeacherTeachingSubjectCRUD extends Component
     // ========== RULES ========== //
     protected $rules = ([
         'NIP' => ['required'],
-        'class' => ['required'],
-        'subject' => ['required']
+        'extracurricular' => ['required']
     ]);
 
     // ========== LIVE VALIDATION ========== //
@@ -32,32 +30,30 @@ class TeacherTeachingSubjectCRUD extends Component
     // ========== RENDER ========== //
     public function render()
     {
-        $title = "Mata Pelajaran Guru";
+        $title = "Ekstrakurikuler Guru";
 
-        return view('livewire.admin.teacher-teaching-subject')->layout('admin.master', compact('title'));
+        return view('livewire.admin.teacher-teaching-extracurricular')->layout('admin.master', compact('title'));
     }
 
     public function UpdateOrCreateRecords()
     {
         $this->validate();
 
-        TeachingSubject::query()->updateOrCreate(
+        TeachingExtracurricular::query()->updateOrCreate(
             [
                 'NIP' => $this->NIP,
-                'subject_id' => $this->subject,
-                'class_id' => $this->class
+                'extracurricular_id' => $this->extracurricular,
             ],
             [
                 'id' => Str::uuid(),
                 'NIP' => $this->NIP,
-                'subject_id' => $this->subject,
-                'class_id' => $this->class
+                'extracurricular_id' => $this->extracurricular,
             ]
         );
     }
 
     public function DeleteRecord($id)
     {
-        TeachingSubject::query()->find($id)->delete();
+        TeachingExtracurricular::query()->find($id)->delete();
     }
 }

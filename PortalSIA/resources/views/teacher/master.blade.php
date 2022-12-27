@@ -143,6 +143,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
     
+                        @if(Auth::user()->teacher->homeroom_class_id != NULL)
                         {{-- ========== TITLE START ========== --}} 
                         <li class="nav-small-cap">
                             <i class="mdi mdi-dots-horizontal"></i>
@@ -160,7 +161,7 @@
                             </a>
                         </li>
                         {{-- ========== CLASS END ========== --}} 
-
+                        @endif
 
 
                         {{-- ========== TITLE START ========== --}} 
@@ -180,12 +181,17 @@
                             </a>
                         </li>
 
+
+
+                        @if(\App\Models\Teacher\TeachingExtracurricular::query()->where('NIP', Auth::user()->NIP)->first())
                         <li class="sidebar-item">
                             <a href="{{ route('teacher.extracurricular-score') }}" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
                                 <i class="mdi mdi-adjust"></i>
                                 <span class="hide-menu">Nilai Ekstrakurikuler</span>
                             </a>
                         </li>
+                        @endif
+
                         {{-- ========== E-RAPOR END ========== --}} 
     
                     </ul>

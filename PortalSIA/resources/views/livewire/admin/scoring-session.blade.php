@@ -25,11 +25,11 @@
 
 
     {{-- ========== CONFIGURE DATE START ========== --}}
-    <div class="container-fluid">
+    <div class="container-fluid" style="min-height: 30.333rem">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title pb-3 border-bottom text-success">Ongoing Session</h4>
+                    <h4 class="card-title pb-3 border-bottom text-success">Currently Active Session</h4>
                     <div id="education_fields" class=" m-t-20"></div>
                     <form class="row align-items-end">
                         <div class="col-sm-3 col-md-4">
@@ -52,9 +52,8 @@
                         </div>
                         <div class="col-sm-2 col-md-2">
                             <div class="form-group">
-                                <button class="btn btn-success" type="button" disabled>
-                                    <i class="fa fa-check-circle"></i>
-                                    Currently Active
+                                <button class="btn btn-danger btn-block" type="button" wire:click="DisableActiveSession" @if(!$activeType) @disabled(true) @endif>
+                                    Nonaktifkan
                                 </button>
                             </div>
                         </div>
@@ -100,7 +99,7 @@
                         </div>
                         <div class="col-sm-2 col-md-2">
                             <div class="form-group">
-                                <button class="btn btn-outline-info" type="submit">
+                                <button class="btn btn-outline-info btn-block" type="submit">
                                     <i class="fa fa-check-circle"></i>
                                     Set As Active
                                 </button>
@@ -122,12 +121,24 @@
 </div>
 
 @push('additional-script')
+    {{-- TOAST FOR CONFIGURED SESSION --}}
     <script>
         $(function ()
         {
             window.addEventListener('success-configure-session', e =>
             {
                 toastr.success("Sesi disetel untuk penilaian " + e.detail.data + "!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            })
+        })
+    </script>
+
+    {{-- TOAST FOR DISABLED SESSION --}}
+    <script>
+        $(function ()
+        {
+            window.addEventListener('scoring-session-disabled', e =>
+            {
+                toastr.error("Sesi untuk penilaian " + e.detail.data + " dinonaktifkan!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
             })
         })
     </script>

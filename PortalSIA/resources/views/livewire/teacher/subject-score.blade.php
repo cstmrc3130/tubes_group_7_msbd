@@ -47,7 +47,7 @@
                                 <label for="">Kelas</label>
                                 <select class="form-control form-select" wire:model="selectedClass">
                                     <option value=""></option>
-                                    @foreach($dynamicClass as $class)
+                                    @foreach(\App\Models\Teacher\TeachingSubject::query()->where('NIP', auth()->user()->NIP)->where('subject_id', $dynamicSubject)->get() as $class)
                                         <option value="{{ $class->class_id }}">{{ $class->classroom->name }}</option>
                                     @endforeach
                                 </select>
@@ -63,7 +63,7 @@
                 <div class="card-body">
                     <h4 class="card-title text-info border-bottom pb-3">Nilai Siswa</h4>
 
-                    @if(\App\Models\ScoringSession::query()->first() == NULL)
+                    @if(\App\Models\ScoringSession::query()->first() == NULL || \App\Models\ScoringSession::query()->first()->start_date == "0000-00-00")
                     <div class="row align-items-end">
                         <div class="col-sm-2 col-md-12">
                             <div class="alert alert-warning alert-rounded" id="test"> 
@@ -123,13 +123,13 @@
                     </div>
                     {{-- ========== ROW TITLE END ========== --}}
 
-                    @foreach($dynamicStudent as $student)
-                        @livewire('teacher.subject-score-inline', ['eachStudent' => $student], key($student->NISN))
+                    @foreach(\App\Models\Student\Student::query()->where('homeroom_class_id', $selectedClass)->groupBy('name')->paginate(5) as $student)
+                        @livewire('teacher.subject-score-inline', ['eachStudent' => $student, 'activeScoringSession' => $activeScoringSession], key($student->NISN))
                     @endforeach
 
                     {{-- ========== PAGINATION START ========== --}}
                     <div class="row justify-content-center align-items-center my-3">
-                        {{ $dynamicStudent->links() }}
+                        {{ \App\Models\Student\Student::query()->where('homeroom_class_id', $selectedClass)->groupBy('name')->paginate(5)->links() }}
                     </div>
                     {{-- ========== PAGINATION END ========== --}}
 

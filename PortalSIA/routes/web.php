@@ -78,16 +78,22 @@ Route::group(['prefix' => 'admin'], function ()
                 Route::get('/teacher-list', \App\Http\Livewire\Admin\TeacherCRUD::class)->name('teacher-list');
             });
 
-            // ========== CLASS CRUD LIVEWIRE ========== //
-            Route::controller(\App\Http\Livewire\Admin\ClassCRUD::class)->group(function()
-            {
-                Route::get('/class-list', \App\Http\Livewire\Admin\ClassCRUD::class)->name('class-list');
-            });
-
             // ========== TEACHER TEACHING SUBJECT CRUD LIVEWIRE ========== //
             Route::controller(\App\Http\Livewire\Admin\TeacherTeachingSubjectCRUD::class)->group(function()
             {
                 Route::get('/teacher-teaching-subject', \App\Http\Livewire\Admin\TeacherTeachingSubjectCRUD::class)->name('teacher-teaching-subject');
+            });
+
+            // ========== TEACHER TEACHING EXTRACURRICULAR CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\TeacherTeachingExtracurricularCRUD::class)->group(function()
+            {
+                Route::get('/teacher-teaching-extracurricular', \App\Http\Livewire\Admin\TeacherTeachingExtracurricularCRUD::class)->name('teacher-teaching-extracurricular');
+            });
+
+            // ========== CLASS CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\ClassCRUD::class)->group(function()
+            {
+                Route::get('/class-list', \App\Http\Livewire\Admin\ClassCRUD::class)->name('class-list');
             });
 
             // ========== SUBJECT CRUD LIVEWIRE ========== //

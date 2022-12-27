@@ -304,15 +304,15 @@
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
-                                            <i class="mdi mdi-adjust"></i>
-                                            <span class="hide-menu">Ekstrakurikuler Guru</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
                                         <a href="{{ route("admin.teacher-teaching-subject") }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
                                             <span class="hide-menu">Mata Pelajaran Guru</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="{{ route("admin.teacher-teaching-extracurricular") }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                            <i class="mdi mdi-adjust"></i>
+                                            <span class="hide-menu">Ekstrakurikuler Guru</span>
                                         </a>
                                     </li>
                                 </ul>
