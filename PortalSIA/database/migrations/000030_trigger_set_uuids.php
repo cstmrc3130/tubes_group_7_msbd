@@ -73,6 +73,18 @@ return new class extends Migration
         BEGIN
             SET NEW.id = uuid();
         END');
+
+        /*student_homeroom_classes*/
+        DB::unprepared('CREATE TRIGGER set_uuid_in_student_homeroom_classes BEFORE INSERT ON student_homeroom_classes FOR EACH ROW
+        BEGIN
+            SET NEW.id = uuid();
+        END');
+
+        /*teachers_homeroom_classes*/
+        DB::unprepared('CREATE TRIGGER set_uuid_in_teachers_homeroom_classes BEFORE INSERT ON teachers_homeroom_classes FOR EACH ROW
+        BEGIN
+            SET NEW.id = uuid();
+        END');
     }
 
     /**
@@ -92,5 +104,7 @@ return new class extends Migration
         DB::unprepared('set_uuid_in_taking_extracurriculars');
         DB::unprepared('set_uuid_in_teaching_extracurriculars');
         DB::unprepared('set_uuid_in_teaching_subjects');
+        DB::unprepared('set_uuid_in_student_homeroom_classes');
+        DB::unprepared('set_uuid_in_teachers_homeroom_classes');
     }
 };
