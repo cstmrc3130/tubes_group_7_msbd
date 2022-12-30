@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Student;
 
 use Livewire\Component;
+use App\Models\SchoolYear;
+use App\Models\Student\HomeroomClass as StudentHomeroomClass;
 use App\Models\Student\Student;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,11 +16,11 @@ class HomeroomClass extends Component
 
     public function mount()
     {
-        if (auth()->user()->student->homeroom_class_id != NULL)
+        if (auth()->user()->student->homeroomclass != NULL)
         {
-            $this->homeroomClassName = Auth::user()->student->homeroomclass->name;
-            $this->homeroomClassSemester = Auth::user()->student->homeroomclass->semester;
-            $this->homeroomClassStudent = Student::query()->where('homeroom_class_id', auth()->user()->student->homeroomclass->id)->count();
+            $this->homeroomClassName = Auth::user()->student->homeroomclass->classroom->name;
+            $this->homeroomClassSemester = SchoolYear::query()->find(session('currentSchoolYear'))->semester;
+            $this->homeroomClassStudent = StudentHomeroomClass::query()->where('homeroom_class_id', auth()->user()->student->homeroomclass->classroom->id)->count();
         } 
         else
         {

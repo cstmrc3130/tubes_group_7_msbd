@@ -181,7 +181,7 @@
                     editor.save();
                 });
 
-                // REPLCE WIRE MODEL WITH @this
+                // REPLACE WIRE MODEL WITH @this
                 editor.on('change', function (e) {
                     @this.set('content', editor.getContent());
                 });

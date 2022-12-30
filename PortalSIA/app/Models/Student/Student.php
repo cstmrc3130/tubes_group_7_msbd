@@ -2,11 +2,12 @@
 
 namespace App\Models\Student;
 
+use App\Models\Classroom\Classroom;
 use App\Models\User;
 use Laravel\Scout\Searchable;
-use App\Models\Classroom\Classroom;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Student\HomeroomClass;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
 {
@@ -48,13 +49,7 @@ class Student extends Model
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
     public function homeroomclass()
     {
-        return $this->belongsTo(Classroom::class, 'homeroom_class_id', 'id');
-    }
-
-    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
-    public function homeroomteacher()
-    {
-        return $this->hasOne(Teacher::class, 'homeroom_teacher_NIP', 'NIP');
+        return $this->hasOne(HomeroomClass::class, 'NISN');
     }
 
     // ========== TELL SCOUT WHICH COLUMN TO SEARCH ========== //

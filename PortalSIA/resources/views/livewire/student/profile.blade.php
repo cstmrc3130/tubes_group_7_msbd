@@ -337,8 +337,6 @@
         })
     </script>
 
-
-
     {{-- PROFILE INFO SUBMIT BUTTON --}}
     <script>
         $(function ()
@@ -364,8 +362,6 @@
         })
     </script>
 
-
-
     {{-- LOGIN INFO UPDATE TOAST --}}
     <script>
         $(function()
@@ -385,8 +381,6 @@
             })
         })
     </script>
-
-
 
     {{-- PERSIST BOOTSTRAP TAB UPON RELOAD --}}
     <script>
@@ -413,8 +407,6 @@
         })
     </script>
 
-
-
     {{-- IJABOCROPTOOL --}}
     <script src="{{ asset('assets/js/ijaboCropTool.min.js') }}"></script>
     <script>
@@ -440,8 +432,6 @@
             }
         }); 
     </script>
-
-
 
     {{-- SWEETALERT UPDATE PROFILE --}}
     <script>

@@ -113,7 +113,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ \App\Models\Subject\Subject::find($data->subject_id)->name }}</td>
                                     <td>{{ \App\Models\Classroom\Classroom::find($data->class_id)->name }}</td>
-                                    <td>{{ \App\Models\SchoolYear::find(\App\Models\Classroom\Classroom::find($data->class_id)->school_year_id)->year }}</td>
+                                    <td>{{ \App\Models\SchoolYear::find($data->school_year_id)->year }}</td>
                                     <td>
                                         <button class="btn btn-block btn-outline-danger" wire:click="DeleteRecord('{{ $data->id }}')">
                                             <i class="mdi mdi-delete-circle"></i>

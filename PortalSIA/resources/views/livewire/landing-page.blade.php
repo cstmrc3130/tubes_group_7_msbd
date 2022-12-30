@@ -226,7 +226,7 @@
             @if(Cache::has('show-alert'))
 
                 toastr.error('Sesi untuk akun kamu telah diakhiri oleh admin!', 'Failure!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
-                
+
             @endif
         })
     </script>

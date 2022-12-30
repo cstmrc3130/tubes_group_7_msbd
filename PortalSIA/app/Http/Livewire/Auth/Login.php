@@ -44,11 +44,11 @@ class Login extends Component
         // TRY TO AUTHENTICATE USER WITH CREDENTIALS INPUTED
         if (Auth::attempt(['NISN' => $this->username, 'password' => $this->password]) || Auth::attempt(['NIP' => $this->username, 'password' => $this->password]) || Auth::attempt(['email' => $this->username, 'password' => $this->password]))
         {
+            // SET CURRENT SCHOOL YEAR TO THE LATEST RECORD
+            session()->put('currentSchoolYear', \App\Models\SchoolYear::orderBy('year', 'desc')->value('id'));
+            
             if (auth()->user()->role == 0)
             {
-                // SET CURRENT SCHOOL YEAR TO THE LATEST RECORD
-                session()->put('currentSchoolYear', \App\Models\SchoolYear::orderBy('year', 'desc')->value('id'));
-
                 return redirect()->intended(route('admin.dashboard'));
             }
             else if (auth()->user()->role == 1)

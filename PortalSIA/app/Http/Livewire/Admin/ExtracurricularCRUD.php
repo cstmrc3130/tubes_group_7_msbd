@@ -13,6 +13,7 @@ class ExtracurricularCRUD extends Component
     use WithFileUploads, WithPagination;
 
     // ========== EXTRACURRICULAR ATTRIBUTES ========== //
+    public $extracurricularID;
     public $name;
     public $description;
     public $image;
@@ -56,10 +57,11 @@ class ExtracurricularCRUD extends Component
 
         Extracurricular::query()->updateOrCreate(
             [
-                'name' => $this->name
+                "id" => $this->extracurricularID,
             ],
             [
                 'id' => Str::uuid(),
+                'school_year_id' => session('currentSchoolYear'),
                 'name' => $this->name,
                 'description' => $this->description,
                 'image' => $imagePath

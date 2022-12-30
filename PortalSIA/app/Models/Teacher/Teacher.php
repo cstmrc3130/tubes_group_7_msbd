@@ -4,7 +4,6 @@ namespace App\Models\Teacher;
 
 use App\Models\User;
 use Laravel\Scout\Searchable;
-use App\Models\Classroom\Classroom;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -45,15 +44,9 @@ class Teacher extends Model
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR POST ========== //
-    public function student()
-    {
-        return $this->hasMany(Student::class, 'homeroom_teacher_NIP', 'NIP');
-    }
-
-    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR POST ========== //
     public function homeroomclass()
     {
-        return $this->belongsTo(Classroom::class, 'homeroom_class_id', 'id');
+        return $this->hasOne(HomeroomClass::class, 'NIP');
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR POST ========== //

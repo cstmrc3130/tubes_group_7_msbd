@@ -25,6 +25,7 @@ class TeachingSubject extends Model
         'NIP',
         'subject_id',
         'class_id',
+        'school_year_id'
     ];
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN SUBJECT ITS TEACHER ========== //

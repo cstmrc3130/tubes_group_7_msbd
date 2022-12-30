@@ -48,7 +48,19 @@ Route::group(['prefix' => 'directory'], function ()
 
 
 
-// ========== DIRECTORY ========== //
+// ========== EXPORT CLASS DETAILS ========== //
+Route::middleware(['auth'])->group(function ()
+{
+    // ========== EXPORTING CLASS AS PDF ========== //
+    Route::get("export-class-pdf/{id?}", [\App\Http\Controllers\ExportClassAsPDF::class, "Export"])->name('export-class-pdf')->withoutMiddleware('auth.role:2');
+    
+    // ========== EXPORTING CLASS AS EXCEL ========== //
+    Route::get("export-class-excel/{id?}", [\App\Http\Controllers\ExportClassAsExcel::class, "Export"])->name('export-class-excel')->withoutMiddleware('auth.role:2');
+});
+
+
+
+// ========== SCHOOL PROFILE ========== //
 Route::get('school-profile', 'App\Http\Livewire\SchoolProfile'::class)->name('school-profile');
 
 
@@ -70,6 +82,12 @@ Route::group(['prefix' => 'admin'], function ()
             Route::controller(\App\Http\Livewire\Admin\StudentCRUD::class)->group(function()
             {
                 Route::get('/student-list', \App\Http\Livewire\Admin\StudentCRUD::class)->name('student-list');
+            });
+
+            // ========== STUDENT TAKING EXTRACURRICULAR CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\StudentTakingExtracurricularCRUD::class)->group(function()
+            {
+                Route::get('/student-taking-extracurricular', \App\Http\Livewire\Admin\StudentTakingExtracurricularCRUD::class)->name('student-taking-extracurricular');
             });
 
             // ========== TEACHER CRUD LIVEWIRE ========== //
@@ -214,21 +232,15 @@ Route::group(['prefix' => 'student'], function ()
             });
 
             // ========== EXTRACURRICULAR LIVEWIRE ========== //
-            Route::controller(\App\Http\Livewire\Student\TakingExtracurricular::class)->group(function()
+            Route::controller(\App\Http\Livewire\Student\TakingExtracurricularCRUD::class)->group(function()
             {
-                Route::get('/extracurricular', \App\Http\Livewire\Student\TakingExtracurricular::class)->name('extracurricular');
+                Route::get('/extracurricular', \App\Http\Livewire\Student\TakingExtracurricularCRUD::class)->name('extracurricular');
             });
 
             // ========== ABSENT RECAPITULATION LIVEWIRE ========== //
             Route::controller(\App\Http\Livewire\Student\AbsentRecapitulation::class)->group(function()
             {
                 Route::get('/absent-recapitulation', \App\Http\Livewire\Student\AbsentRecapitulation::class)->name('absent-recapitulation');
-            });
-
-            // ========== MONTHLY REPORT LIVEWIRE ========== //
-            Route::controller(\App\Http\Livewire\Student\MonthlyReport::class)->group(function()
-            {
-                Route::get('/monthly-report', \App\Http\Livewire\Student\MonthlyReport::class)->name('monthly-report');
             });
 
             // ========== SEMESTER REPORT LIVEWIRE ========== //

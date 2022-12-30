@@ -53,12 +53,12 @@ class Dashboard extends Component
         Cache::put('end-session-for' . $user_id, true, $expireDuration);
     }
 
-    // ========== UPDATE LOGIN INFO ========== //
-    public function UpdateLoginInfo($loginInfoData)
-    {
-        if(User::query()->find(Auth::id())->update(['email' => $loginInfoData[0]['value'], 'password' => bcrypt($loginInfoData[2]['value'])]))
-        {
-            $this->dispatchBrowserEvent('update-success');
-        }
-    }
+    // ========== UPDATE LOGIN INFO FROM JQUERY serializeArray ========== //
+    // public function UpdateLoginInfo($loginInfoData)
+    // {
+    //     if(User::query()->find(Auth::id())->update(['email' => $loginInfoData[0]['value'], 'password' => bcrypt($loginInfoData[2]['value'])]))
+    //     {
+    //         $this->dispatchBrowserEvent('update-success');
+    //     }
+    // }
 }

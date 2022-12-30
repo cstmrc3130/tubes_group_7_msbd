@@ -68,17 +68,14 @@
                                     <li> 
                                         Tahun Ajaran Aktif :
                                         <span class="font-bold">
-                                            {{ \App\Models\SchoolYear::find(session('currentSchoolYear'))->year }}
+                                            {{ \App\Models\SchoolYear::find(session('currentSchoolYear'))->value('year') }}
                                         </span>
                                     </li>
                                     <li> 
                                         Semester Aktif :
-
-                                        @if(\App\Models\Classroom\Classroom::query()->where('school_year_id', session('currentSchoolYear'))->first() != NULL)
                                         <span class="font-bold">
-                                            {{ \App\Models\Classroom\Classroom::query()->select('semester')->where('school_year_id', session('currentSchoolYear'))->first()->value('semester') }}
+                                            {{ \App\Models\SchoolYear::find(session('currentSchoolYear'))->value('semester') }}
                                         </span>
-                                        @endif
                                     </li>
                                 </div>
                             </div>
@@ -273,7 +270,7 @@
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                        <a href="{{ route('admin.student-taking-extracurricular') }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
                                             <span class="hide-menu">Ekstrakurikuler Siswa</span>
                                         </a>
@@ -548,7 +545,7 @@
                                     </div>
         
                                 </div>
-                                {{-- ========== OLD DATA END ========== --}}
+                                {{-- ========== NEW DATA END ========== --}}
 
                             </div>
                         </form>
@@ -565,67 +562,7 @@
 
 
         {{-- ========== LOGIN INFO MODAL START ========== --}}
-        <div class="modal fade show" id="loginInfoModal" tabindex="-1" role="dialog" aria-labelledby="loginInfoModalLabel1" wire:ignore.self>
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="loginInfoModalLabel1">Informasi Login</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="login-info-form">
-                            <div class="row">
-                                
-                                {{-- ========== OLD DATA START ========== --}}
-                                <div class="col-12">
-                                    
-                                    {{-- ========== EMAIL START ========== --}}
-                                    <div class="form-group row">
-                                        {{ Form::label('email', 'Email', ["class" => "col-md-3 col-form-label"]) }}
-                                        <div class="col-md-9">
-                                            {{ Form::email('email', Auth::user()->email, ['class' => 'form-control form-control-line'.($errors->has('email') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'email', 'required']) }}
-                                            @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                        </div>
-                                    </div>
-                                    {{-- ========== EMAIL START ========== --}}
-
-
-
-                                    {{-- ========== OLD PASSWORD START ========== --}}
-                                    <div class="form-group row">
-                                        {{ Form::label('old_password', 'Kata Sandi Lama', ["class" => "col-md-3 col-form-label"]) }}
-                                        <div class="col-md-9">
-                                            {{ Form::password('old_password', ['class' => 'form-control form-control-line'.($errors->has('oldPassword') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'old_password', 'required']) }}
-                                            @error('oldPassword')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                        </div>
-                                    </div>
-                                    {{-- ========== OLD PASSWORD START ========== --}}
-
-
-
-                                    {{-- ========== NEW PASSWORD START ========== --}}
-                                    <div class="form-group row">
-                                        {{ Form::label('new_password', 'Kata Sandi Baru', ["class" => "col-md-3 col-form-label"]) }}
-                                        <div class="col-md-9">
-                                            {{ Form::password('new_password', ['class' => 'form-control form-control-line'.($errors->has('newPassword') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'new_password', 'required']) }}
-                                            @error('newPassword')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                        </div>
-                                    </div>
-                                    {{-- ========== NEW PASSWORD START ========== --}}
-
-                                </div>
-                                {{-- ========== OLD DATA END ========== --}}
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <button type="button" id="save" class="btn btn-info" data-dismiss="modal">Simpan</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @livewire('admin.login-info-inline')
         {{-- ========== LOGIN INFO MODAL END ========== --}}
 
 

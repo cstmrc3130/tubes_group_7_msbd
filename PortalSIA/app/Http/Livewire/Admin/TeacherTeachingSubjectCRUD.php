@@ -45,13 +45,15 @@ class TeacherTeachingSubjectCRUD extends Component
             [
                 'NIP' => $this->NIP,
                 'subject_id' => $this->subject,
-                'class_id' => $this->class
+                'class_id' => $this->class,
+                'school_year_id' => session('currentSchoolYear'),
             ],
             [
                 'id' => Str::uuid(),
                 'NIP' => $this->NIP,
                 'subject_id' => $this->subject,
-                'class_id' => $this->class
+                'class_id' => $this->class,
+                'school_year_id' => session('currentSchoolYear'),
             ]
         );
     }

@@ -81,7 +81,7 @@ return new class extends Migration
         END');
 
         /*teachers_homeroom_classes*/
-        DB::unprepared('CREATE TRIGGER set_uuid_in_teachers_homeroom_classes BEFORE INSERT ON teachers_homeroom_classes FOR EACH ROW
+        DB::unprepared('CREATE TRIGGER set_uuid_in_teacher_homeroom_classes BEFORE INSERT ON teacher_homeroom_classes FOR EACH ROW
         BEGIN
             SET NEW.id = uuid();
         END');

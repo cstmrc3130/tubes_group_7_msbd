@@ -3,11 +3,13 @@
 namespace App\Http\Livewire;
 
 use App\Models\SchoolYear;
-use App\Models\Teacher\Teacher;
 use Illuminate\Support\Carbon;
+use App\Models\Teacher\Teacher;
+use App\Models\Classroom\Classroom;
+use App\Models\Teacher\HomeroomClass;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
+use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
 final class TeacherBuilder extends PowerGridComponent
@@ -53,8 +55,7 @@ final class TeacherBuilder extends PowerGridComponent
             ->addColumn('NIP')
             ->addColumn('KARPEG')
             ->addColumn('position')
-            ->addColumn('homeroom_class_id')
-            ->addColumn('homeroom_class_id', fn(Teacher $model) => $model->homeroomclass != null ? $model->homeroomclass->name : NULL)
+            ->addColumn('homeroom_class_id', fn(Teacher $model) => HomeroomClass::query()->where('NIP', $model->NIP)->exists() ? Classroom::query()->find(HomeroomClass::query()->where('NIP', $model->NIP)->where('school_year_id', session('currentSchoolYear'))->value('homeroom_class_id'))->name : "")
             ->addColumn('name')
             ->addColumn('place_of_birth')
             ->addColumn('date_of_birth', fn (Teacher $model) => Carbon::parse($model->date_of_birth)->format('Y-m-d'))
@@ -86,7 +87,7 @@ final class TeacherBuilder extends PowerGridComponent
                 ->editOnClick(),
 
             Column::make('CLASS', 'homeroom_class_id')
-                ->sortable()
+                // ->sortable()
                 ->searchable(),
 
             Column::make('NAME', 'name')

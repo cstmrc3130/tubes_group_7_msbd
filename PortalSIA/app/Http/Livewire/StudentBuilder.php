@@ -5,6 +5,8 @@ namespace App\Http\Livewire;
 use App\Models\SchoolYear;
 use Illuminate\Support\Carbon;
 use App\Models\Student\Student;
+use App\Models\Classroom\Classroom;
+use App\Models\Student\HomeroomClass;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
@@ -54,8 +56,7 @@ final class StudentBuilder extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('NISN')
             ->addColumn('name')
-            ->addColumn('homeroom_class_id')
-            ->addColumn('homeroom_class_id', fn(Student $model) => $model->homeroomclass != null ? $model->homeroomclass->name : "")
+            ->addColumn('homeroom_class_id', fn(Student $model) => Classroom::query()->findOrFail(HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'))->where('NISN', $model->NISN)->value('homeroom_class_id'))->name)
             ->addColumn('place_of_birth')
             ->addColumn('date_of_birth_formatted', fn (Student $model) => Carbon::parse($model->date_of_birth)->format('Y-m-d'))
             ->addColumn('gender', fn (Student $model) => $model->gender == "M" ? "Laki-Laki" : "Perempuan")
@@ -77,8 +78,8 @@ final class StudentBuilder extends PowerGridComponent
                 ->sortable()
                 ->editOnClick(),
 
-            Column::make('CLASS', 'homeroom_class_id')
-                ->sortable(),
+            Column::make('CLASS', 'homeroom_class_id'),
+                // ->sortable(),
 
             Column::make('NAME', 'name')
                 ->sortable()

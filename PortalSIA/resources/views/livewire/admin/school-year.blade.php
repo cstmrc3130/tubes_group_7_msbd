@@ -48,7 +48,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-                    <form wire:submit.prevent="CreateSchoolYearData" method="POST">
+                    <form wire:submit.prevent="CreateSchoolYearData()" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-12">
@@ -97,7 +97,9 @@
         window.addEventListener('success-create-school-year', e =>
         {
             toastr.success("Data tahun ajaran berhasil dibuat!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            
             $(':input').not(':button, :submit, :reset, :hidden').removeAttr('checked').removeAttr('selected').not(':checkbox, :radio, select').val('');
+            
             $("[data-dismiss=modal]").trigger({ type: "click" }) 
         })
     </script>

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->tinyText("new_name");
             $table->tinyInteger('new_completeness');
             $table->timestamps();
-                       
         });
     }
 

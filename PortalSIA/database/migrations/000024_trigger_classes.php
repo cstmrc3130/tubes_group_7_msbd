@@ -14,10 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::unprepared('CREATE TRIGGER set_uuid_in_classes BEFORE INSERT ON classes FOR EACH ROW
-            BEGIN
-                SET NEW.id = uuid();
-            END');
+        // DB::unprepared('CREATE TRIGGER set_uuid_in_classes BEFORE INSERT ON classes FOR EACH ROW
+        //     BEGIN
+        //         SET NEW.id = uuid();
+        //     END');
 
         DB::unprepared('CREATE TRIGGER delete_log_class BEFORE DELETE ON classes FOR EACH ROW
             BEGIN

@@ -3,6 +3,7 @@
 namespace App\Models\Classroom;
 
 use App\Models\Student\Student;
+use App\Models\Student\HomeroomClass;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,20 +19,13 @@ class Classroom extends Model
     // ========== MASS ASSIGNABLE ATTRIBUTES ========== //
     protected $fillable = 
     [ 
-        'school_year_id',
+        'id',
         'name',
-        'semester',
     ];
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
-    public function student()
+    public function homeroomclass()
     {
-        return $this->hasMany(Student::class, 'homeroom_class_id', 'id');
-    }
-
-    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
-    public function teacher()
-    {
-        return $this->hasOne(Teacher::class, 'homeroom_class_id', 'id');
+        return $this->hasMany(HomeroomClass::class, 'homeroom_class_id', 'id');
     }
 }

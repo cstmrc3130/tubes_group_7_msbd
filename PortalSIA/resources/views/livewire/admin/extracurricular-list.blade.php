@@ -24,7 +24,7 @@
 
 
 
-    {{-- ========== NEWS CARD START ========== --}}
+    {{-- ========== EXTRACURRICULAR CARD START ========== --}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-4 col-sm-2 d-flex justify-content-start m-b-20">
@@ -65,7 +65,7 @@
             @endforelse
         </div>
     </div>
-    {{-- ========== NEWS CARD END ========== --}}
+    {{-- ========== EXTRACURRICULAR CARD END ========== --}}
 
 
 
@@ -168,6 +168,7 @@
         $(function (){
             window.addEventListener('configure-extracurricular-modal', event =>
             {
+                @this.set('extracurricularID', event.detail.id)
                 @this.set('name', event.detail.name)
                 @this.set('description', event.detail.description)
             })

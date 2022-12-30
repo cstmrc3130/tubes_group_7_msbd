@@ -35,7 +35,6 @@ class AuthenticateRole
                 {
                     Cache::put('user-is-online' . Auth::id(), false, -5);
                     Cache::forget('user-is-online' . Auth::id());
-
                     Cache::put('show-alert', true, 5);
 
                     Auth::logout();

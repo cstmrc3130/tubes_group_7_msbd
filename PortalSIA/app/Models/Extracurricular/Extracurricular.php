@@ -20,6 +20,7 @@ class Extracurricular extends Model
     protected $fillable = 
     [
         'id',
+        'school_year_id',
         'name',
         'description',
         'image',

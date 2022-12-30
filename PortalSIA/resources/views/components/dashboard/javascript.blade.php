@@ -101,22 +101,25 @@
 
 
 
-{{-- UPDATE ADMIN LOGIN INFO --}}
+{{-- UPDATE ADMIN LOGIN INFO  --}}
 <script>
     $(function ()
     {
-        $('#save').click(e =>
-        {
-            let loginInfoData = $('#login-info-form').serializeArray();
+        // USING serializeArray()
+        // $('#save').click(e =>
+        // {
+        //     let loginInfoData = $('#login-info-form').serializeArray();
 
-            Livewire.emit('UpdateLoginInfo', loginInfoData)
-        })
+        //     Livewire.emit('UpdateLoginInfo', loginInfoData)
+        // })
 
         window.addEventListener('update-success', e =>
         {
-            $(':input').not(':button, :submit, :reset, :hidden').removeAttr('checked').removeAttr('selected').not(':checkbox, :radio, select').val('');
-
             toastr.success("Informasi login berhasil di-update!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            
+            $(':input').not(':button, :submit, :reset, :hidden').removeAttr('checked').removeAttr('selected').not(':checkbox, :radio, select').val('');
+            
+            $("#loginInfoModal").find("[data-dismiss=modal]").trigger({ type: "click" })
         })
     })
 </script>
