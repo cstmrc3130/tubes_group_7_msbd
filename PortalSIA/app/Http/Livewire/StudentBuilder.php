@@ -42,7 +42,7 @@ final class StudentBuilder extends PowerGridComponent
 
         // RETUN ALL STUDENTS WHICH ENTRY YEAR IS BETWEEN CURRENT SCHOOL YEAR - 2 TO CURRENT SCHOOL YEAR
         // e.g IF CURRENT SCHOOL YEAR IS 2022/2023, SELECT entry_year BETWEEN 2020 - 2022
-        return Student::query()->whereBetween('entry_year', [substr($currentSchoolYear, 0, 4) - 2, substr($currentSchoolYear, 0, 4)]);
+        return HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'))->first() != NULL ? Student::query()->whereBetween('entry_year', [substr($currentSchoolYear, 0, 4) - 2, substr($currentSchoolYear, 0, 4)]) : HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'));
     }
 
     public function relationSearch(): array
@@ -56,7 +56,7 @@ final class StudentBuilder extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('NISN')
             ->addColumn('name')
-            ->addColumn('homeroom_class_id', fn(Student $model) => Classroom::query()->findOrFail(HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'))->where('NISN', $model->NISN)->value('homeroom_class_id'))->name)
+            ->addColumn('homeroom_class_id', fn(Student $model) => HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'))->first() != NULL ? Classroom::query()->findOrFail(HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'))->where('NISN', $model->NISN)->value('homeroom_class_id'))->name : "")
             ->addColumn('place_of_birth')
             ->addColumn('date_of_birth_formatted', fn (Student $model) => Carbon::parse($model->date_of_birth)->format('Y-m-d'))
             ->addColumn('gender', fn (Student $model) => $model->gender == "M" ? "Laki-Laki" : "Perempuan")

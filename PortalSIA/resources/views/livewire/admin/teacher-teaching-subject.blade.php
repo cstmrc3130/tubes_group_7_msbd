@@ -35,21 +35,22 @@
                         <div class="col-sm-3 col-md-12">
                             <div class="form-group">
                                 <label for="">Nama</label>
-                                <select class="form-control form-select" wire:model="NIP">
+                                <select class="form-control form-select @error('NIP') is-invalid @enderror" wire:model="NIP">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Teacher\Teacher::all() as $teacher)
+                                    @foreach(\App\Models\Teacher\Teacher::query()->where('started_working_at', '<=', substr(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year, 5, strlen(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year)))->get() as $teacher)
                                     <option value="{{ $teacher->NIP }}">{{ $teacher->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('NIP')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                         </div>
 
                         <div class="col-sm-2 col-md-6">
                             <div class="form-group">
                                 <label for="">Mata Pelajaran</label>
-                                <select class="form-control form-select" wire:model="subject">
+                                <select class="form-control form-select @error('subject') is-invalid @enderror" wire:model="subject">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Subject\Subject::all() as $subject)
+                                    @foreach(\App\Models\Subject\Subject::query()->where('school_year_id', session('currentSchoolYear'))->get() as $subject)
                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                     @endforeach
                                 </select>
@@ -60,7 +61,7 @@
                         <div class="col-sm-2 col-md-6">
                             <div class="form-group">
                                 <label for="">Kelas</label>
-                                <select class="form-control form-select" wire:model="class">
+                                <select class="form-control form-select @error('class') is-invalid @enderror" wire:model="class">
                                     <option value=""></option>
                                     @foreach(\App\Models\Classroom\Classroom::all() as $class)
                                     <option value="{{ $class->id }}">{{ $class->name }}</option>
@@ -83,7 +84,7 @@
             </div>
         </div>
 
-        
+
 
         <div class="col-md-12">
             <div class="card">
@@ -108,7 +109,7 @@
                                 </tr>
                             </thead>
                             <tbody class="border border-dark">
-                                @foreach(\App\Models\Teacher\TeachingSubject::query()->where('NIP', $NIP)->get() as $data)
+                                @foreach(\App\Models\Teacher\TeachingSubject::query()->where('NIP', $NIP)->where('school_year_id', session('currentSchoolYear'))->get() as $data)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ \App\Models\Subject\Subject::find($data->subject_id)->name }}</td>
@@ -138,6 +139,7 @@
     {{-- ========== FOOTER START ========== --}}
 
 </div>
+
 @push('additional-style')
     {{-- FOR ALIGNING td TO THE CENTER --}}
     <style>

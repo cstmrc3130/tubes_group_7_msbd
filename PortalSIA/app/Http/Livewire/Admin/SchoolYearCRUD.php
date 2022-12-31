@@ -9,11 +9,15 @@ use Illuminate\Support\Str;
 class SchoolYearCRUD extends Component
 {
     // ========== SCHOOL YEAR ATTRIBUTES ========== //
-    public $year;
+    public $year, $semester;
+
+    // ========== EVENT LISTENERS ========== //
+    protected $listeners = ['DeleteSchoolYear'];
 
     // ========== RULES ========== //
     protected $rules = ([
         "year" => ['required', "regex:/^([0-9]){4}\/[0-9]{4}$/"],
+        'semester' => 'required|in:"Ganjil", "Genap"',
     ]);
 
     // ========== MASS ASSIGNABLE ATTRIBUTES ========== //
@@ -37,14 +41,24 @@ class SchoolYearCRUD extends Component
         
         SchoolYear::query()->updateOrCreate(
             [
-                'year' => $this->year
+                'year' => $this->year,
+                'semester' => $this->semester
             ],
             [
                 'id' => Str::uuid(),
-                'year' => $this->year
+                'year' => $this->year,
+                'semester' => $this->semester
             ]
         );
 
         $this->dispatchBrowserEvent('success-create-school-year');
+    }
+
+    // ========== DELETE SCHOOL YEAR ========== //
+    public function DeleteSchoolYear($year, $semester)
+    {
+        SchoolYear::query()->where('year', $year)->where('semester', $semester)->delete();
+
+        $this->dispatchBrowserEvent('success-delete', ['data' => $year]);
     }
 }

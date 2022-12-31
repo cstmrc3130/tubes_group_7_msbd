@@ -203,6 +203,9 @@
                                     <span class="hide-menu">Rekapitulasi Absensi</span>
                                 </a>
                             </li>
+
+
+                            
                             <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('student.semester-report') }}" aria-expanded="false">
                                     <i class="ti-bookmark-alt"></i>

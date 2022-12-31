@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('teaching_extracurriculars', function (Blueprint $table) {
             $table->uuid("id")->primary();
+            $table->uuid("school_year_id");
             $table->char("NIP", 18);
             $table->uuid("extracurricular_id");
             $table->timestamps();
 
             // FOREIGN KEY
             $table->foreign('NIP')->references('NIP')->on('teachers')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('extracurricular_id')->references('id')->on('extracurriculars')->onDelete('restrict')->onUpdate('cascade');
         });
     }

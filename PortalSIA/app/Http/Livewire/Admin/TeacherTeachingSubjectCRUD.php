@@ -29,6 +29,11 @@ class TeacherTeachingSubjectCRUD extends Component
         $this->validateOnly($property_name);
     }
 
+    // ========== CUSTOM :ATTRIBUTES ========== //
+    protected $validationAttributes = ([
+        'NIP' => 'NIP'
+    ]);
+
     // ========== RENDER ========== //
     public function render()
     {

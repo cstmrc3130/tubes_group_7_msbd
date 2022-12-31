@@ -60,13 +60,27 @@
                                         @error('year')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                     </div>
                                 </div>
+
+                                <div class="form-group row justify-content-center">
+                                    {{ Form::label('semester', 'Semester', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                    <div class="col-md-4 col-form-label align-self-center">
+                                        {{ Form::radio('semester', "Ganjil", false, ['class' => ($errors->has('semester') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'odd', 'wire:model.lazy' => 'semester']) }}
+                                        <label for="Ganjil">Ganjil</label>
+                                    </div>
+                                    
+                                    <div class="col-md-4 col-form-label align-self-center">
+                                        {{ Form::radio('semester', "Genap", false, ['class' => ($errors->has('semester') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'even', 'wire:model.lazy' => 'semester']) }}
+                                        <label for="Genap">Genap</label>
+                                    </div>
+                                    @error('semester')<div class="text-danger mr-4 pr-2">{{ $message }}</div>@enderror
+                                </div>
     
                             </div>
                         </div>
 
                         <div class="modal-footer pb-0">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-info" @if ($errors->has('year')) @disabled(true) @endif >Submit</button>
+                            <button type="submit" class="btn btn-info" @if ($errors->has('year') || $errors->has('semester')) @disabled(true) @endif >Submit</button>
                         </div>
                     </form>
                 </div>
@@ -84,7 +98,7 @@
 </div>
 
 @push('additional-script')
-    {{-- SHOW SUCCESS TOAST, DISMISS MODAL, AND CLEAN ALL INPUT FIELDS --}}
+    {{-- SHOW SUCCESS TOAST --}}
     <script>
         window.addEventListener('set-school-year', e =>
         {
@@ -101,6 +115,43 @@
             $(':input').not(':button, :submit, :reset, :hidden').removeAttr('checked').removeAttr('selected').not(':checkbox, :radio, select').val('');
             
             $("[data-dismiss=modal]").trigger({ type: "click" }) 
+        })
+    </script>
+
+    {{-- TOAST FOR DELETE DATA --}}
+    <script>
+        $(function (){
+            window.addEventListener('success-delete', event =>
+            {
+                toastr.success("Tahun ajaran " + event.detail.data + " berhasil dihapus!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            })
+        })
+    </script>
+
+    {{-- SWEET ALERT FOR DELETE SCHOOL YEAR --}}
+    <script>
+        $(function ()
+        {
+            window.addEventListener('confirm-to-delete-school-year', e =>
+            {
+                swal({   
+                title: "Delete Data",   
+                text: "Hapus tahun ajaran " + e.detail.year + " semester " + e.detail.semester + "?",   
+                type: "warning",   
+                showCancelButton: true,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "Hapus",   
+                cancelButtonText: "Batalkan",   
+                }).then((isConfirm) => 
+                    {   
+                        if (isConfirm && isConfirm.dismiss != 'cancel') {     
+                            Livewire.emit('DeleteSchoolYear', e.detail.year, e.detail.semester);
+                        } else {     
+                            swal("Batal", "Data batal dihapus!", "error");   
+                        } 
+                    });
+                    
+            })
         })
     </script>
 @endpush

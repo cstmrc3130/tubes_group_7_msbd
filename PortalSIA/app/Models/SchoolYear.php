@@ -20,6 +20,7 @@ class SchoolYear extends Model
     protected $fillable = 
     [
         'id',
-        'year'
+        'year',
+        'semester'
     ];
 }

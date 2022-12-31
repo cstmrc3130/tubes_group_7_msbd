@@ -24,7 +24,7 @@
 
 
 
-    {{-- ========== CONFIGURE SUBJECT START ========== --}}
+    {{-- ========== CONFIGURE EXTRACURRICULAR START ========== --}}
     <div class="container-fluid">
         <div class="col-md-12">
             <div class="card">
@@ -114,7 +114,7 @@
             </div>
         </div>
     </div>
-    {{-- ========== CONFIGURE SUBJECT END ========== --}}
+    {{-- ========== CONFIGURE EXTRACURRICULAR END ========== --}}
 
 
 
@@ -123,6 +123,7 @@
     {{-- ========== FOOTER START ========== --}}
 
 </div>
+
 @push('additional-style')
     {{-- FOR ALIGNING td TO THE CENTER --}}
     <style>

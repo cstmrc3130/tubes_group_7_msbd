@@ -26,12 +26,14 @@
 
     {{-- ========== POWERGRID TABLE START ========== --}}
     <div class="container-fluid" style="min-height: 74vh">
+        @if(session('currentSchoolYear') == \App\Models\SchoolYear::orderBy('year', 'desc')->value('id'))
         <div class="col-4 col-sm-2 d-flex justify-content-start mb-3">
             <button class="btn btn-block btn-info" data-toggle='modal' data-target="#exampleModal">
                 <i class="mdi mdi-plus-outline"></i>
                 Tambah Data
             </button>
         </div>
+        @endif
 
         @livewire('student-builder')
     </div>

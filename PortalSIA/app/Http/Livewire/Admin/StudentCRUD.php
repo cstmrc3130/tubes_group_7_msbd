@@ -96,7 +96,6 @@ class StudentCRUD extends Component
         $this->dispatchBrowserEvent('dismiss-modal');
     }
 
-
     // ========== DELETE STUDENT ACCOUNT ========== //
     public function DeleteStudent($NISN)
     {

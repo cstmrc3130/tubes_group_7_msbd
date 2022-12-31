@@ -55,7 +55,7 @@ final class TeacherBuilder extends PowerGridComponent
             ->addColumn('NIP')
             ->addColumn('KARPEG')
             ->addColumn('position')
-            ->addColumn('homeroom_class_id', fn(Teacher $model) => HomeroomClass::query()->where('NIP', $model->NIP)->exists() ? Classroom::query()->find(HomeroomClass::query()->where('NIP', $model->NIP)->where('school_year_id', session('currentSchoolYear'))->value('homeroom_class_id'))->name : "")
+            ->addColumn('homeroom_class_id', fn(Teacher $model) => HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'))->exists() ? HomeroomClass::query()->where('NIP', $model->NIP)->where('school_year_id', session('currentSchoolYear'))->join('classes', 'classes.id', '=', 'teacher_homeroom_classes.homeroom_class_id')->orderBy('classes.name', 'ASC')->value('classes.name') : "")
             ->addColumn('name')
             ->addColumn('place_of_birth')
             ->addColumn('date_of_birth', fn (Teacher $model) => Carbon::parse($model->date_of_birth)->format('Y-m-d'))

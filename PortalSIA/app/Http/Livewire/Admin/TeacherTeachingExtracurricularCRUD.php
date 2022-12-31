@@ -35,6 +35,7 @@ class TeacherTeachingExtracurricularCRUD extends Component
         return view('livewire.admin.teacher-teaching-extracurricular')->layout('admin.master', compact('title'));
     }
 
+    // ========== UPDATE OR CREATE EXTRACURRICULAR ========== //
     public function UpdateOrCreateRecords()
     {
         $this->validate();
@@ -52,6 +53,7 @@ class TeacherTeachingExtracurricularCRUD extends Component
         );
     }
 
+    // ========== DELETE EXTRACURRICULAR ========== //
     public function DeleteRecord($id)
     {
         TeachingExtracurricular::query()->find($id)->delete();

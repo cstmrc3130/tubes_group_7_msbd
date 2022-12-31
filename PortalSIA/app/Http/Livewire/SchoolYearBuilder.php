@@ -43,7 +43,8 @@ final class SchoolYearBuilder extends PowerGridComponent
     {
         return PowerGrid::eloquent()
             ->addColumn('id')
-            ->addColumn('year');
+            ->addColumn('year')
+            ->addColumn('semester');
     }
 
     // ========== CREATING COLUMN FOR TABLE ========== //
@@ -55,6 +56,10 @@ final class SchoolYearBuilder extends PowerGridComponent
                 ->searchable(),
 
             Column::make('SCHOOL YEAR', 'year')
+                ->searchable()
+                ->sortable(),
+
+            Column::make('SEMESTER', 'semester')
                 ->searchable()
                 ->sortable(),
         ];
@@ -77,6 +82,10 @@ final class SchoolYearBuilder extends PowerGridComponent
             Button::make('set-as-active', 'Set As Active')
                 ->class('btn')
                 ->emit('SetSchoolYear', ['id' => 'id', 'year' => 'year']),
+            
+            Button::make('destroy', 'Delete')
+                ->class('btn btn-outline-danger')
+                ->emit('ConfirmToDeleteSchoolYear', ['year' => 'year', 'semester' => 'semester']),
         ];
     }
 
@@ -104,7 +113,7 @@ final class SchoolYearBuilder extends PowerGridComponent
     // ========== GET LISTENERS FROM ACTION BUTTON ========== //
     protected function getListeners()
     {
-        return array_merge(parent::getListeners(), ['SetSchoolYear']);
+        return array_merge(parent::getListeners(), ['SetSchoolYear', 'ConfirmToDeleteSchoolYear']);
     }
 
     // ========== DISPATCH THE EVENT AND SET NEW SCHOOL YEAR ========== //
@@ -112,5 +121,11 @@ final class SchoolYearBuilder extends PowerGridComponent
     {
         session()->put('currentSchoolYear', $data['id']);
         $this->dispatchBrowserEvent('set-school-year', ['id' => $data['id'], 'year' => $data['year']]);
+    }
+
+    // ========== DISPATCH THE EVENT AND DELETE SCHOOL YEAR ========== //
+    public function ConfirmToDeleteSchoolYear(array $data)
+    {
+        $this->dispatchBrowserEvent('confirm-to-delete-school-year', ['year' => $data['year'], 'semester' => $data['semester']]);
     }
 }

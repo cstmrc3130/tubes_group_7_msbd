@@ -68,13 +68,13 @@
                                     <li> 
                                         Tahun Ajaran Aktif :
                                         <span class="font-bold">
-                                            {{ \App\Models\SchoolYear::find(session('currentSchoolYear'))->value('year') }}
+                                            {{ \App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year }}
                                         </span>
                                     </li>
                                     <li> 
                                         Semester Aktif :
                                         <span class="font-bold">
-                                            {{ \App\Models\SchoolYear::find(session('currentSchoolYear'))->value('semester') }}
+                                            {{ \App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->semester }}
                                         </span>
                                     </li>
                                 </div>
