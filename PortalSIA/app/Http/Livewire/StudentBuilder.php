@@ -42,7 +42,7 @@ final class StudentBuilder extends PowerGridComponent
 
         // RETUN ALL STUDENTS WHICH ENTRY YEAR IS BETWEEN CURRENT SCHOOL YEAR - 2 TO CURRENT SCHOOL YEAR
         // e.g IF CURRENT SCHOOL YEAR IS 2022/2023, SELECT entry_year BETWEEN 2020 - 2022
-        return HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'))->first() != NULL ? Student::query()->whereBetween('entry_year', [substr($currentSchoolYear, 0, 4) - 2, substr($currentSchoolYear, 0, 4)]) : HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'));
+        return Student::query()->whereBetween('entry_year', [substr($currentSchoolYear, 0, 4) - 2, substr($currentSchoolYear, 0, 4)]);
     }
 
     public function relationSearch(): array

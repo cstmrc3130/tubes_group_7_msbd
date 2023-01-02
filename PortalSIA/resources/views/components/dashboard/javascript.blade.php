@@ -58,6 +58,7 @@
             notificationCount--;
             
             $('a').remove('#' + notificationID);
+            $('div').remove('#' + notificationID);
             $('#noti-text').html(notificationCount + " New")
             
             if(notificationCount == 0)
@@ -81,6 +82,7 @@
             notificationCount--;
 
             $("#" + notificationID).remove();
+            $('#' + notificationID).remove();
             $('#noti-text').html(notificationCount + " New")
 
             if(notificationCount == 0)

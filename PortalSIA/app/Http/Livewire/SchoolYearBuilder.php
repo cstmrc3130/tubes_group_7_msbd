@@ -81,7 +81,7 @@ final class SchoolYearBuilder extends PowerGridComponent
         return [
             Button::make('set-as-active', 'Set As Active')
                 ->class('btn')
-                ->emit('SetSchoolYear', ['id' => 'id', 'year' => 'year']),
+                ->emit('SetSchoolYear', ['id' => 'id', 'year' => 'year', 'semester' => 'semester']),
             
             Button::make('destroy', 'Delete')
                 ->class('btn btn-outline-danger')
@@ -96,17 +96,17 @@ final class SchoolYearBuilder extends PowerGridComponent
             // IF USER IS OFFLINE SET TEXT AS DANGER
             Rule::rows()->when(function ($collection) 
             {
-                return $collection->id == session('currentSchoolYear');
+                return $collection->id == session('tempSchoolYear');
             })->setAttribute('class', 'text-success'),
 
             // IF USER IS ONLINE SET TEXT AS SUCCESS
             Rule::rows()->when(function ($collection) 
             { 
-                return $collection->id != session('currentSchoolYear');
+                return $collection->id != session('tempSchoolYear');
             })->setAttribute('class', 'text-muted'),
 
-            Rule::button('set-as-active')->when(fn($collection) => $collection->id == session('currentSchoolYear'))->setAttribute('class', 'btn-success')->setAttribute('disabled')->caption('Currently Active'),
-            Rule::button('set-as-active')->when(fn($collection) => $collection->id != session('currentSchoolYear'))->setAttribute('class', 'btn-outline-success'),
+            Rule::button('set-as-active')->when(fn($collection) => $collection->id == session('tempSchoolYear'))->setAttribute('class', 'btn-success')->setAttribute('disabled')->caption('Currently Active'),
+            Rule::button('set-as-active')->when(fn($collection) => $collection->id != session('tempSchoolYear'))->setAttribute('class', 'btn-outline-success'),
         ];
     }
 
@@ -119,7 +119,18 @@ final class SchoolYearBuilder extends PowerGridComponent
     // ========== DISPATCH THE EVENT AND SET NEW SCHOOL YEAR ========== //
     public function SetSchoolYear(array $data)
     {
-        session()->put('currentSchoolYear', $data['id']);
+        session()->put('tempSchoolYear', $data['id']);
+        session()->put('currentSemester', $data['semester']);
+
+        if($data['semester'] == "Genap")
+        {
+            session()->put('currentSchoolYear', SchoolYear::query()->where('year', $data['year'])->where('semester', 'Ganjil')->value('id'));
+        }
+        else
+        {
+            session()->put('currentSchoolYear', $data['id']);
+        }
+
         $this->dispatchBrowserEvent('set-school-year', ['id' => $data['id'], 'year' => $data['year']]);
     }
 

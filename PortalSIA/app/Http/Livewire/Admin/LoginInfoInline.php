@@ -9,11 +9,8 @@ use Illuminate\Validation\Rules\Password;
 
 class LoginInfoInline extends Component
 {
-    // ========== NOTIFICATION ATTRIBUTES ========== //
+    // ========== LOGIN INFO ATTRIBUTES ========== //
     public $email, $oldPassword, $newPassword;
-
-    // ========== EVENT LISTENERS ========== //
-    protected $listeners = ['AbortUpdate', 'ApproveUpdate'];
 
     // ========== RENDER ========== //
     public function render()

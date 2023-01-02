@@ -51,7 +51,7 @@
                                 <label for="" class="mb-0">Pilih Wali Kelas</label>
                                 <select class="form-control form-select" wire:model="selectedHomeroomTeacher">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Teacher\Teacher::query()->doesntHave('homeroomclass')->orderBy('name', 'ASC')->get() as $teacher)
+                                    @foreach(\App\Models\Teacher\Teacher::query()->where('started_working_at', '<=', substr(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year, 5, strlen(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year)))->doesntHave('homeroomclass', 'and', fn($query) => $query->where('school_year_id', session('currentSchoolYear')))->orderBy('name', 'ASC')->get() as $teacher)
                                     <option value="{{ $teacher->NIP }}">{{ $teacher->name }}</option>
                                     @endforeach
                                 </select>
@@ -66,7 +66,7 @@
                         {{-- ========== HOMEROOM TEACHER START ========== --}}
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group mb-0">
-                                <label for="" class="text-success font-bold mb-0">Wali Kelas : {{ \App\Models\Teacher\Teacher::query()->where('NIP', \App\Models\Teacher\HomeroomClass::query()->where('homeroom_class_id', $selectedClass)->value('NIP'))->value('name') }}</label>
+                                <label for="" class="text-success font-bold mb-0">Wali Kelas : {{ \App\Models\Teacher\Teacher::query()->where('NIP', \App\Models\Teacher\HomeroomClass::query()->where('homeroom_class_id', $selectedClass)->where('school_year_id', session('currentSchoolYear'))->value('NIP'))->value('name') }}</label>
                             </div>
                         </div>
                         {{-- ========== HOMEROOM TEACHER END ========== --}}
@@ -95,8 +95,7 @@
                                 </tr>
                             </thead>
                             <tbody class="border border-dark">
-                                {{-- @foreach(\App\Models\Student\HomeroomClass::query()->where('homeroom_class_id', $selectedClass)->orderBy('NISN', 'DESC')->paginate(5) as $data) --}}
-                                @foreach(\App\Models\Student\HomeroomClass::query()->where('homeroom_class_id', $selectedClass)->join('students', 'student_homeroom_classes.NISN', '=', 'students.NISN')->orderBy('students.name', 'ASC')->paginate(5) as $data)
+                                @foreach(\App\Models\Student\HomeroomClass::query()->where('homeroom_class_id', $selectedClass)->where('school_year_id', session('currentSchoolYear'))->join('students', 'student_homeroom_classes.NISN', '=', 'students.NISN')->orderBy('students.name', 'ASC')->paginate(5) as $data)
                                 <tr>
                                     <td>{{ $loop->iteration + 5 * ($page - 1) }}</td>
                                     <td>{{ $data->NISN }}</td>
@@ -116,7 +115,7 @@
 
                         {{-- ========== PAGINATION START ========== --}}
                         <div class="row justify-content-center align-items-center my-3">
-                            {{ \App\Models\Student\HomeroomClass::query()->where('homeroom_class_id', $selectedClass)->paginate(5)->links() }}
+                            {{ \App\Models\Student\HomeroomClass::query()->where('homeroom_class_id', $selectedClass)->where('school_year_id', session('currentSchoolYear'))->join('students', 'student_homeroom_classes.NISN', '=', 'students.NISN')->orderBy('students.name', 'ASC')->paginate(5)->links() }}
                         </div>
                         {{-- ========== PAGINATION END ========== --}}
 

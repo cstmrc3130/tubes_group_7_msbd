@@ -2,11 +2,16 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Classroom\Classroom;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use App\Models\Teacher\Teacher;
 use App\Models\Student\Student;
+use App\Models\Student\HomeroomClass as StudentHomeroomClass;
+use App\Models\Subject\Subject;
+use App\Models\Teacher\HomeroomClass as TeacherHomeroomClass;
+use App\Models\Teacher\TeachingSubject;
 use Illuminate\Support\Facades\Auth;
 
 class Directory extends Component
@@ -26,7 +31,7 @@ class Directory extends Component
     public $profilePicture;
     public $class;
     public $subject;
-    public $semester;
+    public $email;
     public $entryYear;
     public $status;
 
@@ -110,9 +115,10 @@ class Directory extends Component
                 $this->name = $teacherDetails->name;
                 $this->NIP = $teacherDetails->NIP;
                 $this->KARPEG = $teacherDetails->KARPEG;
+                $this->email = $teacherDetails->user->email == null ? "-" : $teacherDetails->user->email ;
                 $this->profilePicture = $teacherDetails->user->profile_picture;
-                $this->class = $teacherDetails->NIP;
-                $this->subject = $teacherDetails->NIP;
+                $this->class = Classroom::query()->where('id', TeacherHomeroomClass::query()->where('NIP', $teacherDetails->NIP)->value('homeroom_class_id'))->value('name') == null ? "-" : Classroom::query()->where('id', TeacherHomeroomClass::query()->where('NIP', $teacherDetails->NIP)->value('homeroom_class_id'))->value('name');
+                $this->subject = Subject::query()->where('id', TeachingSubject::query()->where('NIP', $teacherDetails->NIP)->value('subject_id'))->value('name');
             }
             else
             {
@@ -128,10 +134,10 @@ class Directory extends Component
                 $this->name = $studentDetails->name;
                 $this->NISN = $studentDetails->NISN;
                 $this->profilePicture = $studentDetails->user->profile_picture;
-                $this->class = $studentDetails->NISN;
-                $this->semester = $studentDetails->NISN;
+                $this->class = Classroom::query()->where('id', StudentHomeroomClass::query()->where('NISN', $studentDetails->NISN)->value('homeroom_class_id'))->value('name');
+                $this->email = $studentDetails->user->email == null ? "-" : $studentDetails->user->email ;
                 $this->entryYear = $studentDetails->entry_year;
-                $this->status = $studentDetails->status;
+                $this->status = $studentDetails->status == "A" ? "Aktif" : $studentDetails->description;
             }
             else
             {

@@ -44,8 +44,12 @@ class Login extends Component
         // TRY TO AUTHENTICATE USER WITH CREDENTIALS INPUTED
         if (Auth::attempt(['NISN' => $this->username, 'password' => $this->password]) || Auth::attempt(['NIP' => $this->username, 'password' => $this->password]) || Auth::attempt(['email' => $this->username, 'password' => $this->password]))
         {
-            // SET CURRENT SCHOOL YEAR TO THE LATEST RECORD
-            session()->put('currentSchoolYear', \App\Models\SchoolYear::orderBy('year', 'desc')->value('id'));
+            // SET CURRENT SCHOOL YEAR TO THE LATEST ODD
+            session()->put('currentSchoolYear', \App\Models\SchoolYear::where('semester', 'Ganjil')->orderBy('year', 'desc')->value('id'));
+            session()->put('currentSemester', \App\Models\SchoolYear::orderBy('semester', 'desc')->value('semester'));
+
+            // SET TEMPORARY SCHOOL YEAR FOR SCHOOL YEAR TAB, SUBJECT SCORE, ABSENT, AND EXTRACURRICULAR SCORE (LATEST EVEN BY DEFAULT)
+            session()->put('tempSchoolYear', \App\Models\SchoolYear::orderBy('year', 'desc')->value('id'));
             
             if (auth()->user()->role == 0)
             {

@@ -17,6 +17,7 @@ class ExtracurricularCRUD extends Component
     public $name;
     public $description;
     public $image;
+    public $schoolYear;
 
     // ========== RULES ========== //
     protected $rules = [
@@ -34,6 +35,12 @@ class ExtracurricularCRUD extends Component
     public function updated($property_name)
     {
         $this->validateOnly($property_name);
+    }
+
+    // ========== CONSTRUCTOR TO INITIATE ATTRIBUTES ========== //
+    public function mount()
+    {
+        $this->schoolYear = \App\Models\SchoolYear::find(session('currentSchoolYear'))->year;
     }
 
     // ========== PAGINATION THEME ========== //

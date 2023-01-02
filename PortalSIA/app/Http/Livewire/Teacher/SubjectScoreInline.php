@@ -3,18 +3,27 @@
 namespace App\Http\Livewire\Teacher;
 
 use Livewire\Component;
+use Illuminate\Support\Str;
 use App\Models\ScoringSession;
 use App\Models\Subject\SubjectScore;
 
 class SubjectScoreInline extends Component
 {
+    public $subject;
     public $eachStudent;
+    public $studentName;
     public $activeScoringSession;
     public $HW1;
 
     protected $rules = [
         'HW1' => ['required', 'integer', 'min:0', 'max:100']
     ];
+
+    public function mount()
+    {
+        $this->HW1 = SubjectScore::query()->where('NISN', $this->eachStudent->NISN)->join('scoring_sessions', 'scoring_sessions.id', '=', 'subject_scores.scoring_session_id')->where('scoring_sessions.type', 'HW1')->value('score');
+        $this->studentName = $this->eachStudent->name;
+    }
 
     public function updated($property_name)
     {
@@ -28,13 +37,13 @@ class SubjectScoreInline extends Component
 
                         <div class="col-sm-3 col-md-4">
                             <div class="form-group">
-                                <input class="form-control" type="text" name="name" id="name" value="{{ $eachStudent->name }}" disabled readonly>
+                                <input class="form-control" type="text" name="name" id="name" wire:model="studentName" disabled readonly>
                             </div>
                         </div>
 
                         <div class="col-sm-3 col-md-1">
                             <div class="form-group">
-                                <input class="form-control @error('HW1') is-invalid @enderror" type="number" name="HW1" id="HW1" min="0" max="100" wire:model.lazy="HW1" @if(!\App\Models\ScoringSession::query()->where('type', 'HW1')->where('start_date', '!=', '0000-00-00')->first()) disabled readonly @endif>
+                                <input class="form-control @error('HW1') is-invalid @enderror" type="number" name="HW1" id="HW1" min="0" max="100" wire:model.lazy="HW1" @if(!\App\Models\ScoringSession::query()->where('type', 'HW1')->where('start_date', '!=', '0000-00-00')->where('end_date', ">=", date("Y-m-d"))->first()) disabled readonly @endif>
                                 @error('HW1') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
@@ -84,6 +93,22 @@ class SubjectScoreInline extends Component
 
     public function UpdateOrCreateScore()
     {
-        SubjectScore::query()->updateOrCreate;
+        if($this->activeScoringSession->type == 'HW1')
+        {
+            SubjectScore::query()->updateOrCreate(
+                [
+                    'NISN' => $this->eachStudent->NISN,
+                    'subject_id' => $this->subject,
+                    'scoring_session_id' => $this->activeScoringSession->id, 
+                ],
+                [
+                    'id' => Str::uuid(),
+                    'subject_id' => $this->subject,
+                    'scoring_session_id' => $this->activeScoringSession->id,
+                    'score' => $this->HW1
+                ]);
+        }
+
+        dd("Data Inserted Successfully");
     }
 }

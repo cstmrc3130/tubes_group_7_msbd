@@ -242,16 +242,16 @@
                             </div>
 
                             <div class="form-group row">
-                                {{ Form::label('class', 'Kelas', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                {{ Form::label('email', 'Email', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
                                 <div class="col-md-8">
-                                    {{ Form::text('class', $class, ['class' => 'form-control form-control-line bg-transparent', 'disabled', 'readonly']) }}
+                                    {{ Form::text('email', $email, ['class' => 'form-control form-control-line bg-transparent', 'disabled', 'readonly']) }}
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                {{ Form::label('semester', 'Semester', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
+                                {{ Form::label('class', 'Kelas', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
                                 <div class="col-md-8">
-                                    {{ Form::text('semester', $semester, ['class' => 'form-control form-control-line bg-transparent', 'disabled', 'readonly']) }}
+                                    {{ Form::text('class', $class, ['class' => 'form-control form-control-line bg-transparent', 'disabled', 'readonly']) }}
                                 </div>
                             </div>
 

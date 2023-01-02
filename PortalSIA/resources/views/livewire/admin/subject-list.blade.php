@@ -27,7 +27,7 @@
     {{-- ========== POWERGRID TABLE START ========== --}}
     <div class="container-fluid">
         <div class="col-4 col-sm-2 d-flex justify-content-start mb-3">
-            <button class="btn btn-block btn-info" data-toggle='modal' data-target="#exampleModal">
+            <button class="btn btn-block btn-info" data-toggle='modal' data-target="#exampleModal" @if(session('currentSchoolYear') != \App\Models\SchoolYear::orderBy('year', 'desc')->value('id')) @disabled(true) @endif>
                 <i class="mdi mdi-plus-outline"></i>
                 Tambah Data
             </button>

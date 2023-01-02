@@ -63,7 +63,7 @@
                 <div class="card-body">
                     <h4 class="card-title text-info border-bottom pb-3">Nilai Siswa</h4>
 
-                    @if(\App\Models\ScoringSession::query()->first() == NULL || \App\Models\ScoringSession::query()->first()->start_date == "0000-00-00")
+                    @if(\App\Models\ScoringSession::query()->first() == NULL || !$activeScoringSession)
                     <div class="row align-items-end">
                         <div class="col-sm-2 col-md-12">
                             <div class="alert alert-warning alert-rounded" id="test"> 
@@ -123,13 +123,13 @@
                     </div>
                     {{-- ========== ROW TITLE END ========== --}}
 
-                    @foreach(\App\Models\Student\Student::query()->where('homeroom_class_id', $selectedClass)->groupBy('name')->paginate(5) as $student)
-                        @livewire('teacher.subject-score-inline', ['eachStudent' => $student, 'activeScoringSession' => $activeScoringSession], key($student->NISN))
+                    @foreach(\App\Models\Student\HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'))->where('homeroom_class_id', $selectedClass)->join("students", 'student_homeroom_classes.NISN', '=', 'students.NISN')->groupBy('name')->paginate(5) as $student)
+                        @livewire('teacher.subject-score-inline', ['eachStudent' => $student, 'activeScoringSession' => $activeScoringSession, 'subject' => $dynamicSubject], key($student->NISN))
                     @endforeach
 
                     {{-- ========== PAGINATION START ========== --}}
                     <div class="row justify-content-center align-items-center my-3">
-                        {{ \App\Models\Student\Student::query()->where('homeroom_class_id', $selectedClass)->groupBy('name')->paginate(5)->links() }}
+                        {{ \App\Models\Student\HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'))->where('homeroom_class_id', $selectedClass)->join("students", 'student_homeroom_classes.NISN', '=', 'students.NISN')->groupBy('name')->paginate(5)->links() }}
                     </div>
                     {{-- ========== PAGINATION END ========== --}}
 

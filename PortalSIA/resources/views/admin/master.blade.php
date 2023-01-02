@@ -74,7 +74,7 @@
                                     <li> 
                                         Semester Aktif :
                                         <span class="font-bold">
-                                            {{ \App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->semester }}
+                                            {{ session('currentSemester') }}
                                         </span>
                                     </li>
                                 </div>
@@ -92,13 +92,15 @@
                                     $recentNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where("created_at", '>=', now()->subDays(1)->toDateTimeString());
                                 @endphp
         
-                                {{-- ========== NOTIFICATION COUNT START ========== --}} 
+                                {{-- ========== NOTIFICATION COUNT START ========== --}}
+                                @if(!Str::contains(url()->current(), 'all-notifications')) 
                                 <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="mdi mdi-bell-outline font-22"></i>
                                     @if($recentNotification->count() > 0)
                                     <span class="badge badge-pill badge-info noti" id="noti-count">{{ $recentNotification->count() }}</span>
                                     @endif
                                 </a>
+                                @endif
                                 {{-- ========== NOTIFICATION COUNT END ========== --}} 
         
 
@@ -132,7 +134,8 @@
                                         <li>
                                             <div class="message-center notifications h-auto" >
                                                 @foreach($recentNotification as $notification)
-                                                    @livewire('admin.notification-inline', [
+                                                    @livewire('admin.notification-inline', 
+                                                        [
                                                             'notificationID' => $notification->id, 
                                                             'name' => \App\Models\User::find($notification->data['user_id'])->student->name, 
                                                             'createdAt' => $notification->created_at->diffForHumans()
@@ -146,8 +149,8 @@
 
                                         {{-- ========== VIEW ALL START ========== --}}
                                         <li>
-                                            <a class="nav-link text-center m-b-5 text-dark" href="javascript:void(0);">
-                                                <strong>Check all notifications</strong>
+                                            <a class="nav-link text-center m-b-5 text-dark" href="{{ route('admin.all-notifications') }}">
+                                                <strong>Lihat semua notifikasi</strong>
                                                 <i class="fa fa-angle-right"></i>
                                             </a>
                                         </li>

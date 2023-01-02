@@ -47,12 +47,17 @@ class SubjectCRUD extends Component
     {
         $this->validate();
         
-        Subject::create([
+        Subject::query()->updateOrCreate(
+            [
+                'name' => $this->name,
+                'school_year_id' => $this->schoolYear
+            ],
+            [
             'id' => Str::uuid(),
             'name' => $this->name,
             'school_year_id' => session('currentSchoolYear'),
             'completeness' => $this->completeness,
-        ]);
+            ]);
 
         $this->dispatchBrowserEvent('dismiss-modal');
     }

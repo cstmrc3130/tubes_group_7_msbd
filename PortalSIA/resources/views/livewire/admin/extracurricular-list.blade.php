@@ -28,7 +28,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-4 col-sm-2 d-flex justify-content-start m-b-20">
-                <button class="btn btn-block btn-info" id="add-extracurricular" data-toggle='modal' data-target="#exampleModal">
+                <button class="btn btn-block btn-info" id="add-extracurricular" data-toggle='modal' data-target="#exampleModal" @if(session('currentSchoolYear') != \App\Models\SchoolYear::orderBy('year', 'desc')->value('id')) @disabled(true) @endif>
                     <i class="mdi mdi-plus-outline"></i>
                     Tambah Data
                 </button>
@@ -115,6 +115,14 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group row">
+                                    {{ Form::label('school-year', 'Tahun Ajaran', ["class" => "col-md-2 col-form-label font-bold text-info"]) }}
+                                    <div class="col-md-10">
+                                        {{ Form::text('school-year', '', ['class' => 'form-control form-control-line bg-transparent' . ($errors->has('schoolYear') ? ' is-invalid' : ''), 'wire:model' => 'schoolYear', 'disabled', 'readonly']) }}
+                                        @error('schoolYear')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -143,7 +151,7 @@
         $(function (){
             $('#add-extracurricular').click(e =>
             {
-                $(':input').val('');
+                $(':input').not('#school-year').val('');
             })
         })
     </script>

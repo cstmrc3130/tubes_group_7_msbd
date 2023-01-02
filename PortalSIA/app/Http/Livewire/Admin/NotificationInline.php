@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use App\Models\Notification;
 use App\Models\Student\Student;
 use Illuminate\Support\Facades\DB;
@@ -12,26 +13,52 @@ use Illuminate\Support\Facades\Auth;
 class NotificationInline extends Component
 {
     // ========== NOTIFICATION ATTRIBUTES ========== //
-    public $name, $createdAt, $notificationID;
+    public $name, $createdAt, $notificationID, $currentPage;
 
     // ========== EVENT LISTENERS ========== //
     protected $listeners = ['AbortUpdate', 'ApproveUpdate'];
 
+    // ========== CONSTRUCTOR TO INITIATE PROPERTIES ========== //
+    public function mount()
+    {
+        $this->currentPage = url()->current();
+    }
+
     // ========== RENDER ========== //
     public function render()
     {
-        return <<<'blade'
-            <a href="javascript:void(0)" id="{{ $notificationID }}" class="message-item" data-toggle="modal" data-target="#notificationModal" wire:click="ConfigureModal()">
-                <span class="btn btn-danger btn-circle">
-                    <i class="fa fa-link"></i>
-                </span>
-                <div class="mail-contnet">
-                    <h5 class="message-title">{{ $name }}</h5>
-                    <span class="mail-desc">Perbaruan data pribadi</span>
-                    <span class="time">{{ $createdAt }}</span>
+        if (Str::contains($this->currentPage, 'notification'))
+        {
+            return <<<'blade'
+                <div class="card card-hover bg-transparent border border-secondary btn waves-effect rounded mb-1 mt-1 pb-0" id="{{ $notificationID }}" data-toggle="modal" data-target="#notificationModal" wire:click="ConfigureModal()" >
+                    <div class="card-body p-0">
+                        <div class="d-flex flex-row">
+                            <div class="align-self-center"><i class="fa fa-bell"></i></div>
+                            <div class="mr-auto p-2 align-self-center text-left">
+                                <h5 class="m-b-0 font-bold">{{ $name }}</h5>
+                                <h6 class="m-b-0 font-light">Perbaruan data pribadi</h6>
+                                <span class="time text-danger">{{ $createdAt }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </a>
-        blade;
+            blade;
+        }
+        else
+        {
+            return <<<'blade'
+                <a href="javascript:void(0)" id="{{ $notificationID }}" class="message-item" data-toggle="modal" data-target="#notificationModal" wire:click="ConfigureModal()">
+                    <span class="btn btn-danger btn-circle">
+                        <i class="fa fa-link"></i>
+                    </span>
+                    <div class="mail-contnet">
+                        <h5 class="message-title">{{ $name }}</h5>
+                        <span class="mail-desc">Perbaruan data pribadi</span>
+                        <span class="time">{{ $createdAt }}</span>
+                    </div>
+                </a>
+            blade;
+        }
     }
 
     // ========== CONFIGURE MODAL BY DISPATCHING AN EVENT TO JS ========== //

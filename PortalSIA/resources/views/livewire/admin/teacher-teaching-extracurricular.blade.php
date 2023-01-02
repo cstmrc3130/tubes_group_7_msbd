@@ -37,7 +37,7 @@
                                 <label for="">Nama</label>
                                 <select class="form-control form-select" wire:model="NIP">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Teacher\Teacher::all() as $teacher)
+                                    @foreach(\App\Models\Teacher\Teacher::query()->where('started_working_at', '<=', substr(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year, 5, strlen(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year)))->get() as $teacher)
                                     <option value="{{ $teacher->NIP }}">{{ $teacher->name }}</option>
                                     @endforeach
                                 </select>
@@ -49,7 +49,7 @@
                                 <label for="">Ekstrakurikuler</label>
                                 <select class="form-control form-select" wire:model="extracurricular">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Extracurricular\Extracurricular::all() as $extracurricular)
+                                    @foreach(\App\Models\Extracurricular\Extracurricular::query()->where('school_year_id', session('currentSchoolYear')) as $extracurricular)
                                     <option value="{{ $extracurricular->id }}">{{ $extracurricular->name }}</option>
                                     @endforeach
                                 </select>

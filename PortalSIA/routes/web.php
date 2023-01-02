@@ -78,6 +78,12 @@ Route::group(['prefix' => 'admin'], function ()
                 Route::get('/dashboard', \App\Http\Livewire\Admin\Dashboard::class)->name('dashboard');
             });
 
+            // ========== ALL NOTIFICATIONS LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\AllNotification::class)->group(function()
+            {
+                Route::get('/all-notifications', \App\Http\Livewire\Admin\AllNotification::class)->name('all-notifications');
+            });
+
             // ========== STUDENT CRUD LIVEWIRE ========== //
             Route::controller(\App\Http\Livewire\Admin\StudentCRUD::class)->group(function()
             {

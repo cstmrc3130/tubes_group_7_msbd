@@ -60,7 +60,7 @@ class ClassCRUD extends Component
     {
         $this->dispatchBrowserEvent("success-change-student-homeroom-teacher", ['name' => \App\Models\Teacher\Teacher::query()->where('NIP', $this->selectedHomeroomTeacher)->value('name')]);
 
-        TeacherHomeroomClass::query()->where('homeroom_class_id', $this->selectedClass)->update(['NIP' => $this->selectedHomeroomTeacher]);
+        TeacherHomeroomClass::query()->where('homeroom_class_id', $this->selectedClass)->where('school_year_id', session('currentSchoolYear'))->update(['NIP' => $this->selectedHomeroomTeacher]);
 
         $this->selectedHomeroomTeacher = null;
     }

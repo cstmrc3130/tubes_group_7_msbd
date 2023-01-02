@@ -37,7 +37,7 @@
                                 <label for="">Kelas</label>
                                 <select class="form-control form-select" wire:model="selectedClass">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Classroom\Classroom::all() as $class)
+                                    @foreach(\App\Models\Classroom\Classroom::query()->whereHas('homeroomclass', fn($q) => $q->where('school_year_id', session('currentSchoolYear')))->get() as $class)
                                     <option value="{{ $class->id }}">{{ $class->name }}</option>
                                     @endforeach
                                 </select>
@@ -66,7 +66,7 @@
                                 <label for="">Ekstrakurikuler</label>
                                 <select class="form-control form-select @error('extracurricular') is-invalid @enderror" wire:model="extracurricular">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Extracurricular\Extracurricular::all() as $extracurricular)
+                                    @foreach(\App\Models\Extracurricular\Extracurricular::query()->where('school_year_id', session('currentSchoolYear'))->get() as $extracurricular)
                                     <option value="{{ $extracurricular->id }}">{{ $extracurricular->name }}</option>
                                     @endforeach
                                 </select>
@@ -76,7 +76,7 @@
 
                         <div class="col-sm-2 col-md-2">
                             <div class="form-group mb-0">
-                                <button class="btn btn-info" type="submit">
+                                <button class="btn btn-info" type="submit" >
                                     <i class="fa fa-check-circle"></i>
                                     Submit
                                 </button>

@@ -24,7 +24,6 @@ class SubjectScore extends Model
         'subject_id',
         'NISN',
         'scoring_session_id',
-        'type',
         'score'
     ];
 

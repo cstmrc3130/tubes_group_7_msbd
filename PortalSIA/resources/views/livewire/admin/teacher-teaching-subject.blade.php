@@ -63,7 +63,7 @@
                                 <label for="">Kelas</label>
                                 <select class="form-control form-select @error('class') is-invalid @enderror" wire:model="class">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Classroom\Classroom::all() as $class)
+                                    @foreach(\App\Models\Classroom\Classroom::query()->whereHas('homeroomclass', fn($q) => $q->where('school_year_id', session('currentSchoolYear')))->get() as $class)
                                     <option value="{{ $class->id }}">{{ $class->name }}</option>
                                     @endforeach
                                 </select>
