@@ -2,6 +2,7 @@
 
 namespace App\Models\Subject;
 
+use App\Models\ScoringSession;
 use App\Models\Student\Student;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,7 @@ class SubjectScore extends Model
         'subject_id',
         'NISN',
         'scoring_session_id',
+        'school_year_id',
         'score'
     ];
 
@@ -39,9 +41,8 @@ class SubjectScore extends Model
         return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
 
-    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN TAUGHT SUBJECT AND SUBJECT ========== //
-    public function extracurricular()
+    public function scoringsession()
     {
-        return $this->belongsTo(Extracurricular::class, 'extracurricular_id', 'id');
+        return $this->belongsTo(ScoringSession::class, 'scoring_session_id', 'id');
     }
 }

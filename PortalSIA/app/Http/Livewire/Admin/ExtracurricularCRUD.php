@@ -50,7 +50,7 @@ class ExtracurricularCRUD extends Component
     public function render()
     {
         $title = "Ekstrakurikuler";
-        $allExtracurriculars = Extracurricular::query()->paginate(3);
+        $allExtracurriculars = Extracurricular::query()->where('school_year_id', session('currentSchoolYear'))->paginate(3);
 
         return view('livewire.admin.extracurricular-list', compact('allExtracurriculars'))->layout('admin.master', compact('title'));
     }

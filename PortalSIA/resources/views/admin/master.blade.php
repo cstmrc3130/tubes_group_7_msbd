@@ -137,7 +137,7 @@
                                                     @livewire('admin.notification-inline', 
                                                         [
                                                             'notificationID' => $notification->id, 
-                                                            'name' => \App\Models\User::find($notification->data['user_id'])->student->name, 
+                                                            'name' => Str::contains($notification->type, 'Teacher') ? \App\Models\User::find($notification->data['user_id'])->teacher->name : \App\Models\User::find($notification->data['user_id'])->student->name, 
                                                             'createdAt' => $notification->created_at->diffForHumans()
                                                         ])
                                                 @endforeach
@@ -304,10 +304,24 @@
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="{{ route("admin.teacher-teaching-subject") }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                        <a class="sidebar-link waves-effect waves-dark has-arrow sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
                                             <span class="hide-menu">Mata Pelajaran Guru</span>
                                         </a>
+                                        <ul aria-expanded="false" class="collapse first-level ml-3">
+                                            <li class="sidebar-item">
+                                                <a href="{{ route("admin.teacher-teaching-subject") }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                                    <i class="mdi mdi-adjust"></i>
+                                                    <span class="hide-menu">Konfigurasi Data</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-item">
+                                                <a href="{{ route("admin.teacher-teaching-subject-filter") }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                                    <i class="mdi mdi-adjust"></i>
+                                                    <span class="hide-menu">Filter Data</span>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
                                     <li class="sidebar-item">
                                         <a href="{{ route("admin.teacher-teaching-extracurricular") }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">

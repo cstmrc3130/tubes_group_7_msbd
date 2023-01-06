@@ -23,4 +23,10 @@ class SchoolYear extends Model
         'year',
         'semester'
     ];
+
+    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN POST AND ITS USER ========== //
+    public function scoringsession()
+    {
+        return $this->hasOne(ScoringSession::class, 'school_year_id', 'id');
+    }
 }

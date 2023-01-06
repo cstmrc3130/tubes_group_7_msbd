@@ -35,7 +35,7 @@
                         <div class="col-sm-3 col-md-12">
                             <div class="form-group">
                                 <label for="">Nama</label>
-                                <select class="form-control form-select @error('NIP') is-invalid @enderror" wire:model="NIP">
+                                <select id="teacher-NIP" class="form-control form-select @error('NIP') is-invalid @enderror" wire:model="NIP">
                                     <option value=""></option>
                                     @foreach(\App\Models\Teacher\Teacher::query()->where('started_working_at', '<=', substr(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year, 5, strlen(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year)))->get() as $teacher)
                                     <option value="{{ $teacher->NIP }}">{{ $teacher->name }}</option>
@@ -89,7 +89,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title text-info border-bottom pb-3">Tabulasi Mata Pelajaran Guru</h4>
+                    <h4 id="dynamic-title" class="card-title text-info border-bottom pb-3" wire:ignore>Tabulasi Mata Pelajaran Guru</h4>
                     <div id="education_fields" class="m-t-20"></div>
 
                     {{-- <button class="btn btn-outline-orange" style="margin-bottom: 1rem" id="export">
@@ -151,4 +151,15 @@
 @endpush
 
 @push('additional-script')
+    <script>
+        $(function ()
+        {
+            let defaultText = $('#dynamic-title').text();
+
+            $("#teacher-NIP").change(e =>
+            {
+                $('#dynamic-title').text($(this).find(':selected').text() != "" ? 'Tabulasi Mata Pelajaran ' +  $(this).find(':selected').text() + " (" + $(this).find(':selected').val() + ")" : defaultText)
+            })
+        })
+    </script>
 @endpush

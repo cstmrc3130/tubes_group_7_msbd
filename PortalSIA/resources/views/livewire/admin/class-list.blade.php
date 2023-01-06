@@ -122,7 +122,7 @@
 
                         <div class="row align-items-center">
                             <div class="col-sm-6 col-md-12">
-                                <button class="btn btn-block btn-outline-info" @if($selectedHomeroomTeacher == null) @disabled(true) @endif wire:click="ChangeStudentHomeroomTeacher">Update</button>
+                                <button class="btn btn-block btn-outline-info" @if($selectedHomeroomTeacher == null || session('currentSchoolYear') != \App\Models\SchoolYear::where('semester', 'Ganjil')->orderBy('year', 'desc')->value('id')) @disabled(true) @endif wire:click="ChangeStudentHomeroomTeacher">Update</button>
                             </div>
                         </div>
 

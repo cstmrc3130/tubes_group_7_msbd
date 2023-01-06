@@ -19,9 +19,9 @@ class ExportClassAsPDF extends Controller
         }
         
         $data = [
+            'semester' => session('currentSemester'),
             'class' => Classroom::query()->find($class_id)->name,
             'schoolYear' => SchoolYear::query()->find(session('currentSchoolYear'))->year,
-            'semester' => SchoolYear::query()->find(session('currentSchoolYear'))->semester,
             'homeroomTeacher' => Teacher::query()->where('NIP', HomeroomClass::query()->where('homeroom_class_id', $class_id)->value('NIP'))->value('name') 
         ];
 

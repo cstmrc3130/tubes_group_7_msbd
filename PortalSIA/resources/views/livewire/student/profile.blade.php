@@ -52,7 +52,7 @@
                         <hr> </div>
                     <div class="card-body"> 
                         <small class="text-muted">Kelas</small>
-                        <h6>{{ Auth::user()->student->grade }}</h6> 
+                        <h6>{{ \App\Models\Student\HomeroomClass::query()->where('NISN', Auth::user()->NISN)->join('classes', 'student_homeroom_classes.homeroom_class_id', '=', 'classes.id')->value('classes.name') }}</h6> 
                         <small class="text-muted p-t-30 db">Tahun Masuk</small>
                         <h6>{{ Auth::user()->student->entry_year }}</h6> 
                         <small class="text-muted p-t-30 db">Status</small>

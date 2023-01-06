@@ -202,5 +202,4 @@ class Profile extends Component
             $this->dispatchBrowserEvent('login-info-update-result', ['response' => 'failed']);
         }
     }
-
 }

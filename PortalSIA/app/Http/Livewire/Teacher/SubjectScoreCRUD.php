@@ -28,7 +28,7 @@ class SubjectScoreCRUD extends Component
     public function render()
     {
         $title = "Nilai Mata Pelajaran";
-        $activeScoringSession = ScoringSession::query()->where('start_date', "!=", "0000-00-00")->where('end_date', ">=", date("Y-m-d"))->first();
+        $activeScoringSession = ScoringSession::query()->where('start_date', "!=", "0000-00-00")->where('end_date', ">=", date("Y-m-d"))->where('school_year_id', session('tempSchoolYear'))->first();
 
         return view('livewire.teacher.subject-score', compact('activeScoringSession'))->layout('teacher.master', compact('title'));
     }

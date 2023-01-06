@@ -37,7 +37,7 @@
                                 <label for="">Nama</label>
                                 <select class="form-control form-select" wire:model="NIP">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Teacher\Teacher::query()->where('started_working_at', '<=', substr(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year, 5, strlen(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year)))->get() as $teacher)
+                                    @foreach(\App\Models\Teacher\Teacher::query()->where('started_working_at', '<=', substr(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year, 5, strlen(\App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year)))->orderBy('name', 'ASC')->get() as $teacher)
                                     <option value="{{ $teacher->NIP }}">{{ $teacher->name }}</option>
                                     @endforeach
                                 </select>
@@ -49,7 +49,7 @@
                                 <label for="">Ekstrakurikuler</label>
                                 <select class="form-control form-select" wire:model="extracurricular">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Extracurricular\Extracurricular::query()->where('school_year_id', session('currentSchoolYear')) as $extracurricular)
+                                    @foreach(\App\Models\Extracurricular\Extracurricular::query()->where('school_year_id', session('currentSchoolYear'))->get() as $extracurricular)
                                     <option value="{{ $extracurricular->id }}">{{ $extracurricular->name }}</option>
                                     @endforeach
                                 </select>
@@ -98,7 +98,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ \App\Models\Extracurricular\Extracurricular::find($data->extracurricular_id)->name }}</td>
-                                    <td>{{ \App\Models\SchoolYear::find(session('currentSchoolYear'))->year }}</td>
+                                    <td>{{ \App\Models\SchoolYear::find($data->school_year_id)->year }}</td>
                                     <td>
                                         <button class="btn btn-block btn-outline-danger" wire:click="DeleteRecord('{{ $data->id }}')">
                                             <i class="mdi mdi-delete-circle"></i>

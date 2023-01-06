@@ -55,7 +55,7 @@
                     @livewire('admin.notification-inline', 
                         [
                             'notificationID' => $notification->id, 
-                            'name' => \App\Models\User::find($notification->data['user_id'])->student->name, 
+                            'name' => Str::contains($notification->type, 'Teacher') ? \App\Models\User::find($notification->data['user_id'])->teacher->name : \App\Models\User::find($notification->data['user_id'])->student->name, 
                             'createdAt' => $notification->created_at->diffForHumans()
                         ],
                         key($notification->id))

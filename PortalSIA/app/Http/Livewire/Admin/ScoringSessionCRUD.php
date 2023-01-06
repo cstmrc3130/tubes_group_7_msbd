@@ -5,9 +5,12 @@ namespace App\Http\Livewire\Admin;
 use App\Models\ScoringSession;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Livewire\WithPagination;
 
 class ScoringSessionCRUD extends Component
 {
+    use WithPagination;
+
     // ========== CONFIGURATION ATTRIBUTES ========== //
     public $type;
     public $startDate;
@@ -31,14 +34,17 @@ class ScoringSessionCRUD extends Component
         $this->validateOnly($property_name);
     }
 
+    protected $paginationTheme = "bootstrap";
+
     // ========== RENDER ========== //
     public function render()
     {
         $title = "Sesi Penilaian";
+        $sortByLatest = ScoringSession::query()->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->join('school_years', 'scoring_sessions.school_year_id', '=', 'school_years.id')->orderBy('semester', 'DESC');
 
-        $this->activeType = ScoringSession::query()->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->value('type');
-        $this->activeStartDate = ScoringSession::query()->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->value('start_date');
-        $this->activeEndDate = ScoringSession::query()->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->value('end_date');
+        $this->activeType = $sortByLatest->value('type');
+        $this->activeStartDate = $sortByLatest->value('start_date');
+        $this->activeEndDate = $sortByLatest->value('end_date');
 
         return view('livewire.admin.scoring-session')->layout('admin.master', compact('title'));
     }
@@ -49,15 +55,18 @@ class ScoringSessionCRUD extends Component
         $this->validate();
 
         ScoringSession::query()->updateOrCreate(
-        [
-            'type' => $this->type
-        ], 
-        [
-            'id' => Str::uuid(),
-            'type' => $this->type,
-            'start_date' => $this->startDate,
-            'end_date' => $this->endDate,
-        ]);
+            [
+                'type' => $this->type,
+                'school_year_id' => session('tempSchoolYear')
+            ],
+            [
+                'id' => Str::uuid(),
+                'type' => $this->type,
+                'start_date' => $this->startDate,
+                'end_date' => $this->endDate,
+                'school_year_id' => session('tempSchoolYear')
+            ]
+        );
 
         $this->dispatchBrowserEvent('success-configure-session', ['data' => $this->type]);
     }
@@ -67,11 +76,25 @@ class ScoringSessionCRUD extends Component
     {
         $this->dispatchBrowserEvent('scoring-session-disabled', ['data' => $this->activeType]);
 
-        ScoringSession::query()->where('type', $this->activeType)->update(
+        ScoringSession::query()->where('type', $this->activeType)->where('school_year_id', session('tempSchoolYear'))->update(
             [
                 'start_date' => NULL,
                 'end_date' => NULL
             ]
         );
+    }
+
+    // ========== DELETE SCORING SESSION ========== //
+    public function DeleteScoringSession($id)
+    {
+        try
+        {
+            ScoringSession::query()->find($id)->delete();
+            $this->dispatchBrowserEvent('scoring-session-deleted');
+        }
+        catch (\Illuminate\Database\QueryException $ex)
+        {
+            $this->dispatchBrowserEvent("data-already-filled");
+        }
     }
 }

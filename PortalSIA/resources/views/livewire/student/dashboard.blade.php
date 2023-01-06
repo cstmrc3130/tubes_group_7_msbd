@@ -27,7 +27,7 @@
 
 
 
-    {{-- ========== CONTENT START ========== --}} 
+    {{-- ========== CONTAINER START ========== --}} 
     <div class="container-fluid">
         <div class="row">
 
@@ -109,7 +109,7 @@
 
         </div>
     </div>
-    {{-- ========== CONTENT START ========== --}} 
+    {{-- ========== CONTAINER END ========== --}} 
 
 
 

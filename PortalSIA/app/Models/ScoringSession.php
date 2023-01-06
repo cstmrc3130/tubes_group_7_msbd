@@ -26,5 +26,12 @@ class ScoringSession extends Model
         'type',
         'start_date',
         'end_date',
+        'school_year_id'
     ];
+
+    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN POST AND ITS USER ========== //
+    public function schoolyear()
+    {
+        return $this->belongsTo(SchoolYear::class, 'school_year_id', 'id');
+    }
 }

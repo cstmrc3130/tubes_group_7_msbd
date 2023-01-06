@@ -108,6 +108,12 @@ Route::group(['prefix' => 'admin'], function ()
                 Route::get('/teacher-teaching-subject', \App\Http\Livewire\Admin\TeacherTeachingSubjectCRUD::class)->name('teacher-teaching-subject');
             });
 
+            // ========== TEACHER TEACHING SUBJECT FILTER CRUD LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\TeacherTeachingSubjectFilter::class)->group(function()
+            {
+                Route::get('/teacher-teaching-subject-filter', \App\Http\Livewire\Admin\TeacherTeachingSubjectFilter::class)->name('teacher-teaching-subject-filter');
+            });
+
             // ========== TEACHER TEACHING EXTRACURRICULAR CRUD LIVEWIRE ========== //
             Route::controller(\App\Http\Livewire\Admin\TeacherTeachingExtracurricularCRUD::class)->group(function()
             {
@@ -181,10 +187,13 @@ Route::group(['prefix' => 'teacher'], function ()
             });
 
             // ========== HOMEROOM CLASS LIVEWIRE ========== //
-            Route::controller(\App\Http\Livewire\Student\HomeroomClass::class)->group(function()
+            Route::controller(\App\Http\Livewire\Teacher\HomeroomClass::class)->group(function()
             {
-                Route::get('/homeroom-class', \App\Http\Livewire\Student\HomeroomClass::class)->name('homeroom-class');
+                Route::get('/homeroom-class', \App\Http\Livewire\Teacher\HomeroomClass::class)->name('homeroom-class');
             });
+
+            // ========== STUDENT REPORT ========== //
+            Route::get("/student-report/{nisn?}", [\App\Http\Controllers\StudentReport::class, "View"])->name('student-report');
 
             // ========== SUBJECT SCORE LIVEWIRE ========== //
             Route::controller(\App\Http\Livewire\Teacher\SubjectScoreCRUD::class)->group(function()

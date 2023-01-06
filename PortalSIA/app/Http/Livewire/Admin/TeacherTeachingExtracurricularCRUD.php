@@ -44,11 +44,13 @@ class TeacherTeachingExtracurricularCRUD extends Component
             [
                 'NIP' => $this->NIP,
                 'extracurricular_id' => $this->extracurricular,
+                'school_year_id' => session('currentSchoolYear')
             ],
             [
                 'id' => Str::uuid(),
                 'NIP' => $this->NIP,
                 'extracurricular_id' => $this->extracurricular,
+                'school_year_id' => session('currentSchoolYear')
             ]
         );
     }

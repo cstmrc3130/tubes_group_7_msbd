@@ -50,17 +50,17 @@ class ClassCRUD extends Component
     // ========== CHANGE STUDENT HOMEROOM CLASS ========== //
     public function ChangeStudentHomeroomClass()
     {
+        StudentHomeroomClass::query()->where('NISN', $this->NISN)->where('school_year_id', session('currentSchoolYear'))->update(['homeroom_class_id' => $this->newClass]);
+        
         $this->dispatchBrowserEvent("success-change-student-homeroom-class", ['name' => \App\Models\Student\Student::query()->where('NISN', $this->NISN)->value('name')]);
-
-        StudentHomeroomClass::query()->where('NISN', $this->NISN)->update(['homeroom_class_id' => $this->newClass]);
     }
 
     // ========== CHANGE STUDENT HOMEROOM TEACHER ========== //
     public function ChangeStudentHomeroomTeacher()
     {
-        $this->dispatchBrowserEvent("success-change-student-homeroom-teacher", ['name' => \App\Models\Teacher\Teacher::query()->where('NIP', $this->selectedHomeroomTeacher)->value('name')]);
-
         TeacherHomeroomClass::query()->where('homeroom_class_id', $this->selectedClass)->where('school_year_id', session('currentSchoolYear'))->update(['NIP' => $this->selectedHomeroomTeacher]);
+        
+        $this->dispatchBrowserEvent("success-change-student-homeroom-teacher", ['name' => \App\Models\Teacher\Teacher::query()->where('NIP', $this->selectedHomeroomTeacher)->value('name')]);
 
         $this->selectedHomeroomTeacher = null;
     }

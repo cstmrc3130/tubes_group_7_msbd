@@ -57,8 +57,14 @@ class SchoolYearCRUD extends Component
     // ========== DELETE SCHOOL YEAR ========== //
     public function DeleteSchoolYear($year, $semester)
     {
-        SchoolYear::query()->where('year', $year)->where('semester', $semester)->delete();
-
-        $this->dispatchBrowserEvent('success-delete', ['data' => $year]);
+        try
+        {
+            SchoolYear::query()->where('year', $year)->where('semester', $semester)->delete();
+            $this->dispatchBrowserEvent('success-delete', ['data' => $year]);
+        }
+        catch (\Illuminate\Database\QueryException $ex)
+        {
+            $this->dispatchBrowserEvent("data-already-filled");
+        }
     }
 }

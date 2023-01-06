@@ -23,7 +23,7 @@ class TeachingExtracurricular extends Model
         'id',
         'NIP',
         'extracurricular_id',
-        'school_year',
+        'school_year_id',
     ];
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN SUBJECT ITS TEACHER ========== //

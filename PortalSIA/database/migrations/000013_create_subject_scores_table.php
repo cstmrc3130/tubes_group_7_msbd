@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('subject_scores', function (Blueprint $table) {
             $table->uuid("id")->primary();
+            $table->uuid("school_year_id");
             $table->uuid("subject_id");
             $table->char("NISN", 10);
             $table->uuid("scoring_session_id");
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->foreign('NISN')->references('NISN')->on('students')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('scoring_session_id')->references('id')->on('scoring_sessions')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

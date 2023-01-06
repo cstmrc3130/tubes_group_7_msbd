@@ -6,6 +6,8 @@
     {{-- ========== ASSETS AND META COMPONENT ========== --}}
     <x-dashboard.assets-and-meta :title="$title"/>
 
+    @stack('additional-style')
+
     @livewireStyles
 </head>
 
@@ -166,7 +168,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
     
-                        @if(Auth::user()->teacher->homeroom_class_id != NULL)
+                        @if(\App\Models\Teacher\HomeroomClass::query()->where('NIP', Auth::user()->NIP)->first() != NULL)
                         {{-- ========== TITLE START ========== --}} 
                         <li class="nav-small-cap">
                             <i class="mdi mdi-dots-horizontal"></i>
@@ -233,6 +235,8 @@
     <x-dashboard.javascript />
 
     @livewireScripts
+
+    @stack('additional-script')
 </body>
 
 </html>

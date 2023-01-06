@@ -24,8 +24,10 @@
 
 
 
-    {{-- ========== CONFIGURE DATE START ========== --}}
+    {{-- ========== CONTAINER START ========== --}}
     <div class="container-fluid" style="min-height: 30.333rem">
+
+        {{-- ========== CURRENT ACTIVE SESSION START ========== --}}
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -61,8 +63,11 @@
                 </div>
             </div>
         </div>
+        {{-- ========== CURRENT ACTIVE SESSION END ========== --}}
 
 
+
+        {{-- ========== CONFIGURE DATE START ========== --}}
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -109,8 +114,65 @@
                 </div>
             </div>
         </div>
+        {{-- ========== CONFIGURE DATE END ========== --}}
+
+
+
+        {{-- ========== PAST SESSION START ========== --}}
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-danger border-bottom pb-3">Session History</h4>
+                    <div id="education_fields" class="m-t-20"></div>
+                    <div class="table-responsive" style="overflow: hidden">
+                        <table class="table" >
+                            <thead class="bg-inverse text-white">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Tahun Ajaran</th>
+                                    <th>Semester</th>
+                                    <th>Tipe</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Berakhir</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border border-dark">
+                                @foreach(\App\Models\ScoringSession::query()->orderBy('created_at', 'DESC')->paginate(6) as $data)
+                                <tr>
+                                    <td>{{ $loop->iteration + 5 * ($page - 1) }}</td>
+                                    <td>{{ $data->schoolyear->year }}</td>
+                                    <td>{{ $data->schoolyear->semester }}</td>
+                                    <td>{{ $data->type }}</td>
+                                    <td>{{ $data->start_date }}</td>
+                                    <td>{{ $data->end_date }}</td>
+                                    <td>
+                                        <button class="btn btn-block btn-outline-danger" data-toggle="modal" data-target="#studentInfoModal" wire:click="DeleteScoringSession('{{ $data->id }}')">
+                                            <i class="ti-trash"></i>
+                                            Hapus
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+
+
+                        {{-- ========== PAGINATION START ========== --}}
+                        <div class="row justify-content-center align-items-center my-3">
+                            {{ \App\Models\ScoringSession::query()->orderBy('created_at', 'DESC')->paginate(6)->links() }}
+                        </div>
+                        {{-- ========== PAGINATION END ========== --}}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- ========== PAST SESSION END ========== --}}
+
     </div>
-    {{-- ========== CONFIGURE DATE END ========== --}}
+    {{-- ========== CONTAINER END ========== --}}
 
 
 
@@ -119,6 +181,16 @@
     {{-- ========== FOOTER START ========== --}}
 
 </div>
+
+@push("additional-style")
+    {{-- FOR ALIGNING td TO THE CENTER --}}
+    <style>
+        tbody td
+        {
+            vertical-align: middle !important;
+        }
+    </style>
+@endpush
 
 @push('additional-script')
     {{-- TOAST FOR CONFIGURED SESSION --}}
@@ -139,6 +211,28 @@
             window.addEventListener('scoring-session-disabled', e =>
             {
                 toastr.error("Sesi untuk penilaian " + e.detail.data + " dinonaktifkan!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            })
+        })
+    </script>
+
+    {{-- TOAST FOR DELETED SESSION --}}
+    <script>
+        $(function ()
+        {
+            window.addEventListener('scoring-session-deleted', e =>
+            {
+                toastr.success("Sesi penilaian dihapus!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            })
+        })
+    </script>
+
+    {{-- TOAST FOR ALREADY FILLED SESSION --}}
+    <script>
+        $(function ()
+        {
+            window.addEventListener('data-already-filled', e =>
+            {
+                toastr.warning("Data tidak bisa dihapus karena nilai sudah diinput!", 'Warning!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
             })
         })
     </script>

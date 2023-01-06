@@ -128,6 +128,17 @@
         })
     </script>
 
+    {{-- TOAST FOR ALREADY FILLED SCHOOL YEAR --}}
+    <script>
+        $(function ()
+        {
+            window.addEventListener('data-already-filled', e =>
+            {
+                toastr.warning("Data tidak bisa dihapus karena nilai sudah diinput!", 'Warning!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            })
+        })
+    </script>
+
     {{-- SWEET ALERT FOR DELETE SCHOOL YEAR --}}
     <script>
         $(function ()

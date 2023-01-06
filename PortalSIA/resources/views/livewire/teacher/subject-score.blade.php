@@ -24,7 +24,10 @@
 
 
 
+    {{-- ========== CONTAINER START ========== --}}
     <div class="container-fluid">
+
+        {{-- ========== CONFIGURE CLASS START ========== --}}
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -57,7 +60,11 @@
                 </div>
             </div>
         </div>
+        {{-- ========== CONFIGURE CLASS END ========== --}}
 
+
+
+        {{-- ========== SUBJECT SCORE START ========== --}}
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -136,7 +143,10 @@
                 </div>
             </div>
         </div>
+        {{-- ========== SUBJECT SCORE START ========== --}}
+
     </div>
+    {{-- ========== CONTAINER END ========== --}}
 
 
 
@@ -145,3 +155,15 @@
     {{-- ========== FOOTER START ========== --}} 
 
 </div>
+
+@push('additional-script')
+    <script>
+        $(function ()
+        {
+            window.addEventListener('score-inserted-successfully', e =>
+            {
+                toastr.success('Nilai ' + e.detail.name + ' berhasil diinput!', 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            })
+        })
+    </script>
+@endpush
