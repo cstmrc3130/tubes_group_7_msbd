@@ -19,16 +19,10 @@ return new class extends Migration
         //         SET NEW.id = uuid();
         //     END');
 
-        DB::unprepared(
-            'CREATE TRIGGER delete_classes AFTER DELETE ON classes
-            FOR EACH ROW BEGIN
-            SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "YOU CANT CHANGE CONTAIN IN THIS CLASS";
-        END');
-
-        DB::unprepared('CREATE TRIGGER update_classes BEFORE UPDATE ON classes
-        FOR EACH ROW BEGIN
-        SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "YOU CANT CHANGE CONTAIN IN THIS CLASS";
-        END');
+        DB::unprepared('CREATE TRIGGER delete_log_teachers BEFORE DELETE ON log_teachers FOR EACH ROW
+            BEGIN
+                SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "YOU CAN NOT DELETE IT!";
+            END');
     }
 
     /**
@@ -38,7 +32,7 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::unprepared('DROP TRIGGER delete_classes');
-        DB::unprepared('DROP TRIGGER update_classes');
+        DB::unprepared('DROP TRIGGER delete_log_teachers');
+
     }
 };
