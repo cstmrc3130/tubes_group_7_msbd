@@ -46,10 +46,10 @@ class Login extends Component
         {
             // SET CURRENT SCHOOL YEAR TO THE LATEST ODD
             session()->put('currentSchoolYear', \App\Models\SchoolYear::where('semester', 'Ganjil')->orderBy('year', 'desc')->value('id'));
-            session()->put('currentSemester', \App\Models\SchoolYear::orderBy('semester', 'desc')->value('semester'));
+            session()->put('currentSemester', \App\Models\SchoolYear::orderBy('year', 'desc')->orderBy('semester', 'desc')->value('semester'));
 
             // SET TEMPORARY SCHOOL YEAR FOR SCHOOL YEAR TAB, SUBJECT SCORE, ABSENT, AND EXTRACURRICULAR SCORE (LATEST EVEN BY DEFAULT)
-            session()->put('tempSchoolYear', \App\Models\SchoolYear::orderBy('year', 'desc')->value('id'));
+            session()->put('tempSchoolYear', \App\Models\SchoolYear::orderBy('year', 'desc')->orderBy('semester', 'desc')->value('id'));
             
             if (auth()->user()->role == 0)
             {

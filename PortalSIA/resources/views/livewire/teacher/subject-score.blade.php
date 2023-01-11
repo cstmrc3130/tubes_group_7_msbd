@@ -38,7 +38,7 @@
                                 <label for="">Mata Pelajaran</label>
                                 <select class="form-control form-select" wire:model="dynamicSubject">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Teacher\TeachingSubject::query()->where('NIP', auth()->user()->NIP)->groupBy('subject_id')->get() as $subject)
+                                    @foreach(\App\Models\Teacher\TeachingSubject::query()->where('school_year_id', session('currentSchoolYear'))->where('NIP', auth()->user()->NIP)->groupBy('subject_id')->get() as $subject)
                                         <option value="{{ $subject->subject_id }}">{{ $subject->subject->name }}</option>
                                     @endforeach
                                 </select>
@@ -50,7 +50,7 @@
                                 <label for="">Kelas</label>
                                 <select class="form-control form-select" wire:model="selectedClass">
                                     <option value=""></option>
-                                    @foreach(\App\Models\Teacher\TeachingSubject::query()->where('NIP', auth()->user()->NIP)->where('subject_id', $dynamicSubject)->get() as $class)
+                                    @foreach(\App\Models\Teacher\TeachingSubject::query()->where('school_year_id', session('currentSchoolYear'))->where('NIP', auth()->user()->NIP)->where('subject_id', $dynamicSubject)->get() as $class)
                                         <option value="{{ $class->class_id }}">{{ $class->classroom->name }}</option>
                                     @endforeach
                                 </select>
@@ -68,7 +68,19 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title text-info border-bottom pb-3">Nilai Siswa</h4>
+                    
+                    <div class="d-flex align-items-center justify-content-start mb-2" >
+                        <h4 class="col-sm-6 col-md-6 card-title text-info border-bottom pb-3 px-0">
+                            Nilai Siswa
+                        </h4>
+
+                        {{-- ========== EXPORT BUTTONS START ========== --}}
+                        <div class="col-sm-6 col-md-6 text-right align-self-start px-0">
+                            <a href="{{ route('teacher.export-subject-score', $selectedClass) }}" class="btn btn-success">Export as Excel</a>
+                        </div>
+                        {{-- ========== EXPORT BUTTONS END ========== --}}
+
+                    </div>
 
                     @if(\App\Models\ScoringSession::query()->first() == NULL || !$activeScoringSession)
                     <div class="row align-items-end">
@@ -135,7 +147,7 @@
                     @endforeach
 
                     {{-- ========== PAGINATION START ========== --}}
-                    <div class="row justify-content-center align-items-center my-3">
+                    <div class="row justify-content-center align-items-center mt-3 mb-0">
                         {{ \App\Models\Student\HomeroomClass::query()->where('school_year_id', session('currentSchoolYear'))->where('homeroom_class_id', $selectedClass)->join("students", 'student_homeroom_classes.NISN', '=', 'students.NISN')->groupBy('name')->paginate(5)->links() }}
                     </div>
                     {{-- ========== PAGINATION END ========== --}}
@@ -157,6 +169,7 @@
 </div>
 
 @push('additional-script')
+    {{-- TOAST FOR SUCCESSFUL SCORE INSERTION --}}
     <script>
         $(function ()
         {
@@ -164,6 +177,27 @@
             {
                 toastr.success('Nilai ' + e.detail.name + ' berhasil diinput!', 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
             })
+        })
+    </script>
+
+    {{-- TOAST FOR FAILED SCORE INSERTION --}}
+    <script>
+        $(function ()
+        {
+            window.addEventListener('score-insertion-failure', e =>
+            {
+                toastr.error('Nilai ' + e.detail.name + ' gagal diinput!', 'Failure!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            })
+        })
+    </script>
+
+    {{-- TOAST FOR FAILED EXPORT --}}
+    <script>
+        $(function ()
+        {
+            @if(Session::has('export-failed'))
+                toastr.error("{{ session('export-failed') }}", 'Failure!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            @endif
         })
     </script>
 @endpush

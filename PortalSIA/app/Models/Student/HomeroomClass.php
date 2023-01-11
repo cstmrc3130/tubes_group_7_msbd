@@ -2,6 +2,7 @@
 
 namespace App\Models\Student;
 
+use App\Models\SchoolYear;
 use App\Models\Classroom\Classroom;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,5 +35,11 @@ class HomeroomClass extends Model
     public function classroom()
     {
         return $this->belongsTo(Classroom::class, 'homeroom_class_id', 'id');
+    }
+
+    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN SUBJECT ITS TEACHER ========== //
+    public function schoolyear()
+    {
+        return $this->belongsTo(SchoolYear::class, 'school_year_id', 'id');
     }
 }

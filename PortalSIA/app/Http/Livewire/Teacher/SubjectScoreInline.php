@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Teacher;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use App\Models\ScoringSession;
+use Illuminate\Support\Facades\DB;
 use App\Models\Subject\SubjectScore;
 
 class SubjectScoreInline extends Component
@@ -128,133 +129,152 @@ class SubjectScoreInline extends Component
     }
 
     public function UpdateOrCreateScore()
-    {      
-        if($this->activeScoringSession->type == 'HW1')
+    {
+        DB::beginTransaction();
+
+        try
         {
-            $this->validateOnly('HW1');
+            if ($this->activeScoringSession->type == 'HW1')
+            {
+                $this->validateOnly('HW1');
 
-            SubjectScore::query()->updateOrCreate(
-                [
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id, 
-                ],
-                [
-                    'id' => Str::uuid(),
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id,
-                    'score' => $this->HW1
-                ]);
+                SubjectScore::query()->updateOrCreate(
+                    [
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                    ],
+                    [
+                        'id' => Str::uuid(),
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                        'score' => $this->HW1
+                    ]
+                );
+            }
+
+            if ($this->activeScoringSession->type == 'EX1')
+            {
+                $this->validateOnly('EX1');
+
+                SubjectScore::query()->updateOrCreate(
+                    [
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                    ],
+                    [
+                        'id' => Str::uuid(),
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                        'score' => $this->EX1
+                    ]
+                );
+            }
+
+            if ($this->activeScoringSession->type == 'MID')
+            {
+                $this->validateOnly('MID');
+
+                SubjectScore::query()->updateOrCreate(
+                    [
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                    ],
+                    [
+                        'id' => Str::uuid(),
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                        'score' => $this->MID
+                    ]
+                );
+            }
+
+            if ($this->activeScoringSession->type == 'HW2')
+            {
+                $this->validateOnly('HW2');
+
+                SubjectScore::query()->updateOrCreate(
+                    [
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                    ],
+                    [
+                        'id' => Str::uuid(),
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                        'score' => $this->HW2
+                    ]
+                );
+            }
+
+            if ($this->activeScoringSession->type == 'EX2')
+            {
+                $this->validateOnly('EX2');
+
+                SubjectScore::query()->updateOrCreate(
+                    [
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                    ],
+                    [
+                        'id' => Str::uuid(),
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                        'score' => $this->EX2
+                    ]
+                );
+            }
+
+            if ($this->activeScoringSession->type == 'FIN')
+            {
+                $this->validateOnly('FIN');
+
+                SubjectScore::query()->updateOrCreate(
+                    [
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                    ],
+                    [
+                        'id' => Str::uuid(),
+                        'NISN' => $this->eachStudent->NISN,
+                        'subject_id' => $this->subject,
+                        'school_year_id' => session('tempSchoolYear'),
+                        'scoring_session_id' => $this->activeScoringSession->id,
+                        'score' => $this->FIN
+                    ]
+                );
+            }
+
+            DB::commit();
+
+            $this->dispatchBrowserEvent('score-inserted-successfully', ['name' => $this->studentName]);
         }
-
-        if($this->activeScoringSession->type == 'EX1')
+        catch (\Exception $e)
         {
-            $this->validateOnly('EX1');
+            DB::rollback();
 
-            SubjectScore::query()->updateOrCreate(
-                [
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id, 
-                ],
-                [
-                    'id' => Str::uuid(),
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id,
-                    'score' => $this->EX1
-                ]);
+            $this->dispatchBrowserEvent('score-insertion-failure', ['name' => $this->studentName]);
         }
-
-        if($this->activeScoringSession->type == 'MID')
-        {
-            $this->validateOnly('MID');
-
-            SubjectScore::query()->updateOrCreate(
-                [
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id, 
-                ],
-                [
-                    'id' => Str::uuid(),
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id,
-                    'score' => $this->MID
-                ]);
-        }
-
-        if($this->activeScoringSession->type == 'HW2')
-        {
-            $this->validateOnly('HW2');
-
-            SubjectScore::query()->updateOrCreate(
-                [
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id, 
-                ],
-                [
-                    'id' => Str::uuid(),
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id,
-                    'score' => $this->HW2
-                ]);
-        }
-
-        if($this->activeScoringSession->type == 'EX2')
-        {
-            $this->validateOnly('EX2');
-
-            SubjectScore::query()->updateOrCreate(
-                [
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id, 
-                ],
-                [
-                    'id' => Str::uuid(),
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id,
-                    'score' => $this->EX2
-                ]);
-        }
-
-        if($this->activeScoringSession->type == 'FIN')
-        {
-            $this->validateOnly('FIN');
-
-            SubjectScore::query()->updateOrCreate(
-                [
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id, 
-                ],
-                [
-                    'id' => Str::uuid(),
-                    'NISN' => $this->eachStudent->NISN,
-                    'subject_id' => $this->subject,
-                    'school_year_id' => session('tempSchoolYear'),
-                    'scoring_session_id' => $this->activeScoringSession->id,
-                    'score' => $this->FIN
-                ]);
-        }
-
-        $this->dispatchBrowserEvent('score-inserted-successfully', ['name' => $this->studentName]);
     }
 }

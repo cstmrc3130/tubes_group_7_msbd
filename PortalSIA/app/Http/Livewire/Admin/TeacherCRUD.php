@@ -40,7 +40,6 @@ class TeacherCRUD extends Component
         "gender" => ['required', 'in:"M", "F"'],
         'position' => 'required|string|max:20',
         'KARPEG' => 'required|regex:/^([a-zA-Z]){1}\.[0-9]{6}$/',
-        "homeroomClass" => ['required'],
     ]);
 
     // ========== CUSTOM :ATTRIBUTES ========== //
@@ -81,7 +80,6 @@ class TeacherCRUD extends Component
             "gender" => $this->gender,
             'position' => $this->position,
             'KARPEG' => $this->KARPEG,
-            "homeroom_class_id" => $this->homeroomClass,
         ]);
 
         $this->dispatchBrowserEvent('dismiss-modal');

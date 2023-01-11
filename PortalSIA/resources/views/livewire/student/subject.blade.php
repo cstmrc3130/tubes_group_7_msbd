@@ -1,4 +1,4 @@
-<div class="livewire-component">
+<div class="page-wrapper">
 
     {{-- ========== BREADCRUMB START ========== --}} 
     <div class="page-breadcrumb mb-3">
@@ -26,32 +26,45 @@
 
     {{-- ========== CONTENT START ========== --}} 
     <div class="container-fluid">
-        <div class="row el-element-overlay">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-info border-bottom pb-3">Daftar Mata Pelajaran</h4>
+                    <div id="education_fields" class="m-t-20"></div>
 
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="el-card-item">
-                        <div class="el-card-avatar el-overlay-1"> <img src="../../assets/images/gallery/chair2.jpg" alt="user">
-                            <div class="el-overlay">
-                                <ul class="list-style-none el-info">
-                                    <li class="el-item"><a class="btn default btn-outline image-popup-vertical-fit el-link" href="../../assets/images/gallery/chair4.jpg"><i class="icon-magnifier"></i></a></li>
-                                    <li class="el-item"><a class="btn default btn-outline el-link" href="javascript:void(0);"><i class="icon-link"></i></a></li>
-                                </ul>
-                            </div>
+                    <div class="table-responsive" style="overflow: hidden">
+                        <table class="table" >
+                            <thead class="bg-inverse text-white">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Nama</th>
+                                    <th>KKM</th>
+                                    <th>Tahun Ajaran</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border border-dark">
+                                @foreach(\App\Models\Subject\Subject::query()->where('school_year_id', session('currentSchoolYear'))->paginate(5) as $data)
+                                <tr>
+                                    <td>{{ $loop->iteration + 5 * ($page - 1) }}</td>
+                                    <td>{{ $data->name }}</td>
+                                    <td>{{ $data->completeness }}</td>
+                                    <td>{{ $data->schoolyear->year }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+
+
+                        {{-- ========== PAGINATION START ========== --}}
+                        <div class="row justify-content-center align-items-center my-3">
+                            {{ \App\Models\Subject\Subject::query()->where('school_year_id', session('currentSchoolYear'))->paginate(5)->links() }}
                         </div>
-                        <div class="d-flex no-block align-items-center">
-                            <div class="m-l-15">
-                                <h4 class="m-b-0">Rounded Chair</h4>
-                                <span class="text-muted">globe type chair for rest</span>
-                            </div>
-                            <div class="ml-auto m-r-15">
-                                <button type="button" class="btn btn-dark btn-circle">$15</button>
-                            </div>
-                        </div>
+                        {{-- ========== PAGINATION END ========== --}}
+
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
     {{-- ========== CONTENT START ========== --}} 
@@ -63,3 +76,13 @@
     {{-- ========== FOOTER START ========== --}} 
 
 </div>
+
+@push("additional-style")
+    {{-- FOR ALIGNING td TO THE CENTER --}}
+    <style>
+        tbody td
+        {
+            vertical-align: middle !important;
+        }
+    </style>
+@endpush

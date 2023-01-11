@@ -26,7 +26,7 @@
 
 
 
-{{-- APPROVE AND ABORT STUDENT REQUEST --}}
+{{-- APPROVE AND ABORT STUDENT PROFILE INFO --}}
 <script>
     $(function ()
     {
@@ -34,24 +34,24 @@
         {
             notificationID = event.detail.notificationID 
 
-            $('#notificationModal').find('#old-name').val(event.detail.oldName)
-            $('#notificationModal').find('#old-place-of-birth').val(event.detail.oldPlaceOfBirth)
-            $('#notificationModal').find('#old-date-of-birth').val(event.detail.oldDateOfBirth)
-            $('#notificationModal').find('#old-father-name').val(event.detail.oldFatherName)
-            $('#notificationModal').find('#old-mother-name').val(event.detail.oldMotherName)
-            $('#notificationModal').find('#old-address').val(event.detail.oldAddress)
-            $('#notificationModal').find('#old-phone-number').val(event.detail.oldPhoneNumber)
+            $('#studentProfileInfoModal').find('#old-name').val(event.detail.oldName)
+            $('#studentProfileInfoModal').find('#old-place-of-birth').val(event.detail.oldPlaceOfBirth)
+            $('#studentProfileInfoModal').find('#old-date-of-birth').val(event.detail.oldDateOfBirth)
+            $('#studentProfileInfoModal').find('#old-father-name').val(event.detail.oldFatherName)
+            $('#studentProfileInfoModal').find('#old-mother-name').val(event.detail.oldMotherName)
+            $('#studentProfileInfoModal').find('#old-address').val(event.detail.oldAddress)
+            $('#studentProfileInfoModal').find('#old-phone-number').val(event.detail.oldPhoneNumber)
 
-            $('#notificationModal').find('#new-name').val(event.detail.newName)
-            $('#notificationModal').find('#new-place-of-birth').val(event.detail.newPlaceOfBirth)
-            $('#notificationModal').find('#new-date-of-birth').val(event.detail.newDateOfBirth)
-            $('#notificationModal').find('#new-father-name').val(event.detail.newFatherName)
-            $('#notificationModal').find('#new-mother-name').val(event.detail.newMotherName)
-            $('#notificationModal').find('#new-address').val(event.detail.newAddress)
-            $('#notificationModal').find('#new-phone-number').val(event.detail.newPhoneNumber)
+            $('#studentProfileInfoModal').find('#new-name').val(event.detail.newName)
+            $('#studentProfileInfoModal').find('#new-place-of-birth').val(event.detail.newPlaceOfBirth)
+            $('#studentProfileInfoModal').find('#new-date-of-birth').val(event.detail.newDateOfBirth)
+            $('#studentProfileInfoModal').find('#new-father-name').val(event.detail.newFatherName)
+            $('#studentProfileInfoModal').find('#new-mother-name').val(event.detail.newMotherName)
+            $('#studentProfileInfoModal').find('#new-address').val(event.detail.newAddress)
+            $('#studentProfileInfoModal').find('#new-phone-number').val(event.detail.newPhoneNumber)
         })
         
-        $('#abort-update').click(e =>
+        $('#studentProfileInfoModal').find('#abort-update').click(e =>
         {
             let notificationCount = parseInt($('#noti-count').html())
             
@@ -72,10 +72,10 @@
 
             toastr.warning("Update dibatalkan dan notifikasi ditandai sudah dibaca!", 'Aborted!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
 
-            Livewire.emit('AbortUpdate', notificationID)
+            Livewire.emit('AbortUpdateProfileInfo', notificationID)
         })
 
-        $('#approve-update').click(e =>
+        $('#studentProfileInfoModal').find('#approve-update').click(e =>
         {
             let notificationCount = parseInt($('#noti-count').html())
 
@@ -96,7 +96,88 @@
 
             toastr.success("Update disetujui dan notifikasi ditandai sudah dibaca!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
             
-            Livewire.emit('ApproveUpdate', notificationID)
+            Livewire.emit('ApproveUpdateProfileInfo', notificationID)
+        })
+    })
+</script>
+
+
+
+{{-- APPROVE AND ABORT STUDENT ABSENT --}}
+<script>
+    $(function ()
+    {
+        window.addEventListener('configure-absent-modal', event =>
+        {
+            notificationID = event.detail.notificationID
+            absentID = event.detail.absentID
+
+            $('#studentAbsentModal').find('#date').val(event.detail.oldDate)
+            $('#studentAbsentModal').find('#name').val(event.detail.studentName)
+            
+            if(event.detail.description == "S")
+            {
+                $('#studentAbsentModal option[value=S]').attr('selected','selected');
+            }
+            else if(event.detail.description == "I")
+            {
+                $('#studentAbsentModal option[value=I]').attr('selected','selected');
+            }
+            else
+            {
+                $('#studentAbsentModal option[value=A]').attr('selected','selected');
+            }
+        })
+
+        $('#studentAbsentModal').find('#abort-update').click(e =>
+        {
+            let notificationCount = parseInt($('#noti-count').html())
+            
+            notificationCount--;
+            
+            $('a').remove('#' + notificationID);
+            $('div').remove('#' + notificationID);
+            $('#noti-text').html(notificationCount + " New")
+            
+            if(notificationCount == 0)
+            {
+                $('#noti-count').remove();
+            }
+            else
+            {
+                $('#noti-count').text(notificationCount)
+            }
+
+            toastr.warning("Update dibatalkan dan notifikasi ditandai sudah dibaca!", 'Aborted!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+
+            Livewire.emit('AbortUpdateAbsent', notificationID, absentID)
+        })
+
+        $('#studentAbsentModal').find('#approve-update').click(e =>
+        {
+            let notificationCount = parseInt($('#noti-count').html())
+
+            notificationCount--;
+
+            $("#" + notificationID).remove();
+            $('#' + notificationID).remove();
+            $('#noti-text').html(notificationCount + " New")
+
+            if(notificationCount == 0)
+            {
+                $('#noti-count').remove();
+            }
+            else
+            {
+                $('#noti-count').text(notificationCount)
+            }
+
+            date = $('#studentAbsentModal').find('#date').val();
+            description = $('#studentAbsentModal').find(':selected').val()
+
+            toastr.success("Update disetujui dan notifikasi ditandai sudah dibaca!", 'Success!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+            
+            Livewire.emit('ApproveUpdateAbsent', notificationID, absentID, date, description)
         })
     })
 </script>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use PDF;
 use App\Models\SchoolYear;
@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Teacher\Teacher;
 use App\Models\Classroom\Classroom;
 use App\Models\Teacher\HomeroomClass;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ExportClassAsPDF extends Controller
 {
@@ -19,9 +21,8 @@ class ExportClassAsPDF extends Controller
         }
         
         $data = [
-            'semester' => session('currentSemester'),
             'class' => Classroom::query()->find($class_id)->name,
-            'schoolYear' => SchoolYear::query()->find(session('currentSchoolYear'))->year,
+            'schoolYear' => Auth::user()->role == 1 ? HomeroomClass::query()->where('NIP', Auth::user()->NIP)->where('homeroom_class_id', $class_id)->join('school_years', 'school_years.id', '=', 'teacher_homeroom_classes.school_year_id')->value('year') : HomeroomClass::query()->where('homeroom_class_id', $class_id)->join('school_years', 'school_years.id', '=', 'teacher_homeroom_classes.school_year_id')->value('year'),
             'homeroomTeacher' => Teacher::query()->where('NIP', HomeroomClass::query()->where('homeroom_class_id', $class_id)->value('NIP'))->value('name') 
         ];
 

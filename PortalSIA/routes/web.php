@@ -52,11 +52,23 @@ Route::group(['prefix' => 'directory'], function ()
 Route::middleware(['auth'])->group(function ()
 {
     // ========== EXPORTING CLASS AS PDF ========== //
-    Route::get("export-class-pdf/{id?}", [\App\Http\Controllers\ExportClassAsPDF::class, "Export"])->name('export-class-pdf')->withoutMiddleware('auth.role:2');
-    
+    Route::get("export-class-pdf/{id?}", [\App\Http\Controllers\Admin\ExportClassAsPDF::class, "Export"])->name('export-class-pdf');
+
     // ========== EXPORTING CLASS AS EXCEL ========== //
-    Route::get("export-class-excel/{id?}", [\App\Http\Controllers\ExportClassAsExcel::class, "Export"])->name('export-class-excel')->withoutMiddleware('auth.role:2');
-});
+    Route::get("export-class-excel/{id?}", [\App\Http\Controllers\Admin\ExportClassAsExcel::class, "Export"])->name('export-class-excel');
+})->withoutMiddleware('auth.role:2');
+
+
+
+// ========== EXPORT STUDENT REPORT ========== //
+Route::middleware(['auth'])->group(function ()
+{
+    // ========== EXPORT ODD SEMESTER REPORT ========== //
+    Route::get("/student-report/odd/{nisn?}", [\App\Http\Controllers\Teacher\PrintStudentReportOdd::class, "View"])->name('student-report-odd');
+    
+    // ========== EXPORT EVEN SEMESTER REPORT ========== //
+    Route::get("/student-report/even/{nisn?}", [\App\Http\Controllers\Teacher\PrintStudentReportEven::class, "View"])->name('student-report-even');
+})->withoutMiddleware('auth.role:2');
 
 
 
@@ -94,6 +106,12 @@ Route::group(['prefix' => 'admin'], function ()
             Route::controller(\App\Http\Livewire\Admin\StudentTakingExtracurricularCRUD::class)->group(function()
             {
                 Route::get('/student-taking-extracurricular', \App\Http\Livewire\Admin\StudentTakingExtracurricularCRUD::class)->name('student-taking-extracurricular');
+            });
+
+            // ========== STUDENT REPORT LIVEWIRE ========== //
+            Route::controller(\App\Http\Livewire\Admin\StudentReportCRUD::class)->group(function()
+            {
+                Route::get('/student-report', \App\Http\Livewire\Admin\StudentReportCRUD::class)->name('student-report');
             });
 
             // ========== TEACHER CRUD LIVEWIRE ========== //
@@ -192,8 +210,9 @@ Route::group(['prefix' => 'teacher'], function ()
                 Route::get('/homeroom-class', \App\Http\Livewire\Teacher\HomeroomClass::class)->name('homeroom-class');
             });
 
-            // ========== STUDENT REPORT ========== //
-            Route::get("/student-report/{nisn?}", [\App\Http\Controllers\StudentReport::class, "View"])->name('student-report');
+            // ========== EXPORT SUBJECT & EXTRACURRICULAR SCORE ========== //
+            Route::get("/export-subject-score/{class_id?}", [\App\Http\Controllers\Teacher\ExportSubjectScore::class, "Export"])->name('export-subject-score');
+            Route::get("/export-extracurricular-score", [\App\Http\Controllers\Teacher\ExportExtracurricularScore::class, "Export"])->name('export-extracurricular-score');
 
             // ========== SUBJECT SCORE LIVEWIRE ========== //
             Route::controller(\App\Http\Livewire\Teacher\SubjectScoreCRUD::class)->group(function()
@@ -259,10 +278,13 @@ Route::group(['prefix' => 'student'], function ()
             });
 
             // ========== SEMESTER REPORT LIVEWIRE ========== //
-            Route::controller(\App\Http\Livewire\Student\SemesterReport::class)->group(function()
+            Route::controller(\App\Http\Livewire\Student\Report::class)->group(function()
             {
-                Route::get('/semester-report', \App\Http\Livewire\Student\SemesterReport::class)->name('semester-report');
+                Route::get('/report', \App\Http\Livewire\Student\Report::class)->name('report');
             });
+
+            Route::get("/print-report-odd", [\App\Http\Controllers\Student\PrintReportOdd::class, "View"])->name('print-report-odd');
+            Route::get("/print-report-even", [\App\Http\Controllers\Student\PrintReportEven::class, "View"])->name('print-report-even');
         });
     });
 });

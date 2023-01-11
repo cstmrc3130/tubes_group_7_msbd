@@ -158,7 +158,7 @@
 
             $("#teacher-NIP").change(e =>
             {
-                $('#dynamic-title').text($(this).find(':selected').text() != "" ? 'Tabulasi Mata Pelajaran ' +  $(this).find(':selected').text() + " (" + $(this).find(':selected').val() + ")" : defaultText)
+                $('#dynamic-title').text($('#teacher-NIP').find(':selected').text() != "" ? 'Tabulasi Mata Pelajaran ' +  $('#teacher-NIP').find(':selected').text() + " (" + $('#teacher-NIP').find(':selected').val() + ")" : defaultText)
             })
         })
     </script>

@@ -72,13 +72,13 @@
 
 
             {{-- ========== SEMESTER REPORT START ========== --}} 
-            <div class="col-sm-12 col-md-6">
-                <div class="card card-hover bg-success btn btn-block waves-effect rounded" onclick="return window.location.href = '{{ route('student.semester-report') }}'">
+            <div class="col-sm-12 col-md-12">
+                <div class="card card-hover bg-success btn btn-block waves-effect rounded" onclick="return window.location.href = '{{ route('student.report') }}'">
                     <div class="card-body text-white p-0">
                         <div class="d-flex flex-row">
                             <div class="align-self-center display-6"><i class="ti-bookmark-alt"></i></div>
                             <div class="p-2 align-self-center">
-                                <h4 class="m-b-0">Rapor Semester</h4>
+                                <h4 class="m-b-0">Rapor</h4>
                             </div>
                             <div class="ml-auto align-self-center">
                                 <h2 class="font-medium m-b-0">&#x203A;</h2>

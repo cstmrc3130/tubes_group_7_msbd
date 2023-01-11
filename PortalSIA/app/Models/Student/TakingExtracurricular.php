@@ -20,6 +20,7 @@ class TakingExtracurricular extends Model
     // ========== MASS ASSIGNABLE ATTRIBUTES ========== //
     protected $fillable = 
     [
+        'id',
         'NISN',
         'school_year_id',
         'extracurricular_id',
@@ -28,12 +29,12 @@ class TakingExtracurricular extends Model
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
     public function student()
     {
-        return $this->belongsTo(User::class, 'NISN');
+        return $this->belongsTo(Student::class, 'NISN');
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
     public function extracurricullar()
     {
-        return $this->hasOne(Extracurricular::class, 'extracurricular_id', 'id');
+        return $this->belongsTo(Extracurricular::class, 'extracurricular_id', 'id');
     }
 }

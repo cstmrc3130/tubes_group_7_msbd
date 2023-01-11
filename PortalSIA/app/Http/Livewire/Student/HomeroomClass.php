@@ -7,25 +7,30 @@ use App\Models\SchoolYear;
 use App\Models\Student\HomeroomClass as StudentHomeroomClass;
 use App\Models\Student\Student;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
 
 class HomeroomClass extends Component
 {
-    public $homeroomClassName;
-    public $homeroomClassSemester;
-    public $homeroomClassStudent;
+    use WithPagination;
+
+    public $selectedSchoolYear, $homeroomTeacherName, $studentHomeroomClass;
+
+    protected $paginationTheme = "bootstrap";
 
     public function mount()
     {
-        if (auth()->user()->student->homeroomclass != NULL)
-        {
-            $this->homeroomClassName = Auth::user()->student->homeroomclass->classroom->name;
-            $this->homeroomClassSemester = SchoolYear::query()->find(session('currentSchoolYear'))->semester;
-            $this->homeroomClassStudent = StudentHomeroomClass::query()->where('homeroom_class_id', auth()->user()->student->homeroomclass->classroom->id)->count();
-        } 
-        else
-        {
-            $this->fill(['homeroomClassName' => 'Data is not set yet.', 'homeroomClassSemester' => 'Data is not set yet.', 'homeroomClassStudent' => 'Data is not set yet.']);
-        }
+        $this->selectedSchoolYear = session('currentSchoolYear');
+
+        $this->studentHomeroomClass = StudentHomeroomClass::query()->where('NISN', Auth::user()->NISN)->where('school_year_id', $this->selectedSchoolYear)->join("classes", "student_homeroom_classes.homeroom_class_id", '=', 'classes.id')->value('classes.id');
+
+        $this->homeroomTeacherName = \App\Models\Teacher\HomeroomClass::query()->where('school_year_id', $this->selectedSchoolYear)->where('homeroom_class_id', $this->studentHomeroomClass)->join('teachers', 'teachers.NIP', '=', 'teacher_homeroom_classes.NIP')->value('teachers.name');
+    }
+
+    public function updated()
+    {
+        $this->studentHomeroomClass = StudentHomeroomClass::query()->where('NISN', Auth::user()->NISN)->where('school_year_id', $this->selectedSchoolYear)->join("classes", "student_homeroom_classes.homeroom_class_id", '=', 'classes.id')->value('classes.id');
+
+        $this->homeroomTeacherName = \App\Models\Teacher\HomeroomClass::query()->where('school_year_id', $this->selectedSchoolYear)->where('homeroom_class_id', $this->studentHomeroomClass)->join('teachers', 'teachers.NIP', '=', 'teacher_homeroom_classes.NIP')->value('teachers.name');
     }
 
     public function render()

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
 use App\Models\Student\Student;
 use App\Models\Subject\Subject;
@@ -8,8 +8,14 @@ use App\Models\Teacher\Teacher;
 use Illuminate\Support\Facades\Date;
 use App\Models\Student\HomeroomClass;
 use App\Models\Subject\SubjectScore;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Models\AbsentRecapitulation;
+use App\Models\Extracurricular\ExtracurricularScore;
+use App\Models\Student\TakingExtracurricular;
+use Illuminate\Support\Facades\DB;
 
-class StudentReport extends Controller
+class PrintReportOdd extends Controller
 {
     public function CalculateFinalScore($NISN, $subject)
     {
@@ -19,7 +25,7 @@ class StudentReport extends Controller
         $finalScore = 0;
         $scoreCategory;
 
-        foreach(SubjectScore::query()->where('NISN', $NISN)->where('school_year_id', session('tempSchoolYear'))->whereHas('subject', fn($query) => $query->where('name', $subject))->get() as $data)
+        foreach(SubjectScore::query()->where('NISN', Auth::user()->NISN)->where('school_year_id', session('currentSchoolYear'))->whereHas('subject', fn($query) => $query->where('name', $subject))->get() as $data)
         {
             if($data->scoringsession->type == "HW1" || $data->scoringsession->type == "HW2")
             {
@@ -39,19 +45,19 @@ class StudentReport extends Controller
 
         if ($finalScore >= 80 && $finalScore <= 100)
         {
-            $scoreCategory = "Amat Baik";
+            $scoreCategory = "A";
         }
         else if($finalScore >= 70 && $finalScore <= 79)
         {
-            $scoreCategory = "Baik";
+            $scoreCategory = "B";
         }
         else if($finalScore >= 60 && $finalScore <= 69)
         {
-            $scoreCategory = "Cukup";
+            $scoreCategory = "C";
         }
         else
         {
-            $scoreCategory = "Kurang";
+            $scoreCategory = "D";
         }
 
         // SESSION FOR SCORE CATEGORY 
@@ -60,21 +66,17 @@ class StudentReport extends Controller
         return $finalScore;
     }
 
-    public function View($NISN = null)
+    public function View()
     {
-        if($NISN == null)
-        {
-            return back()->with('report-not-found', 'Silahkan pilih salah satu siswa untuk dilihat rapornya!');
-        }
-
         Date::setLocale('id');
 
-        $teacher = Teacher::query()->where('NIP', \App\Models\Teacher\HomeroomClass::query()->where('homeroom_class_id', HomeroomClass::query()->where('NISN', $NISN)->where('school_year_id', session('currentSchoolYear'))->first()->classroom->id)->value('NIP'));
+        $teacher = Teacher::query()->where('NIP', \App\Models\Teacher\HomeroomClass::query()->where('homeroom_class_id', HomeroomClass::query()->where('NISN', Auth::user()->NISN)->where('school_year_id', session('currentSchoolYear'))->first()->classroom->id)->value('NIP'));
 
         $data = [
-            'studentName' => Student::query()->find($NISN)->name,
-            'NISN' => $NISN,
-            'class' => HomeroomClass::query()->where('NISN', $NISN)->where('school_year_id', session('currentSchoolYear'))->first()->classroom->name,
+            'NISN' => Auth::user()->NISN,
+            'semester' => "Ganjil",
+            'studentName' => Student::query()->find(Auth::user()->NISN)->name,
+            'class' => HomeroomClass::query()->where('NISN', Auth::user()->NISN)->where('school_year_id', session('currentSchoolYear'))->first()->classroom->name,
             
             'homeroomTeacherName' => $teacher->value('name'),
             'homeroomTeacherNIP' => $teacher->value('NIP'),
@@ -97,11 +99,11 @@ class StudentReport extends Controller
             'PENJASKKM' => Subject::query()->where('school_year_id', session('currentSchoolYear'))->where('name', "PENJAS")->value('completeness'),
             'BPKKM' => Subject::query()->where('school_year_id', session('currentSchoolYear'))->where('name', "BP")->value('completeness'),
 
-            'quranHadistFinalScore' => $this->CalculateFinalScore($NISN, "QUR'AN HADITS"),
-            'aqidahAkhlakFinalScore' => $this->CalculateFinalScore($NISN, "AQIDAH AKHLAK"),
+            'quranHadistFinalScore' => $this->CalculateFinalScore(Auth::user()->NISN, "QUR'AN HADITS"),
+            'aqidahAkhlakFinalScore' => $this->CalculateFinalScore(Auth::user()->NISN, "AQIDAH AKHLAK"),
         ];
 
         // DOWNLOAD USING CTRL + P
-        return view('export.student-report', $data);
+        return view('export.student-report-odd', $data);
     }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Models\Student;
 
-use App\Models\Classroom\Classroom;
 use App\Models\User;
+use App\Models\Classroom\Classroom;
 use Laravel\Scout\Searchable;
 use App\Models\Student\HomeroomClass;
+use App\Models\Subject\SubjectScore;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -36,6 +37,7 @@ class Student extends Model
         'address',
         'phone_numbers',
         'status',
+        'description',
         'entry_year',
         'special_needs'
     ];
@@ -44,6 +46,12 @@ class Student extends Model
     public function user()
     {
         return $this->hasOne(User::class, 'NISN');
+    }
+
+    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
+    public function subjectscore()
+    {
+        return $this->hasOne(SubjectScore::class, 'NISN');
     }
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //

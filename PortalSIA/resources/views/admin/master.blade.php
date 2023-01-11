@@ -89,15 +89,16 @@
                             <li class="nav-item dropdown border-right">
 
                                 @php 
-                                    $recentNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where("created_at", '>=', now()->subDays(1)->toDateTimeString());
+                                    $studentProfileNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where('type', 'App\Notifications\StudentProfileInfo')->where("created_at", '>=', now()->subDays(1)->toDateTimeString());
+                                    $studentAbsentNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where('type', 'App\Notifications\StudentAbsent')->where("created_at", '>=', now()->subDays(1)->toDateTimeString())
                                 @endphp
-        
+
                                 {{-- ========== NOTIFICATION COUNT START ========== --}}
                                 @if(!Str::contains(url()->current(), 'all-notifications')) 
                                 <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="mdi mdi-bell-outline font-22"></i>
-                                    @if($recentNotification->count() > 0)
-                                    <span class="badge badge-pill badge-info noti" id="noti-count">{{ $recentNotification->count() }}</span>
+                                    @if($studentProfileNotification->count() > 0 || $studentAbsentNotification->count() > 0)
+                                    <span class="badge badge-pill badge-info noti" id="noti-count">{{ $studentProfileNotification->count() + $studentAbsentNotification->count() }}</span>
                                     @endif
                                 </a>
                                 @endif
@@ -122,7 +123,7 @@
                                         {{-- ========== TITLE START ========== --}}
                                         <li>
                                             <div class="drop-title bg-primary text-white">
-                                                <h4 class="m-b-0 m-t-5" id="noti-text">{{ $recentNotification->count() }} New</h4>
+                                                <h4 class="m-b-0 m-t-5" id="noti-text">{{ $studentProfileNotification->count() + $studentAbsentNotification->count() }} New</h4>
                                                 <span class="font-light">Notifications</span>
                                             </div>
                                         </li>
@@ -133,11 +134,20 @@
                                         {{-- ========== NOTIFICATION ITEMS START ========== --}}
                                         <li>
                                             <div class="message-center notifications h-auto" >
-                                                @foreach($recentNotification as $notification)
-                                                    @livewire('admin.notification-inline', 
+                                                @foreach($studentProfileNotification as $notification)
+                                                    @livewire('admin.student-profile-inline', 
                                                         [
                                                             'notificationID' => $notification->id, 
-                                                            'name' => Str::contains($notification->type, 'Teacher') ? \App\Models\User::find($notification->data['user_id'])->teacher->name : \App\Models\User::find($notification->data['user_id'])->student->name, 
+                                                            'name' => \App\Models\User::find($notification->data['user_id'])->student->name, 
+                                                            'createdAt' => $notification->created_at->diffForHumans()
+                                                        ])
+                                                @endforeach
+
+                                                @foreach($studentAbsentNotification as $notification)
+                                                    @livewire('admin.student-absent-inline', 
+                                                        [
+                                                            'notificationID' => $notification->id, 
+                                                            'name' => \App\Models\User::find($notification->data['user_id'])->student->name, 
                                                             'createdAt' => $notification->created_at->diffForHumans()
                                                         ])
                                                 @endforeach
@@ -279,7 +289,7 @@
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="{{ url('test') }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                        <a href="{{ route('admin.student-report') }}" class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <i class="mdi mdi-adjust"></i>
                                             <span class="hide-menu">Rapor Siswa</span>
                                         </a>
@@ -439,11 +449,11 @@
 
 
         {{-- ========== NOTIFICATION MODAL START ========== --}}
-        <div class="modal fade show" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel1">
+        <div class="modal fade show" id="studentProfileInfoModal" tabindex="-1" role="dialog" aria-labelledby="studentProfileInfoModalLabel1">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="notificationModalLabel1">Update Data Siswa</h4>
+                        <h4 class="modal-title" id="studentProfileInfoModalLabel1">Update Data Siswa</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
@@ -570,6 +580,71 @@
                     <div class="modal-footer">
                         <button type="button" id="abort-update" class="btn btn-danger" data-dismiss="modal">Tolak</button>
                         <button type="button" id="approve-update" class="btn btn-success" data-dismiss="modal">Setujui</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal fade show" id="studentAbsentModal" tabindex="-1" role="dialog" aria-labelledby="studentAbsentModalLabel1" wire:ignore.self>
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="studentAbsentModalLabel1">Update Data Siswa</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                
+                                <div class="col-12">
+                                
+                                    {{-- ========== NAME START ========== --}}
+                                    <div class="form-group row">
+                                        {{ Form::label('name', 'Nama', ["class" => "col-md-3 col-form-label"]) }}
+                                        <div class="col-md-9">
+                                            {{ Form::text('name', '', ['class' => 'form-control form-control-line'.($errors->has('name') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'disabled', 'readonly', 'id' => 'name', 'required']) }}
+                                            @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+                                    </div>
+                                    {{-- ========== NAME END ========== --}}
+    
+    
+    
+                                    {{-- ========== DATE START ========== --}}
+                                    <div class="form-group row">
+                                        {{ Form::label('date', 'Tanggal', ["class" => "col-md-3 col-form-label"]) }}
+                                        <div class="col-md-9">
+                                            {{ Form::date('date', '', ['class' => 'form-control form-control-line'.($errors->has('date') ? ' is-invalid' : ''), 'autocomplete' => 'off', 'id' => 'date', 'required']) }}
+                                            @error('date')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                        </div>
+                                    </div>
+                                    {{-- ========== DATE END ========== --}}
+    
+    
+    
+                                    {{-- ========== DESCRIPTION START ========== --}}
+                                    <div class="form-group row">
+                                        {{ Form::label('description', 'Keterangan', ["class" => "col-md-3 col-form-label"]) }}
+                                        <div class="col-md-9">
+                                            <select name="" id="" class="form-control form-select">
+                                                <option value="S">Sakit</option>
+                                                <option value="I">Izin</option>
+                                                <option value="A">Alpha</option>
+                                            </select>
+                                        </div>
+                                        @error('description')<div class="text-danger mr-4 pr-2">{{ $message }}</div>@enderror
+                                    </div>
+                                    {{-- ========== DESCRIPTION END ========== --}}
+    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="abort-update" class="btn btn-danger" data-dismiss="modal">Hapus</button>
+                        <button type="button" id="approve-update" class="btn btn-success" data-dismiss="modal">Perbaiki</button>
                     </div>
                 </div>
             </div>

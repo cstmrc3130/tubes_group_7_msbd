@@ -19,7 +19,7 @@ final class StudentBuilder extends PowerGridComponent
     public string $sortField = 'NISN';
     public string $primaryKey = 'NISN';
 
-    public $NISN, $name, $place_of_birth, $date_of_birth, $father_name, $mother_name, $address, $phone_numbers, $gender;
+    public $NISN, $name, $place_of_birth, $date_of_birth, $father_name, $mother_name, $address, $phone_numbers, $gender, $description;
 
     // ========== HEADER AND FOOTER FUNCTIONALITY ========== //
     public function setUp(): array
@@ -65,6 +65,7 @@ final class StudentBuilder extends PowerGridComponent
             ->addColumn('phone_numbers')
             ->addColumn('status', fn (Student $model) => $model->status == "A" ? "Aktif" : "Tidak Aktif")
             ->addColumn('special_needs', fn (Student $model) => $model->special_needs == "NE" ? "Tidak Ada" : "Ada")
+            ->addColumn('description')
             ->addColumn('address')
             ->addColumn('entry_year')
             ->addColumn('guardian_name', fn (Student $model) => $model->guardian_name == "" ? "Tidak ada" : $model->guardian_name);
@@ -133,6 +134,11 @@ final class StudentBuilder extends PowerGridComponent
             Column::make('STATUS', 'status')
                 ->sortable()
                 ->searchable(),
+
+            Column::make('DESCRiPTION', 'description')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(),
                 
             Column::make('SPECIAL NEEDS', 'special_needs')
                 ->sortable()

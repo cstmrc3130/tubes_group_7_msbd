@@ -6,19 +6,23 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use App\Models\AbsentRecapitulation;
+use App\Models\SchoolYear;
+use App\Models\Student\HomeroomClass as StudentHomeroomClass;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeroomClass extends Component
 {
     use WithPagination;
 
     // ========== CARD ATTRIBUTES ========== //
-    public $selectedSchoolYear, $selectedClass, $description, $date, $NISN;
+    public $selectedSchoolYear, $absentSchoolYear, $promoteSchoolYear, $selectedClass, $newClass, $description, $date, $NISN;
 
     // ========== RULES ========== //
     protected $rules = ([
         'selectedSchoolYear' => ['required'],
         'description' => ['required', 'in:"S", "I", "A"'],
+        'newClass' => ['required'],
         'date' => ['required', 'date'],
         'NISN' => ["required"]
     ]);
@@ -41,6 +45,7 @@ class HomeroomClass extends Component
     public function mount()
     {
         $this->date = date('Y-m-d');
+        $this->absentSchoolYear = session('tempSchoolYear');
     }
 
     // ========== RENDER ========== //
@@ -52,11 +57,54 @@ class HomeroomClass extends Component
     }
 
     // ========== CONFIGURE ABSENT MODAL ========== //
-    public function ConfigureModal($NISN)
+    public function ConfigureModal($NISN, $school_year_id)
     {
         $this->NISN = $NISN;
+        $this->absentSchoolYear = $school_year_id;
 
         $this->dispatchBrowserEvent('configure-absent-modal', ['name' => \App\Models\Student\Student::query()->where('NISN', $NISN)->value('name')]);
+    }
+
+    // ========== CONFIGURE ABSENT MODAL ========== //
+    public function ConfigurePromoteModal($NISN)
+    {
+        $this->NISN = $NISN;
+        $this->promoteSchoolYear = \App\Models\SchoolYear::where('semester', 'Ganjil')->orderBy('year', 'desc')->value('year');
+
+        $this->dispatchBrowserEvent('configure-promote-modal', ['name' => \App\Models\Student\Student::query()->where('NISN', $NISN)->value('name')]);
+    }
+
+    // ========== CREATE OR UPDATE ABSENT ========== //
+    public function PromoteStudent()
+    {
+        $this->validateOnly('newClass');
+
+        DB::beginTransaction();
+
+        try
+        {
+            StudentHomeroomClass::query()->updateOrCreate(
+                [
+                    'NISN' => $this->NISN,
+                    'homeroom_class_id' => $this->newClass,
+                    'school_year_id' => \App\Models\SchoolYear::where('semester', 'Ganjil')->orderBy('year', 'desc')->value('id'),
+                ],
+                [
+                    'id' => Str::uuid(),
+                    'NISN' => $this->NISN,
+                    'homeroom_class_id' => $this->newClass,
+                    'school_year_id' => \App\Models\SchoolYear::where('semester', 'Ganjil')->orderBy('year', 'desc')->value('id'),
+                ]
+                );
+                
+            DB::commit();
+
+            $this->dispatchBrowserEvent('success-promote-student');
+        }
+        catch(\Exception $msg)
+        {
+            DB::rollBack();
+        }
     }
 
     // ========== CREATE OR UPDATE ABSENT ========== //
@@ -67,7 +115,8 @@ class HomeroomClass extends Component
         AbsentRecapitulation::query()->updateOrCreate(
             [
                 'NISN' => $this->NISN,
-                'school_year_id' => session('tempSchoolYear')
+                'school_year_id' => session('tempSchoolYear'),
+                'date' => date('Y-m-d')
             ],
             [
                 'NISN' => $this->NISN,

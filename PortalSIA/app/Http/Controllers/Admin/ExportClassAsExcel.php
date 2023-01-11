@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Exports\ClassExport;
 use App\Models\Classroom\Classroom;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
 
 class ExportClassAsExcel extends Controller
 {

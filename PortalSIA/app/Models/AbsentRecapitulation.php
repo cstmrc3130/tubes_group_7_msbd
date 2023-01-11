@@ -24,7 +24,6 @@ class AbsentRecapitulation extends Model
         'school_year_id',
         'type',
         'date',
-
     ];
 
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN POST AND ITS USER ========== //

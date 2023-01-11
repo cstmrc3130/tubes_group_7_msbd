@@ -226,7 +226,7 @@
                                         <br>
                                         Tahun Ajaran : {{ $schoolYear }}
                                         <br>
-                                        Semester : {{ $semester }}
+                                        Semester : {{ session('currentSemester') }}
                                     </p>
                                 </section>
                             </div>
@@ -243,7 +243,7 @@
                                     </thead>
                                     <tbody>
                                         {{-- @foreach(\App\Models\Student\HomeroomClass::query()->where('homeroom_class_id', request()->segment(count(request()->segments())))->get() as $data) --}}
-                                        @foreach(\App\Models\Student\HomeroomClass::select('*')->where('homeroom_class_id', request()->segment(count(request()->segments())))->join('students', 'student_homeroom_classes.NISN', '=', 'students.NISN')->orderBy('students.name', 'ASC')->get() as $data)
+                                        @foreach(\App\Models\Student\HomeroomClass::select('*')->where('homeroom_class_id', request()->segment(count(request()->segments())))->where('school_year_id', session('currentSchoolYear'))->join('students', 'student_homeroom_classes.NISN', '=', 'students.NISN')->orderBy('students.name', 'ASC')->get() as $data)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->NISN }}</td>
@@ -257,7 +257,7 @@
                         <div class="col-md-12">
                             <div class="pull-right m-t-30 text-right">
 
-                                <h3><b>Total Siswa :</b> {{ \App\Models\Student\HomeroomClass::query()->where('homeroom_class_id', request()->segment(count(request()->segments())))->count() }}</h3>
+                                <h3><b>Total Siswa :</b> {{ \App\Models\Student\HomeroomClass::query()->where('homeroom_class_id', request()->segment(count(request()->segments())))->where('school_year_id', session('currentSchoolYear'))->count() }}</h3>
                             </div>
                         </div>
                     </div>

@@ -161,17 +161,6 @@
                                     @error('gender')<div class="text-danger ml-5 pl-3">{{ $message }}</div>@enderror
                                 </div>
     
-                                <div class="form-group row">
-                                    {{ Form::label('class', 'Kelas', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
-                                    <div class="col-md-8">
-                                        <select type="text" class="form-control form-control-line bg-transparent" name="homeroom-class" id="homeroom-class" placeholder="Homeroom Class" wire:model.lazy="homeroomClass">
-                                            @foreach(\App\Models\Classroom\Classroom::all() as $homeroomClass)
-                                            <option value="{{ $homeroomClass->id }}">{{ $homeroomClass->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-    
                             </div>
                         </div>
 

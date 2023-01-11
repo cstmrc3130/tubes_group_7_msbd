@@ -10,13 +10,13 @@ use App\Models\Student\Student;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class NotificationInline extends Component
+class StudentProfileInline extends Component
 {
     // ========== NOTIFICATION ATTRIBUTES ========== //
     public $name, $createdAt, $notificationID, $currentPage;
 
     // ========== EVENT LISTENERS ========== //
-    protected $listeners = ['AbortUpdate', 'ApproveUpdate'];
+    protected $listeners = ['AbortUpdateProfileInfo', 'ApproveUpdateProfileInfo'];
 
     // ========== CONSTRUCTOR TO INITIATE PROPERTIES ========== //
     public function mount()
@@ -30,7 +30,7 @@ class NotificationInline extends Component
         if (Str::contains($this->currentPage, 'notification'))
         {
             return <<<'blade'
-                <div class="card card-hover bg-transparent border border-secondary btn waves-effect rounded mb-1 mt-1 pb-0" id="{{ $notificationID }}" data-toggle="modal" data-target="#notificationModal" wire:click="ConfigureModal()" >
+                <div class="card card-hover bg-transparent border border-secondary btn waves-effect rounded mb-1 mt-1 pb-0" id="{{ $notificationID }}" data-toggle="modal" data-target="#studentProfileInfoModal" wire:click="ConfigureModal()" >
                     <div class="card-body p-0">
                         <div class="d-flex flex-row">
                             <div class="align-self-center"><i class="fa fa-bell"></i></div>
@@ -47,7 +47,7 @@ class NotificationInline extends Component
         else
         {
             return <<<'blade'
-                <a href="javascript:void(0)" id="{{ $notificationID }}" class="message-item" data-toggle="modal" data-target="#notificationModal" wire:click="ConfigureModal()">
+                <a href="javascript:void(0)" id="{{ $notificationID }}" class="message-item" data-toggle="modal" data-target="#studentProfileInfoModal" wire:click="ConfigureModal()">
                     <span class="btn btn-danger btn-circle">
                         <i class="fa fa-link"></i>
                     </span>
@@ -89,13 +89,13 @@ class NotificationInline extends Component
     }
 
     // ========== ABORT STUDENT REQUEST TO UPDATE THEIR PERSONAL INFO ========== //
-    public function AbortUpdate($notification_id)
+    public function AbortUpdateProfileInfo($notification_id)
     {
         Auth::user()->unreadNotifications->where("id", $notification_id)->markAsRead();
     }
 
     // ========== APPROVE STUDENT REQUEST TO UPDATE THEIR PERSONAL INFO ========== //
-    public function ApproveUpdate($notification_id)
+    public function ApproveUpdateProfileInfo($notification_id)
     {
         $new = json_decode(Notification::find($this->notificationID)->data);
 

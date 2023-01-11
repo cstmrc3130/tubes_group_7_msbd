@@ -19,25 +19,31 @@ class AllNotification extends Component
         if ($this->range == "newest")
         {
             $totalNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where("created_at", '>=', now()->subDays(1)->toDateTimeString())->count();
-            $notifications = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where("created_at", '>=', now()->subDays(1)->toDateTimeString())->take($this->amount);
+            $studentProfileNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where('type', 'App\Notifications\StudentProfileInfo')->where("created_at", '>=', now()->subDays(1)->toDateTimeString())->take($this->amount);
+            $studentAbsentNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where('type', 'App\Notifications\StudentAbsent')->where("created_at", '>=', now()->subDays(1)->toDateTimeString())->take($this->amount);
         }
         elseif ($this->range == "last-week")
         {
             $totalNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where("created_at", '<=', now()->subDays(7)->toDateTimeString())->count();
-            $notifications = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where("created_at", '<=', now()->subDays(7)->toDateTimeString())->take($this->amount);
+            $studentProfileNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where('type', 'App\Notifications\StudentProfileInfo')->where("created_at", '<=', now()->subDays(7)->toDateTimeString())->take($this->amount);
+            $studentAbsentNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where('type', 'App\Notifications\StudentAbsent')->where("created_at", '<=', now()->subDays(7)->toDateTimeString())->take($this->amount);
         }
         elseif ($this->range == "last-month")
         {
             $totalNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where("created_at", '<=', now()->subDays(30)->toDateTimeString())->count();
-            $notifications = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where("created_at", '<=', now()->subDays(30)->toDateTimeString())->take($this->amount);
+            $studentProfileNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where('type', 'App\Notifications\StudentProfileInfo')->where("created_at", '<=', now()->subDays(30)->toDateTimeString())->take($this->amount);
+            $studentAbsentNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->where('type', 'App\Notifications\StudentAbsent')->where("created_at", '<=', now()->subDays(30)->toDateTimeString())->take($this->amount);
         }
         else
         {
             $totalNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications->count();
-            $notifications = Auth::user()->query()->where('role', '0')->first()->unreadNotifications;
+            $studentProfileNotification = Auth::user()->query()->where('role', '0')->first()->unreadNotifications;
+
+            // EXCEPTION FOR PREVENTING DUPLICATE NOTIFICATIONS
+            $studentAbsentNotification = Auth::user()->query()->where('role', '1')->first()->unreadNotifications;
         }
 
-        return view('livewire.admin.all-notification', compact('notifications', 'totalNotification'))->layout('admin.master', compact('title'));
+        return view('livewire.admin.all-notification', compact('studentProfileNotification', 'studentAbsentNotification', 'totalNotification'))->layout('admin.master', compact('title'));
     }
 
     // ========== FILTER NOTIFICATION RANGE ========== //

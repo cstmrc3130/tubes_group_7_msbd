@@ -51,11 +51,21 @@
 
                     </div>
 
-                    @foreach($notifications as $notification)
-                    @livewire('admin.notification-inline', 
+                    @foreach($studentProfileNotification as $notification)
+                        @livewire('admin.student-profile-inline', 
                         [
                             'notificationID' => $notification->id, 
-                            'name' => Str::contains($notification->type, 'Teacher') ? \App\Models\User::find($notification->data['user_id'])->teacher->name : \App\Models\User::find($notification->data['user_id'])->student->name, 
+                            'name' => \App\Models\User::find($notification->data['user_id'])->student->name, 
+                            'createdAt' => $notification->created_at->diffForHumans()
+                        ],
+                        key($notification->id))
+                    @endforeach
+
+                    @foreach($studentAbsentNotification as $notification)
+                        @livewire('admin.student-absent-inline', 
+                        [
+                            'notificationID' => $notification->id, 
+                            'name' => \App\Models\User::find($notification->data['user_id'])->student->name, 
                             'createdAt' => $notification->created_at->diffForHumans()
                         ],
                         key($notification->id))

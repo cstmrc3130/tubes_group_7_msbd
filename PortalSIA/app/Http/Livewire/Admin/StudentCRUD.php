@@ -23,7 +23,6 @@ class StudentCRUD extends Component
     public $entryYear;
     public $status;
     public $specialNeeds;
-    public $homeroomClass;
 
     // ========== EVENT LISTENERS ========== //
     protected $listeners = ['DeleteStudent'];
@@ -43,7 +42,6 @@ class StudentCRUD extends Component
         'status' => 'required|in:"A", "I"',
         'specialNeeds' => 'required|in:"E", "NE"',
         "entryYear" => ['required', 'integer', 'min:1900', 'max:2022', 'digits:4'],
-        "homeroomClass" => ['required'],
     ]);
 
     // ========== CUSTOM :ATTRIBUTES ========== //
@@ -67,12 +65,7 @@ class StudentCRUD extends Component
 
     // ========== CREATE STUDENT ACCOUNT ========== //
     public function CreateNewStudentData()
-    {
-        if(Teacher::query()->first())
-        {
-            $homeroomTeacher = Teacher::query()->where('homeroom_class_id', $this->homeroomClass)->first()->NIP;
-        }
-        
+    {        
         $this->validate();
         
         Student::create([
@@ -89,8 +82,6 @@ class StudentCRUD extends Component
             'status' => $this->status,
             'special_needs' => $this->specialNeeds,
             "entry_year" => $this->entryYear,
-            "homeroom_class_id" => $this->homeroomClass,
-            "homeroom_teacher_NIP" => $homeroomTeacher,
         ]);
 
         $this->dispatchBrowserEvent('dismiss-modal');

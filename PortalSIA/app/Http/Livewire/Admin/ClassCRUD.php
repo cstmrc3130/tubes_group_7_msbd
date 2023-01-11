@@ -2,10 +2,11 @@
 
 namespace App\Http\Livewire\Admin;
 
+use Livewire\Component;
+use Illuminate\Support\Str;
+use Livewire\WithPagination;
 use App\Models\Student\HomeroomClass as StudentHomeroomClass;
 use App\Models\Teacher\HomeroomClass as TeacherHomeroomClass;
-use Livewire\Component;
-use Livewire\WithPagination;
 
 class ClassCRUD extends Component
 {
@@ -58,7 +59,18 @@ class ClassCRUD extends Component
     // ========== CHANGE STUDENT HOMEROOM TEACHER ========== //
     public function ChangeStudentHomeroomTeacher()
     {
-        TeacherHomeroomClass::query()->where('homeroom_class_id', $this->selectedClass)->where('school_year_id', session('currentSchoolYear'))->update(['NIP' => $this->selectedHomeroomTeacher]);
+        TeacherHomeroomClass::query()->where('homeroom_class_id', $this->selectedClass)->where('school_year_id', session('currentSchoolYear'))->updateOrCreate(
+            [
+                'NIP' => $this->selectedHomeroomTeacher,
+                'school_year_id' => session('currentSchoolYear')
+            ],
+            [
+                'id' => Str::uuid(),
+                'NIP' => $this->selectedHomeroomTeacher,
+                'school_year_id' => session('currentSchoolYear'),
+                'homeroom_class_id' => $this->selectedClass,
+            ]
+        );
         
         $this->dispatchBrowserEvent("success-change-student-homeroom-teacher", ['name' => \App\Models\Teacher\Teacher::query()->where('NIP', $this->selectedHomeroomTeacher)->value('name')]);
 

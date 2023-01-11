@@ -181,7 +181,7 @@
                                     @error('specialNeeds')<div class="text-danger mr-4 pr-2">{{ $message }}</div>@enderror
                                 </div>
 
-                                <div class="form-group row">
+                                {{-- <div class="form-group row">
                                     {{ Form::label('class', 'Kelas', ["class" => "col-md-4 col-form-label font-bold text-info"]) }}
                                     <div class="col-md-8">
                                         <select type="text" class="form-control form-control-line bg-transparent" name="homeroom-class" id="homeroom-class" placeholder="Homeroom Class" wire:model.lazy="homeroomClass">
@@ -190,7 +190,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
     
                             </div>
                         </div>

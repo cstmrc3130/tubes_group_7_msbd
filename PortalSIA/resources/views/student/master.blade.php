@@ -6,6 +6,8 @@
         {{-- ========== ASSETS AND META COMPONENT ========== --}}
         <x-dashboard.assets-and-meta :title="$title"/>
 
+        @stack('additional-style')
+
         @livewireStyles
     </head>
 
@@ -56,6 +58,30 @@
         
         
                     <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav float-left mr-0" style="padding-left: 20px">
+                            <div class="row alert alert-cyan mb-0 nowrap py-2">
+                                <li class="col-2 align-self-center">
+                                    <i class="mdi mdi-access-point mdi-24px"></i>
+                                </li>
+                                <div class="col-10 flex-column">
+                                    <li> 
+                                        Tahun Ajaran Aktif :
+                                        <span class="font-bold">
+                                            {{ \App\Models\SchoolYear::query()->find(session('currentSchoolYear'))->year }}
+                                        </span>
+                                    </li>
+                                    <li> 
+                                        Semester Aktif :
+                                        <span class="font-bold">
+                                            {{ session('currentSemester') }}
+                                        </span>
+                                    </li>
+                                </div>
+                            </div>
+                        </ul>
+
+                        
+                        
                         <ul class="navbar-nav float-right ml-auto">
         
                             {{-- ========== USER INFO START ========== --}}
@@ -207,9 +233,9 @@
 
                             
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('student.semester-report') }}" aria-expanded="false">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('student.report') }}" aria-expanded="false">
                                     <i class="ti-bookmark-alt"></i>
-                                    <span class="hide-menu">Rapor Semester</span>
+                                    <span class="hide-menu">Rapor</span>
                                 </a>
                             </li>
                             {{-- ========== REPORT AND ABSENT END ========== --}} 

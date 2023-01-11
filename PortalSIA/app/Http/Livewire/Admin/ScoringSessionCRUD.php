@@ -40,7 +40,7 @@ class ScoringSessionCRUD extends Component
     public function render()
     {
         $title = "Sesi Penilaian";
-        $sortByLatest = ScoringSession::query()->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->join('school_years', 'scoring_sessions.school_year_id', '=', 'school_years.id')->orderBy('semester', 'DESC');
+        $sortByLatest = ScoringSession::query()->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->join('school_years', 'scoring_sessions.school_year_id', '=', 'school_years.id')->where('school_year_id', session('tempSchoolYear'))->orderBy('semester', 'DESC');
 
         $this->activeType = $sortByLatest->value('type');
         $this->activeStartDate = $sortByLatest->value('start_date');

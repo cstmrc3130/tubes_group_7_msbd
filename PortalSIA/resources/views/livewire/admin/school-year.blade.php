@@ -134,7 +134,7 @@
         {
             window.addEventListener('data-already-filled', e =>
             {
-                toastr.warning("Data tidak bisa dihapus karena nilai sudah diinput!", 'Warning!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
+                toastr.warning("Data tidak bisa dihapus karena terdapat data yang bersangkutan!", 'Warning!', {"showMethod": "slideDown", "closeButton": true, 'progressBar': true });
             })
         })
     </script>

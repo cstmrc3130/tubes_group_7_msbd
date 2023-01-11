@@ -27,8 +27,8 @@
 
 
 
-    {{-- ========== CONTAINER START ========== --}} 
-    <div class="container-fluid">
+    {{-- ========== ENTITIES AMOUNT START ========== --}}
+    <div class="container-fluid" style="min-height: 1px">
 
         {{-- ========== ALERT FOR SCORING START ========== --}} 
         @if(App\Models\ScoringSession::query()->where('start_date', "!=", "0000-00-00")->where('end_date', ">=", date("Y-m-d"))->where('school_year_id', session('tempSchoolYear'))->first())
@@ -55,8 +55,51 @@
 
 
 
+        <div class="row">
+
+            <div class="col-lg-6 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-6">
+                                <i class="mdi mdi-emoticon font-20 text-info"></i>
+                                <p class="font-16 m-b-5">Kelas</p>
+                            </div>
+                            <div class="col-6">
+                                <h1 class="font-light text-right mb-0">{{ \App\Models\Teacher\HomeroomClass::query()->where('NIP', auth()->user()->NIP)->first()->classroom->name }}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-7">
+                                <i class="mdi mdi-account-multiple font-20 text-success"></i>
+                                <p class="font-16 m-b-5">Guru</p>
+                            </div>
+                            <div class="col-5">
+                                <h1 class="font-light text-right mb-0">{{ \App\Models\Teacher\Teacher::all()->count() }}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {{-- ========== ENTITIES AMOUNT START ========== --}}
+
+
+
+    {{-- ========== CONTAINER START ========== --}} 
+    <div class="container-fluid" style="min-height: 1px">
+
         {{-- ========== QUOTE START ========== --}} 
-        <div class="row align-items-center h-100" style="margin-top: 13rem">
+        <div class="row align-items-center" style="margin-top: 4rem">
             <div class="col-lg-12 mb-4 mb-lg-0">
                 <figure class="bg-white p-3 rounded border-left border-danger border-2" >
                     <blockquote class="blockquote mb-0">

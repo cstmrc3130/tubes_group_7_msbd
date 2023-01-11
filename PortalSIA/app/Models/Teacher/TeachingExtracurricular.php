@@ -35,6 +35,6 @@ class TeachingExtracurricular extends Model
     // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN TAUGHT SUBJECT AND SUBJECT ========== //
     public function extracurricular()
     {
-        return $this->belongsTo(Extracurricular::class, 'subject_id', 'id');
+        return $this->belongsTo(Extracurricular::class, 'extracurricular_id', 'id');
     }
 }

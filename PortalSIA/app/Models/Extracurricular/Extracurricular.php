@@ -2,6 +2,8 @@
 
 namespace App\Models\Extracurricular;
 
+use App\Models\SchoolYear;
+use App\Models\Student\TakingExtracurricular;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,4 +28,15 @@ class Extracurricular extends Model
         'image',
     ];
 
+    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN SUBJECT ITS TEACHER ========== //
+    public function schoolyear()
+    {
+        return $this->belongsTo(SchoolYear::class, 'school_year_id', 'id');
+    }
+
+    // ========== DEFINE CARDINALITY & RELATIONSHIP BETWEEN USER AND THEIR PROFILE ========== //
+    public function takingextracurricular()
+    {
+        return $this->hasMany(TakingExtracurricular::class, 'extracurricular_id', 'id');
+    }
 }

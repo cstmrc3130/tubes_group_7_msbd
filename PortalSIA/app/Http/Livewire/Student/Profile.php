@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\StudentNotification;
+use App\Notifications\StudentProfileInfo;
 
 class Profile extends Component
 {
@@ -168,7 +168,7 @@ class Profile extends Component
         {
             $admin = User::where('role', '0')->first();
 
-            Notification::send($admin, new StudentNotification(Auth::id(), $this->name, $this->placeOfBirth, $this->dateOfBirth, $this->fatherName, $this->motherName, $this->address, $this->phoneNumber));
+            Notification::send($admin, new StudentProfileInfo(Auth::id(), $this->name, $this->placeOfBirth, $this->dateOfBirth, $this->fatherName, $this->motherName, $this->address, $this->phoneNumber));
 
             $this->dispatchBrowserEvent('send-notification-to-admin', ['response' => 'success']);
 

@@ -31,5 +31,4 @@ class Subject extends Model
     {
         return $this->belongsTo(SchoolYear::class, 'school_year_id', 'id');
     }
-
 }
