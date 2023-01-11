@@ -45,10 +45,10 @@ return new class extends Migration
         END');
 
         /*tabel scoring_sessions*/
-        DB::unprepared('CREATE TRIGGER set_uuid_in_scoring_sessions BEFORE INSERT ON scoring_sessions FOR EACH ROW
-        BEGIN
-            SET NEW.id = uuid();
-        END');
+        // DB::unprepared('CREATE TRIGGER set_uuid_in_scoring_sessions BEFORE INSERT ON scoring_sessions FOR EACH ROW
+        // BEGIN
+        //     SET NEW.id = uuid();
+        // END');
 
         /*tabel subject_scores*/
         DB::unprepared('CREATE TRIGGER set_uuid_in_subject_scores BEFORE INSERT ON subject_scores FOR EACH ROW
@@ -99,7 +99,7 @@ return new class extends Migration
         DB::unprepared('set_uuid_in_extracurricular_scores');
         DB::unprepared('set_uuid_in_news');
         DB::unprepared('set_uuid_in_notifications');
-        DB::unprepared('set_uuid_in_scoring_sessions');
+        // DB::unprepared('set_uuid_in_scoring_sessions');
         DB::unprepared('set_uuid_in_subject_scores');
         DB::unprepared('set_uuid_in_taking_extracurriculars');
         DB::unprepared('set_uuid_in_teaching_extracurriculars');
